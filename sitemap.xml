@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://pulsarfab.com/</loc>
-    <lastmod>2026-07-26</lastmod>
-  </url>
+  <url><loc>https://pulsarfab.com/</loc></url>
+  <url><loc>https://pulsarfab.com/docs/accessories.html</loc></url>
+  <url><loc>https://pulsarfab.com/docs/alpaca.html</loc></url>
+  <url><loc>https://pulsarfab.com/docs/ascom.html</loc></url>
+  <url><loc>https://pulsarfab.com/docs/cameras.html</loc></url>
+  <url><loc>https://pulsarfab.com/docs/focuscube3.html</loc></url>
+  <url><loc>https://pulsarfab.com/docs/</loc></url>
+  <url><loc>https://pulsarfab.com/docs/install.html</loc></url>
+  <url><loc>https://pulsarfab.com/docs/nina.html</loc></url>
+  <url><loc>https://pulsarfab.com/docs/ofp2.html</loc></url>
+  <url><loc>https://pulsarfab.com/docs/troubleshooting.html</loc></url>
 </urlset>

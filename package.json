@@ -1,0 +1,10 @@
+{
+  "name": "pulsarfab-www",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/build.mjs --check && node scripts/check-links.mjs"
+  },
+  "engines": { "node": ">=22" }
+}
