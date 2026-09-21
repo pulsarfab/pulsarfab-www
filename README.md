@@ -26,9 +26,9 @@ checked in, so the deployed site needs no Node process or build step.
 
 ## Releases and screenshots
 
-The site documents tagged regain 0.4.0.0. Its signed release is pending publication;
-the previous public release is ZWOgain 0.3.1.0. Set `release.published` to `true`
-only after verifying the signed GitHub release AND both NINA source endpoints.
+The site documents regain 0.4.0.0. Release status is controlled by `scripts/site.mjs`.
+For each new version, set `release.published` to `true` only after verifying the
+signed GitHub release AND both NINA source endpoints.
 Both `nina-plugins.pulsarfab.com` and `nina-plugins.psf-guard.com` are served by
 `theatrus/nina-plugins-registry`; update that repository once, not this site, to
 publish plugin packages.
