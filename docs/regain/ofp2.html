@@ -89,7 +89,7 @@
 <h1>Deep Sky Dad OFP2</h1>
 <p class="lede">Control the cover and flat-panel brightness through native ASCOM or Alpaca, using an SDK-free Rust serial driver.</p>
 
-<p>Both connections use <code>regain-ofp2</code> for direct USB serial control. Native ASCOM lets NINA and other Windows applications share the panel. Alpaca provides network access.</p>
+<p>Both connections use the same Rust protocol implementation for direct USB serial control. Current source groups it in <code>regain-deepskydad::ofp2</code> and runs it through <code>regain-device deepskydad ofp2</code>. Native ASCOM lets NINA and other Windows applications share the panel. Alpaca provides network access.</p>
 <p><strong>Availability:</strong> native OFP2 ASCOM is in current source and CI builds. Release 0.4.0.0 includes Alpaca support only.</p>
 <h2 id="ascom">Connect through native ASCOM</h2>
 <ol><li>Install a current <a href="ascom.html">regain ASCOM build</a> and connect USB and external power.</li>
@@ -103,7 +103,7 @@
 <figure><a href="../../assets/native-ofp2.png"><img src="../../assets/native-ofp2.png" alt="Native OFP2 cover and light setup using simulation." loading="lazy"></a><figcaption>Native OFP2 setup controls using simulation. Select the image for full resolution.</figcaption></figure>
 <h2 id="connect">Connect through Alpaca</h2>
 <ol><li>Connect USB and the external power supply. Disconnect the vendor driver and other apps using the panel’s serial port.</li>
-<li>Start the <a href="alpaca.html">Alpaca server</a> with <code>regain-ofp2</code> beside it.</li>
+<li>Start the <a href="alpaca.html">Alpaca server</a> with the matching device worker from the same package beside it.</li>
 <li>Open <code>http://127.0.0.1:11111/setup/v1/covercalibrator/0/setup</code>.</li>
 <li>Choose <strong>Find panels</strong>, select the OFP2, and <strong>Connect for setup</strong>.</li>
 <li>Check cover clearance, then use Open, Close, Halt, and brightness 0–4096. Disconnect setup when finished and select the panel in your imaging client.</li>

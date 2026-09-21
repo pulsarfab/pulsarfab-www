@@ -110,7 +110,7 @@
 <p><strong>32-bit and 64-bit ASCOM clients share one local COM server and one serial worker.</strong> Disconnecting one client leaves others connected; the final disconnect releases the port. All clients see and control the same focuser position.</p>
 <p>Alpaca clients also share the Alpaca server’s worker. Sharing <em>between</em> the native NINA provider, ASCOM server, Alpaca server, and Unity is deferred. Choose one of these to own the port. NINA can use the ASCOM driver when it needs to share with another ASCOM application.</p>
 <h2>Validation and implementation</h2>
-<p>Hardware checks used an unmounted FocusCube3 and short moves in both directions. The implementation lives in <code>regain-fc3</code> and requires neither Unity nor its SDK. See <a href="https://github.com/pulsarfab/regain/blob/main/docs/focuscube3.md">protocol traces, tests, and serial ownership details</a>.</p>
+<p>Hardware checks used an unmounted FocusCube3 and short moves in both directions. The implementation lives in <code>regain-pegasus::fc3</code> in current source and requires neither Unity nor its SDK. See <a href="https://github.com/pulsarfab/regain/blob/main/docs/focuscube3.md">protocol traces, tests, and serial ownership details</a>.</p>
 
 <!-- page-nav:start -->
 <nav class="next-prev" aria-label="Documentation pages"><a href="accessories.html" rel="prev">← CAA, EFW &amp; EAF</a><a href="ofp2.html" rel="next">Deep Sky Dad OFP2 →</a></nav>

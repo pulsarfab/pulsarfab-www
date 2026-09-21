@@ -112,7 +112,7 @@
 <p>Connect clients over your local network with browser-based device setup.</p>
 <a class="card-link" href="alpaca.html">Set up Alpaca →</a></div>
 </div>
-<p>For another frontend, embed the <a href="https://github.com/pulsarfab/regain/tree/main/crates">Rust device crates</a> or use their worker protocols. See the <a href="https://github.com/pulsarfab/regain/blob/main/docs/architecture.md">integration architecture</a>. The universal Alpaca server implements supported devices directly; it is not a generic proxy for arbitrary installed ASCOM drivers.</p>
+<p>For another frontend, embed the <a href="https://github.com/pulsarfab/regain/tree/main/crates">Rust vendor crates</a> or use their worker protocols. Current source/CI groups ZWO, Pegasus, DeepSkyDad, and Wanderer support by vendor, with shared serial and accessory IPC code. One <code>regain-device</code> executable selects the vendor and device; each session still runs in its own process. See the <a href="https://github.com/pulsarfab/regain/blob/main/docs/architecture.md">integration architecture</a>. The universal Alpaca server implements supported devices directly; it is not a generic proxy for arbitrary installed ASCOM drivers.</p>
 <h2 id="equipment">Supported hardware</h2>
 <p><strong>SDK-free cameras:</strong> ASI2600MM Pro, ASI6200MM Pro, and ASI676MC support direct capture with retryable downloads. ASI220MM Mini supports direct capture without same-image rereads. Direct USB is experimental. <strong>SDK mode:</strong> these and other ASI cameras supported by the bundled ZWO SDK.</p>
 <p>See <a href="hardware.html">supported hardware and SDK-free coverage</a> for camera modes, download recovery, and accessory compatibility.</p>

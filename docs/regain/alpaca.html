@@ -127,6 +127,7 @@
 <pre><code>cargo build --workspace --release --locked
 ./target/release/regain-alpaca --port 11111</code></pre><p>Unsigned <code>regain-rust-*</code> CI artifacts also bundle workers and the matching ASI SDK library. Linux builds target Ubuntu 24.04; macOS builds target macOS 15 and are not notarized. Physical USB testing on these systems remains incomplete.</p>
 <p>The host account needs access to USB/HID devices and serial ports. Linux serial ports are commonly <code>/dev/ttyACM*</code>; macOS uses <code>/dev/cu.usbmodem*</code>. Consult the <a href="https://github.com/pulsarfab/regain/blob/main/docs/portable-rust.md">platform permissions and runtime guide</a>.</p>
+<p>Current source/CI builds use one <code>regain-device</code> hardware executable beside the server. Vendor/device selectors choose the protocol; separate worker processes preserve device isolation. Deploy the server and workers from the same build. See <a href="https://github.com/pulsarfab/regain/blob/main/docs/architecture.md#one-hardware-executable">CLI commands and crate boundaries</a>.</p>
 <h2 id="options">Useful options</h2>
 <ul><li><code>--profiles PATH</code>: choose an explicit settings file.</li>
 <li><code>--workers DIRECTORY</code>: locate workers and the default SDK library.</li>
