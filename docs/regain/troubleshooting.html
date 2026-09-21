@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Settings &amp; troubleshooting — PulsarFab</title>
+  <meta name="description" content="Find the active profile, resolve device ownership, and collect useful evidence when something fails.">
+  <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+  <link rel="stylesheet" href="../../css/site.css?v=1">
+  <!-- page-meta:start -->
+<link rel="canonical" href="https://pulsarfab.com/docs/regain/troubleshooting.html">
+  <meta property="og:title" content="Settings &amp; troubleshooting — PulsarFab">
+  <meta property="og:description" content="Find the active profile, resolve device ownership, and collect useful evidence when something fails.">
+  <meta property="og:url" content="https://pulsarfab.com/docs/regain/troubleshooting.html">
+  <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
+  <meta property="og:type" content="website">
+<!-- page-meta:end -->
+</head>
+<body>
+<!-- site-header:start -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="../../"><img src="../../assets/logo.svg" alt=""> PulsarFab</a>
+    <div class="nav-links">
+      <a class="keep" href="../../docs/">Docs</a>
+      <a class="keep" href="../../#projects">Hardware</a>
+      <a href="https://github.com/pulsarfab">GitHub</a>
+      <a class="cta" href="../../docs/regain/install.html">Install regain</a>
+    </div>
+  </nav>
+</header>
+<!-- site-header:end -->
+<!-- release-note:start -->
+<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
+<!-- release-note:end -->
+<div class="docs-wrap">
+<!-- docs-nav:start -->
+<aside class="docs-nav" aria-label="Documentation navigation">
+<details class="docs-menu" open>
+  <summary>Browse regain documentation</summary>
+  <div class="docs-nav-sections">
+  <p><a href="../">← All documentation</a></p>
+  <h4>Start</h4>
+  <ul>
+    <li><a href="./">Meet regain</a></li>
+    <li><a href="hardware.html">Supported hardware</a></li>
+    <li><a href="install.html">Install &amp; upgrade</a></li>
+  </ul>
+  <h4>Connect</h4>
+  <ul>
+    <li><a href="nina.html">NINA</a></li>
+    <li><a href="ascom.html">Windows ASCOM</a></li>
+    <li><a href="alpaca.html">Alpaca server</a></li>
+  </ul>
+  <h4>Equipment</h4>
+  <ul>
+    <li><a href="cameras.html">Cameras &amp; recovery</a></li>
+    <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
+    <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
+    <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
+  </ul>
+  <h4>Support</h4>
+  <ul>
+    <li><a href="troubleshooting.html" class="active" aria-current="page">Settings &amp; troubleshooting</a></li>
+  </ul>
+  <h4>Project</h4>
+  <ul>
+    <li><a href="https://github.com/pulsarfab/regain">Source &amp; protocol notes</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/releases">Releases</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/issues">Report an issue</a></li>
+    <li><a href="https://nina-plugins.pulsarfab.com/">NINA plugin registry</a></li>
+  </ul>
+  </div>
+</details>
+<script>
+  (() => {
+    const menu = document.currentScript.previousElementSibling;
+    const narrow = window.matchMedia('(max-width: 900px)');
+    const sync = () => { menu.open = !narrow.matches; };
+    sync();
+    narrow.addEventListener('change', sync);
+  })();
+</script>
+</aside>
+<!-- docs-nav:end -->
+<main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
+<h1>Settings &amp; troubleshooting</h1>
+<p class="lede">Find the active profile, resolve device ownership, and collect useful evidence when something fails.</p>
+
+<h2 id="busy">Device missing or busy</h2>
+<ul><li>Close other controllers. For FocusCube3, disconnect the device in Unity; its background server can retain the serial port after the window closes.</li>
+<li>Check USB and external power where required. Refresh the device list and select the intended serial.</li>
+<li>Confirm the correct Windows driver: ZWO camera driver for cameras, HID for CAA/EFW/EAF, USB Serial Device for OFP2/FocusCube3.</li>
+<li>On Linux/macOS, confirm the server account has USB/HID/serial access. Do not run two frontends against the same physical device.</li>
+</ul>
+<h2 id="discovery">Alpaca is not discovered</h2>
+<p>Save the device selection first; only configured devices are advertised. Check the bind address, HTTP port, and UDP 32227 firewall access. Try the host’s address directly. Disconnect temporary setup connections before connecting your imaging application.</p>
+<h2 id="settings">Settings locations</h2>
+<p>On Windows, the base is <code>%LOCALAPPDATA%\Regain</code>. Native NINA, ASCOM, and Alpaca selections are independent.</p>
+<div class="table-wrap"><table><thead><tr><th>Frontend</th><th>Path below the base</th></tr>
+</thead>
+<tbody><tr><td>ASCOM cameras</td><td><code>ASCOM\camera-1.json</code> through <code>camera-4.json</code></td></tr>
+<tr><td>CAA</td><td><code>Rotators\ascom.json</code> or <code>nina.json</code></td></tr>
+<tr><td>EFW / EAF / FocusCube3</td><td><code>Accessories\{efw,eaf,fc3}-{nina,ascom}.json</code></td></tr>
+<tr><td>Alpaca cameras</td><td><code>Alpaca\cameras.json</code></td></tr>
+<tr><td>Alpaca accessories</td><td><code>Alpaca\cameras.{rotator,efw,eaf,fc3,ofp2}.json</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>Linux/macOS Alpaca settings use <code>$XDG_CONFIG_HOME/Regain/Alpaca</code>, or <code>$HOME/.config/Regain/Alpaca</code>. An explicit <code>--profiles</code> path stays as supplied. Existing ZWOgain profiles migrate without overwriting regain profiles.</p>
+<h2 id="logs">Collect logs</h2>
+<ul><li><strong>NINA:</strong> normal NINA logs record retry reasons, SDK fallback, cooler recovery, and final errors.</li>
+<li><strong>ASCOM cameras:</strong> <code>ASCOM\logs</code>. Registration failures: <code>ASCOM\registration.log</code>.</li>
+<li><strong>CAA:</strong> <code>Rotators\rotator.log</code>.</li>
+<li><strong>EFW/EAF:</strong> <code>Accessories\efw.log</code> and <code>eaf.log</code>.</li>
+<li><strong>Alpaca cameras:</strong> the <code>logs</code> directory beside the camera profile, and the browser’s Log tab.</li>
+</ul>
+<p>When <a href="https://github.com/pulsarfab/regain/issues">reporting an issue</a>, include regain version, OS, frontend, device model/firmware, backend, what you expected, and relevant logs. State whether the device was physical or simulated.</p>
+<h2 id="screenshots">About the screenshots</h2>
+<p>FocusCube3 screenshots show attached physical hardware. The OFP2 image is a historical physical-device capture with the old brand. Camera, CAA, EFW, and EAF screenshots show actual interfaces using simulated devices; captions identify them explicitly. A simulator screenshot is not evidence of hardware validation.</p>
+
+<!-- page-nav:start -->
+<nav class="next-prev" aria-label="Documentation pages"><a href="ofp2.html" rel="prev">← Deep Sky Dad OFP2</a><span></span></nav>
+<!-- page-nav:end -->
+</main></div>
+<!-- site-footer:start -->
+<footer class="footer"><div class="footer-inner">
+  <span>PulsarFab · Open astronomy hardware &amp; software.</span>
+  <a href="../../docs/">All documentation</a>
+  <a href="../../docs/regain/">regain docs</a>
+  <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
+  <a href="https://github.com/pulsarfab/regain">regain source</a>
+  <a href="https://psf-guard.com/">PSF Guard</a>
+</div></footer>
+<!-- site-footer:end -->
+</body>
+</html>

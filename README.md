@@ -14,12 +14,16 @@ npm run check
 python -m http.server 8765
 ```
 
-Edit page bodies in `index.html` and `docs/*.html`. Shared headers, documentation
+Edit page bodies in `index.html`, the project index at `docs/index.html`, and
+regain guides under `docs/regain/*.html`. Shared headers, documentation
 navigation, previous/next links, footer, metadata, and release status are generated
 by `scripts/build.mjs`. Change navigation and release status in `scripts/site.mjs`.
-Do not hand-edit generated marker blocks. New docs pages must appear in navigation.
+Do not hand-edit generated marker blocks. New regain pages must appear in navigation.
+Keep `/docs/` as the project index; each product gets its own documentation directory.
+The generator keeps the former `/docs/*.html` regain URLs as redirects, preserving
+queries and fragments. These aliases are excluded from the sitemap and marked noindex.
 
-Keep the overview's use cases and `docs/hardware.html` aligned with the regain
+Keep the overview's use cases and `docs/regain/hardware.html` aligned with the regain
 repository README. Put detailed recovery, ASCOM, and headless setup guidance in
 their respective guides. Preserve the distinction between SDK-free drivers and
 OS USB-driver requirements, and between tested hardware and simulator coverage.

@@ -3,128 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Native Windows ASCOM — PulsarFab</title>
-  <meta name="description" content="Local camera and accessory drivers with matching setup dialogs, for both 32-bit and 64-bit clients.">
-  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
-  <link rel="stylesheet" href="../css/site.css?v=1">
-  <!-- page-meta:start -->
-<link rel="canonical" href="https://pulsarfab.com/docs/ascom.html">
-  <meta property="og:title" content="Native Windows ASCOM — PulsarFab">
-  <meta property="og:description" content="Local camera and accessory drivers with matching setup dialogs, for both 32-bit and 64-bit clients.">
-  <meta property="og:url" content="https://pulsarfab.com/docs/ascom.html">
-  <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
-  <meta property="og:type" content="website">
-<!-- page-meta:end -->
+  <title>Regain documentation moved — PulsarFab</title>
+  <meta name="description" content="Regain documentation now lives under /docs/regain/.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://pulsarfab.com/docs/regain/ascom.html">
+  <meta http-equiv="refresh" content="0;url=regain/ascom.html">
+  <script>location.replace("regain/ascom.html" + location.search + location.hash);</script>
 </head>
 <body>
-<!-- site-header:start -->
-<a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <nav class="nav" aria-label="Primary navigation">
-    <a class="brand" href="../"><img src="../assets/logo.svg" alt=""> PulsarFab</a>
-    <div class="nav-links">
-      <a class="keep" href="../docs/">regain</a>
-      <a class="keep" href="../#projects">Hardware</a>
-      <a href="https://github.com/pulsarfab">GitHub</a>
-      <a class="cta" href="../docs/install.html">Install</a>
-    </div>
-  </nav>
-</header>
-<!-- site-header:end -->
-<!-- release-note:start -->
-<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
-<!-- release-note:end -->
-<div class="docs-wrap">
-<!-- docs-nav:start -->
-<aside class="docs-nav" aria-label="Documentation navigation">
-<details class="docs-menu" open>
-  <summary>Browse documentation</summary>
-  <div class="docs-nav-sections">
-  <h4>Start</h4>
-  <ul>
-    <li><a href="./">Meet regain</a></li>
-    <li><a href="hardware.html">Supported hardware</a></li>
-    <li><a href="install.html">Install &amp; upgrade</a></li>
-  </ul>
-  <h4>Connect</h4>
-  <ul>
-    <li><a href="nina.html">NINA</a></li>
-    <li><a href="ascom.html" class="active" aria-current="page">Windows ASCOM</a></li>
-    <li><a href="alpaca.html">Alpaca server</a></li>
-  </ul>
-  <h4>Equipment</h4>
-  <ul>
-    <li><a href="cameras.html">Cameras &amp; recovery</a></li>
-    <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
-    <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
-    <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
-  </ul>
-  <h4>Support</h4>
-  <ul>
-    <li><a href="troubleshooting.html">Settings &amp; troubleshooting</a></li>
-  </ul>
-  <h4>Project</h4>
-  <ul>
-    <li><a href="https://github.com/pulsarfab/regain">Source &amp; protocol notes</a></li>
-    <li><a href="https://github.com/pulsarfab/regain/releases">Releases</a></li>
-    <li><a href="https://github.com/pulsarfab/regain/issues">Report an issue</a></li>
-    <li><a href="https://nina-plugins.pulsarfab.com/">NINA plugin registry</a></li>
-  </ul>
-  </div>
-</details>
-<script>
-  (() => {
-    const menu = document.currentScript.previousElementSibling;
-    const narrow = window.matchMedia('(max-width: 900px)');
-    const sync = () => { menu.open = !narrow.matches; };
-    sync();
-    narrow.addEventListener('change', sync);
-  })();
-</script>
-</aside>
-<!-- docs-nav:end -->
-<main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
-<h1>Native Windows ASCOM</h1>
-<p class="lede">Local camera and accessory drivers with matching setup dialogs, for both 32-bit and 64-bit clients.</p>
-
-<p>The native drivers launch local Rust workers. They do not connect through an Alpaca bridge and do not require an Alpaca server.</p>
-<h2 id="architecture">Keep the ASCOM side small</h2>
-<p>The camera driver is a thin .NET Framework COM adapter. Capture and recovery run in Rust workers over private binary pipes, with the camera SDK isolated in its worker when SDK mode is selected. This provides a local connection without an HTTP server or vendor control application. The native adapter still requires .NET Framework and ASCOM Platform.</p>
-<h2 id="setup">Install and connect</h2>
-<ol><li>Install the requirements listed in <a href="install.html#requirements">Install &amp; upgrade</a>.</li>
-<li>Download the regain ASCOM setup executable from the release page. Close device-control apps and running Alpaca servers, then run the installer as administrator.</li>
-<li>In your application’s ASCOM Chooser, select a regain camera, CAA rotator, EFW filter wheel, EAF focuser, or Pegasus FocusCube3.</li>
-<li>Open <strong>Setup</strong>, refresh devices, select the physical device, and configure its settings. Close setup and connect from your application.</li>
-</ol>
-<p>The Start menu contains camera and accessory setup shortcuts. Four camera entries provide independent settings: <strong>Retryable Camera 1</strong> through <strong>4</strong>. Configure cameras 2–4 from their own Chooser entries.</p>
-<h2 id="multiple-cameras">Connect more than two cameras</h2>
-<p>For example, assign <strong>Retryable Camera 1</strong> to your main imaging camera, <strong>2</strong> to the guider, and <strong>3</strong> to a second imaging train. A fourth entry is available for another camera. These are separate configurations for distinct physical devices, available to both 32-bit and 64-bit ASCOM clients.</p>
-<ol><li>Open each camera entry’s own Setup dialog.</li><li>Select its physical camera and save a distinct serial, especially when models match.</li><li>Choose that camera’s SDK or Direct USB backend and recovery settings.</li><li>Close setup, then connect the corresponding entry in each imaging application.</li></ol>
-<p>A missing or busy saved camera fails connection instead of silently selecting another one. For network clients, use <a href="alpaca.html#devices">Alpaca camera slots</a>; their device numbers and UUIDs remain stable when changing the selected physical camera.</p>
-<h2>Matching controls</h2>
-<p>Camera setup groups device selection, recovery, cooler, and timeout settings. Accessory dialogs expose device selection, motion, and device settings in the same style. Standalone dialogs use a light theme; NINA-hosted controls inherit its theme.</p>
-<figure><a href="../assets/native-efw-calibration.png"><img src="../assets/native-efw-calibration.png" alt="Actual native EFW controls rendered with a simulated wheel. Motion includes Calibrate wheel and slot selection." loading="lazy"></a><figcaption>Actual native EFW controls rendered with a simulated wheel. Motion includes Calibrate wheel and slot selection. Select the image for full resolution.</figcaption></figure>
-<h2>FocusCube3 sharing</h2>
-<p>FocusCube3 uses one out-of-process COM server across 32-bit and 64-bit applications. Each client has its own connection lease; disconnecting one leaves the others connected. This sharing does not extend to native NINA, Alpaca, or Unity. See <a href="focuscube3.html">FocusCube3 setup</a>.</p>
-<h2 id="portable">Portable registration</h2>
-<p>Extract the complete ASCOM ZIP to a permanent folder. In an administrator PowerShell opened there:</p>
-<pre><code>$p = Start-Process .\Regain.ASCOM.Register.exe -ArgumentList /regserver -Wait -PassThru
-if ($p.ExitCode) { throw 'Registration failed; check the registration log' }</code></pre><p>Use <code>/unregserver</code> before deleting a portable install. Keep assemblies, Rust workers, and SDK libraries together. The old <code>ASCOM.ZWOgain.*</code> ProgIDs are intentionally preserved for compatibility.</p>
-<h2>Updates and validation</h2>
-<p>The installer refuses to replace files in use. No background service or firewall rule is installed automatically. Settings survive upgrades and uninstall. Automated COM and simulator checks cover both client bitnesses; a full ASCOM ConformU run remains outstanding.</p>
-
-<!-- page-nav:start -->
-<nav class="next-prev" aria-label="Documentation pages"><a href="nina.html" rel="prev">← NINA</a><a href="alpaca.html" rel="next">Alpaca server →</a></nav>
-<!-- page-nav:end -->
-</main></div>
-<!-- site-footer:start -->
-<footer class="footer"><div class="footer-inner">
-  <span>PulsarFab · Open astronomy hardware &amp; software.</span>
-  <a href="../docs/">regain docs</a>
-  <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
-  <a href="https://github.com/pulsarfab/regain">regain source</a>
-  <a href="https://psf-guard.com/">PSF Guard</a>
-</div></footer>
-<!-- site-footer:end -->
+  <nav aria-label="Primary navigation"><a href="./">All documentation</a></nav>
+  <main id="main"><h1>Regain documentation has moved</h1><p><a href="regain/ascom.html">Continue to the regain guide</a>.</p></main>
 </body>
 </html>

@@ -3,7 +3,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const pages = ['index.html', '404.html', ...fs.readdirSync(path.join(root, 'docs')).filter(f => f.endsWith('.html')).map(f => `docs/${f}`)];
+function htmlFiles(directory) {
+  return fs.readdirSync(path.join(root, directory), { withFileTypes: true }).flatMap(entry =>
+    entry.isDirectory() ? htmlFiles(`${directory}/${entry.name}`) : entry.name.endsWith('.html') ? [`${directory}/${entry.name}`] : []);
+}
+const pages = ['index.html', '404.html', ...htmlFiles('docs')];
 const errors = [];
 const cache = new Map();
 function read(file) {
@@ -21,6 +25,7 @@ for (const file of pages) {
   for (const match of html.matchAll(/<img\b[^>]*>/g)) {
     if (!/\balt="[^"]*"/.test(match[0])) errors.push(`${file}: image without alt text`);
   }
+  if (file.startsWith('docs/regain/') && !html.includes(`<link rel="canonical" href="https://pulsarfab.com/${file.replace(/\/index\.html$/, '/')}">`)) errors.push(`${file}: wrong scoped canonical URL`);
   for (const [, raw] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
     if (/^(?:https?:|mailto:|data:)/.test(raw)) continue;
     const [targetPath, fragment] = raw.split('#');

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connect in NINA — PulsarFab</title>
+  <meta name="description" content="Install from the shared plugin registry and select a native regain device in the equipment chooser.">
+  <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+  <link rel="stylesheet" href="../../css/site.css?v=1">
+  <!-- page-meta:start -->
+<link rel="canonical" href="https://pulsarfab.com/docs/regain/nina.html">
+  <meta property="og:title" content="Connect in NINA — PulsarFab">
+  <meta property="og:description" content="Install from the shared plugin registry and select a native regain device in the equipment chooser.">
+  <meta property="og:url" content="https://pulsarfab.com/docs/regain/nina.html">
+  <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
+  <meta property="og:type" content="website">
+<!-- page-meta:end -->
+</head>
+<body>
+<!-- site-header:start -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="../../"><img src="../../assets/logo.svg" alt=""> PulsarFab</a>
+    <div class="nav-links">
+      <a class="keep" href="../../docs/">Docs</a>
+      <a class="keep" href="../../#projects">Hardware</a>
+      <a href="https://github.com/pulsarfab">GitHub</a>
+      <a class="cta" href="../../docs/regain/install.html">Install regain</a>
+    </div>
+  </nav>
+</header>
+<!-- site-header:end -->
+<!-- release-note:start -->
+<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
+<!-- release-note:end -->
+<div class="docs-wrap">
+<!-- docs-nav:start -->
+<aside class="docs-nav" aria-label="Documentation navigation">
+<details class="docs-menu" open>
+  <summary>Browse regain documentation</summary>
+  <div class="docs-nav-sections">
+  <p><a href="../">← All documentation</a></p>
+  <h4>Start</h4>
+  <ul>
+    <li><a href="./">Meet regain</a></li>
+    <li><a href="hardware.html">Supported hardware</a></li>
+    <li><a href="install.html">Install &amp; upgrade</a></li>
+  </ul>
+  <h4>Connect</h4>
+  <ul>
+    <li><a href="nina.html" class="active" aria-current="page">NINA</a></li>
+    <li><a href="ascom.html">Windows ASCOM</a></li>
+    <li><a href="alpaca.html">Alpaca server</a></li>
+  </ul>
+  <h4>Equipment</h4>
+  <ul>
+    <li><a href="cameras.html">Cameras &amp; recovery</a></li>
+    <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
+    <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
+    <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
+  </ul>
+  <h4>Support</h4>
+  <ul>
+    <li><a href="troubleshooting.html">Settings &amp; troubleshooting</a></li>
+  </ul>
+  <h4>Project</h4>
+  <ul>
+    <li><a href="https://github.com/pulsarfab/regain">Source &amp; protocol notes</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/releases">Releases</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/issues">Report an issue</a></li>
+    <li><a href="https://nina-plugins.pulsarfab.com/">NINA plugin registry</a></li>
+  </ul>
+  </div>
+</details>
+<script>
+  (() => {
+    const menu = document.currentScript.previousElementSibling;
+    const narrow = window.matchMedia('(max-width: 900px)');
+    const sync = () => { menu.open = !narrow.matches; };
+    sync();
+    narrow.addEventListener('change', sync);
+  })();
+</script>
+</aside>
+<!-- docs-nav:end -->
+<main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
+<h1>Connect in NINA</h1>
+<p class="lede">Install from the shared plugin registry and select a native regain device in the equipment chooser.</p>
+
+<h2 id="registry">Add the plugin source</h2>
+<pre><code>https://nina-plugins.pulsarfab.com/</code></pre><p><code>https://nina-plugins.psf-guard.com/</code> serves the same registry. Use either address; there is no need to add both.</p>
+<ol><li>Open NINA’s plugin repository settings and add the source URL.</li>
+<li>Refresh available plugins, install <strong>PulsarFab regain</strong>, and restart NINA. Existing ZWOgain installations update through the same plugin entry.</li>
+<li>Choose the regain device in the relevant equipment list and open its setup gear.</li>
+<li>Refresh devices, select the intended serial, configure settings, and close setup before connecting in NINA.</li>
+</ol>
+<h2>Equipment entries</h2>
+<ul><li><strong>PulsarFab regain Retryable Camera</strong></li>
+<li><strong>PulsarFab regain CAA Rotator</strong></li>
+<li><strong>PulsarFab regain EFW Filter Wheel</strong></li>
+<li><strong>PulsarFab regain EAF Focuser</strong></li>
+<li><strong>PulsarFab regain Pegasus FocusCube3</strong></li>
+</ul>
+<p>For the OFP2 flat panel, use <a href="ofp2.html">Alpaca discovery</a>. It does not have a native regain NINA provider.</p>
+<h2>Set up your camera</h2>
+<p>Start with the default ZWO SDK backend. Pick the camera and save its serial when multiple cameras share a model. Main and guide cameras are separate USB devices. Disconnect other camera applications first.</p>
+<p>Set retries and cooler recovery in the setup dialog. Recoverable failures are logged while NINA waits; exhausted recovery returns an error. See <a href="cameras.html">camera recovery behavior</a> before increasing replacement-exposure limits.</p>
+<h2>Focus and filters</h2>
+<p>EFW filter names and focus offsets are configured in setup; NINA keeps its per-filter exposure and autofocus settings. Set hardware backlash to zero if NINA handles backlash compensation. Temperature compensation remains the imaging application’s responsibility.</p>
+<figure><a href="../../assets/native-fc3.png"><img src="../../assets/native-fc3.png" alt="Physical FocusCube3, firmware 1.8.2, in the native setup dialog. This capture uses the standalone theme; NINA supplies its own theme." loading="lazy"></a><figcaption>Physical FocusCube3, firmware 1.8.2, in the native setup dialog. This capture uses the standalone theme; NINA supplies its own theme. Select the image for full resolution.</figcaption></figure>
+<h2>Share FocusCube3 with another ASCOM client</h2>
+<p>Select the regain <em>ASCOM</em> focuser in NINA instead of the native plugin provider. All ASCOM clients share the same position and serial connection. The native plugin cannot connect alongside the ASCOM server. See <a href="focuscube3.html#sharing">port ownership</a>.</p>
+
+<!-- page-nav:start -->
+<nav class="next-prev" aria-label="Documentation pages"><a href="install.html" rel="prev">← Install &amp; upgrade</a><a href="ascom.html" rel="next">Windows ASCOM →</a></nav>
+<!-- page-nav:end -->
+</main></div>
+<!-- site-footer:start -->
+<footer class="footer"><div class="footer-inner">
+  <span>PulsarFab · Open astronomy hardware &amp; software.</span>
+  <a href="../../docs/">All documentation</a>
+  <a href="../../docs/regain/">regain docs</a>
+  <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
+  <a href="https://github.com/pulsarfab/regain">regain source</a>
+  <a href="https://psf-guard.com/">PSF Guard</a>
+</div></footer>
+<!-- site-footer:end -->
+</body>
+</html>

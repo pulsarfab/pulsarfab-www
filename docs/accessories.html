@@ -3,122 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CAA, EFW &amp; EAF — PulsarFab</title>
-  <meta name="description" content="SDK-free ZWO accessory drivers with native NINA, native ASCOM, and Alpaca setup.">
-  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
-  <link rel="stylesheet" href="../css/site.css?v=1">
-  <!-- page-meta:start -->
-<link rel="canonical" href="https://pulsarfab.com/docs/accessories.html">
-  <meta property="og:title" content="CAA, EFW &amp; EAF — PulsarFab">
-  <meta property="og:description" content="SDK-free ZWO accessory drivers with native NINA, native ASCOM, and Alpaca setup.">
-  <meta property="og:url" content="https://pulsarfab.com/docs/accessories.html">
-  <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
-  <meta property="og:type" content="website">
-<!-- page-meta:end -->
+  <title>Regain documentation moved — PulsarFab</title>
+  <meta name="description" content="Regain documentation now lives under /docs/regain/.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://pulsarfab.com/docs/regain/accessories.html">
+  <meta http-equiv="refresh" content="0;url=regain/accessories.html">
+  <script>location.replace("regain/accessories.html" + location.search + location.hash);</script>
 </head>
 <body>
-<!-- site-header:start -->
-<a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <nav class="nav" aria-label="Primary navigation">
-    <a class="brand" href="../"><img src="../assets/logo.svg" alt=""> PulsarFab</a>
-    <div class="nav-links">
-      <a class="keep" href="../docs/">regain</a>
-      <a class="keep" href="../#projects">Hardware</a>
-      <a href="https://github.com/pulsarfab">GitHub</a>
-      <a class="cta" href="../docs/install.html">Install</a>
-    </div>
-  </nav>
-</header>
-<!-- site-header:end -->
-<!-- release-note:start -->
-<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
-<!-- release-note:end -->
-<div class="docs-wrap">
-<!-- docs-nav:start -->
-<aside class="docs-nav" aria-label="Documentation navigation">
-<details class="docs-menu" open>
-  <summary>Browse documentation</summary>
-  <div class="docs-nav-sections">
-  <h4>Start</h4>
-  <ul>
-    <li><a href="./">Meet regain</a></li>
-    <li><a href="hardware.html">Supported hardware</a></li>
-    <li><a href="install.html">Install &amp; upgrade</a></li>
-  </ul>
-  <h4>Connect</h4>
-  <ul>
-    <li><a href="nina.html">NINA</a></li>
-    <li><a href="ascom.html">Windows ASCOM</a></li>
-    <li><a href="alpaca.html">Alpaca server</a></li>
-  </ul>
-  <h4>Equipment</h4>
-  <ul>
-    <li><a href="cameras.html">Cameras &amp; recovery</a></li>
-    <li><a href="accessories.html" class="active" aria-current="page">CAA, EFW &amp; EAF</a></li>
-    <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
-    <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
-  </ul>
-  <h4>Support</h4>
-  <ul>
-    <li><a href="troubleshooting.html">Settings &amp; troubleshooting</a></li>
-  </ul>
-  <h4>Project</h4>
-  <ul>
-    <li><a href="https://github.com/pulsarfab/regain">Source &amp; protocol notes</a></li>
-    <li><a href="https://github.com/pulsarfab/regain/releases">Releases</a></li>
-    <li><a href="https://github.com/pulsarfab/regain/issues">Report an issue</a></li>
-    <li><a href="https://nina-plugins.pulsarfab.com/">NINA plugin registry</a></li>
-  </ul>
-  </div>
-</details>
-<script>
-  (() => {
-    const menu = document.currentScript.previousElementSibling;
-    const narrow = window.matchMedia('(max-width: 900px)');
-    const sync = () => { menu.open = !narrow.matches; };
-    sync();
-    narrow.addEventListener('change', sync);
-  })();
-</script>
-</aside>
-<!-- docs-nav:end -->
-<main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
-<h1>CAA, EFW &amp; EAF</h1>
-<p class="lede">SDK-free ZWO accessory drivers with native NINA, native ASCOM, and Alpaca setup.</p>
-
-<p>All three accessories use the same Rust USB HID worker through each frontend. On Windows, the built-in HID driver is sufficient. Select a serial in setup and disconnect other controllers before connecting.</p>
-<h2 id="caa">CAA rotator</h2>
-<p>Select <strong>PulsarFab regain CAA Rotator</strong>. Setup includes motion, Halt, logical sky-angle sync, reverse, beep, alias, travel limits, and setting the current mechanical position to zero. Alpaca uses Rotator device 0.</p>
-<div class="callout">Normal positioning respects the firmware travel limit. Explicit multi-turn controls use reference resets, which bypass cumulative cable-wrap protection; inspect cable clearance before using them.</div>
-<p>A CAA-M54 with firmware 1.1.1 passed Windows hardware tests, including a 450° forward-and-return move. Linux/macOS HID builds still need hardware testing.</p>
-<figure><a href="../assets/alpaca-rotator.png"><img src="../assets/alpaca-rotator.png" alt="CAA Alpaca setup connected to a simulated rotator. No physical rotator moved for this screenshot." loading="lazy"></a><figcaption>CAA Alpaca setup connected to a simulated rotator. No physical rotator moved for this screenshot. Select the image for full resolution.</figcaption></figure>
-<h2 id="efw">EFW filter wheel</h2>
-<p>Select <strong>PulsarFab regain EFW Filter Wheel</strong>. The Filters tab sets slot names, focus offsets, and unidirectional moves. Motion uses display slots 1–N. NINA retains its per-filter exposure and autofocus settings. Alpaca uses FilterWheel device 0.</p>
-<h3>Calibrate the wheel</h3>
-<ol><li>Connect for setup and open <strong>Motion → Calibrate wheel</strong>, or choose <strong>Calibrate wheel</strong> in Alpaca.</li>
-<li>Wait for live progress to finish. Calibration detects slots and ends at slot 1.</li>
-<li>Verify slot selection. Filter names and focus offsets are preserved.</li>
-</ol>
-<p>The attached seven-position EFW passed SDK and native calibration in about 49 seconds, followed by full slot sweeps.</p>
-<figure><a href="../assets/native-efw-calibration.png"><img src="../assets/native-efw-calibration.png" alt="Native EFW Motion tab with calibration controls. This is a render of the actual WPF controls using a simulated wheel." loading="lazy"></a><figcaption>Native EFW Motion tab with calibration controls. This is a render of the actual WPF controls using a simulated wheel. Select the image for full resolution.</figcaption></figure>
-<h2 id="eaf">EAF focuser</h2>
-<p>Select <strong>PulsarFab regain EAF Focuser</strong>. Motion provides absolute step moves and Halt. Settings control beep, reverse, hardware backlash, and maximum travel. Check mechanical clearance and use zero hardware backlash if NINA manages it. Temperature compensation remains the host application’s responsibility. Alpaca uses Focuser device 0.</p>
-<figure><a href="../assets/native-eaf.png"><img src="../assets/native-eaf.png" alt="Native EAF settings rendered from the real controls using a simulated focuser." loading="lazy"></a><figcaption>Native EAF settings rendered from the real controls using a simulated focuser. Select the image for full resolution.</figcaption></figure>
-<p>For commands, USB traces, tested behavior, and limitations, see the <a href="https://github.com/pulsarfab/regain/blob/main/docs/accessories.md">EFW/EAF playbook</a> and <a href="https://github.com/pulsarfab/regain/blob/main/docs/caa-frontends.md">CAA frontend guide</a>.</p>
-
-<!-- page-nav:start -->
-<nav class="next-prev" aria-label="Documentation pages"><a href="cameras.html" rel="prev">← Cameras &amp; recovery</a><a href="focuscube3.html" rel="next">Pegasus FocusCube3 →</a></nav>
-<!-- page-nav:end -->
-</main></div>
-<!-- site-footer:start -->
-<footer class="footer"><div class="footer-inner">
-  <span>PulsarFab · Open astronomy hardware &amp; software.</span>
-  <a href="../docs/">regain docs</a>
-  <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
-  <a href="https://github.com/pulsarfab/regain">regain source</a>
-  <a href="https://psf-guard.com/">PSF Guard</a>
-</div></footer>
-<!-- site-footer:end -->
+  <nav aria-label="Primary navigation"><a href="./">All documentation</a></nav>
+  <main id="main"><h1>Regain documentation has moved</h1><p><a href="regain/accessories.html">Continue to the regain guide</a>.</p></main>
 </body>
 </html>

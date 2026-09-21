@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pegasus Astro FocusCube3 — PulsarFab</title>
+  <meta name="description" content="A pure Rust USB serial driver with native NINA, shared Windows ASCOM, and Alpaca connections.">
+  <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+  <link rel="stylesheet" href="../../css/site.css?v=1">
+  <!-- page-meta:start -->
+<link rel="canonical" href="https://pulsarfab.com/docs/regain/focuscube3.html">
+  <meta property="og:title" content="Pegasus Astro FocusCube3 — PulsarFab">
+  <meta property="og:description" content="A pure Rust USB serial driver with native NINA, shared Windows ASCOM, and Alpaca connections.">
+  <meta property="og:url" content="https://pulsarfab.com/docs/regain/focuscube3.html">
+  <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
+  <meta property="og:type" content="website">
+<!-- page-meta:end -->
+</head>
+<body>
+<!-- site-header:start -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="../../"><img src="../../assets/logo.svg" alt=""> PulsarFab</a>
+    <div class="nav-links">
+      <a class="keep" href="../../docs/">Docs</a>
+      <a class="keep" href="../../#projects">Hardware</a>
+      <a href="https://github.com/pulsarfab">GitHub</a>
+      <a class="cta" href="../../docs/regain/install.html">Install regain</a>
+    </div>
+  </nav>
+</header>
+<!-- site-header:end -->
+<!-- release-note:start -->
+<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
+<!-- release-note:end -->
+<div class="docs-wrap">
+<!-- docs-nav:start -->
+<aside class="docs-nav" aria-label="Documentation navigation">
+<details class="docs-menu" open>
+  <summary>Browse regain documentation</summary>
+  <div class="docs-nav-sections">
+  <p><a href="../">← All documentation</a></p>
+  <h4>Start</h4>
+  <ul>
+    <li><a href="./">Meet regain</a></li>
+    <li><a href="hardware.html">Supported hardware</a></li>
+    <li><a href="install.html">Install &amp; upgrade</a></li>
+  </ul>
+  <h4>Connect</h4>
+  <ul>
+    <li><a href="nina.html">NINA</a></li>
+    <li><a href="ascom.html">Windows ASCOM</a></li>
+    <li><a href="alpaca.html">Alpaca server</a></li>
+  </ul>
+  <h4>Equipment</h4>
+  <ul>
+    <li><a href="cameras.html">Cameras &amp; recovery</a></li>
+    <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
+    <li><a href="focuscube3.html" class="active" aria-current="page">Pegasus FocusCube3</a></li>
+    <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
+  </ul>
+  <h4>Support</h4>
+  <ul>
+    <li><a href="troubleshooting.html">Settings &amp; troubleshooting</a></li>
+  </ul>
+  <h4>Project</h4>
+  <ul>
+    <li><a href="https://github.com/pulsarfab/regain">Source &amp; protocol notes</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/releases">Releases</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/issues">Report an issue</a></li>
+    <li><a href="https://nina-plugins.pulsarfab.com/">NINA plugin registry</a></li>
+  </ul>
+  </div>
+</details>
+<script>
+  (() => {
+    const menu = document.currentScript.previousElementSibling;
+    const narrow = window.matchMedia('(max-width: 900px)');
+    const sync = () => { menu.open = !narrow.matches; };
+    sync();
+    narrow.addEventListener('change', sync);
+  })();
+</script>
+</aside>
+<!-- docs-nav:end -->
+<main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
+<h1>Pegasus Astro FocusCube3</h1>
+<p class="lede">A pure Rust USB serial driver with native NINA, shared Windows ASCOM, and Alpaca connections.</p>
+
+<h2 id="connect">Connect the focuser</h2>
+<ol><li>Connect USB. Windows uses its built-in USB Serial Device driver.</li>
+<li>Disconnect FocusCube3 in Pegasus Unity. Closing the Unity window may leave <code>Peg.Server.exe</code> holding the COM port.</li>
+<li>In native NINA or ASCOM, select <strong>PulsarFab regain Pegasus FocusCube3</strong> and open setup. Refresh, select the device, and connect for setup.</li>
+<li>For Alpaca, open <code>/setup/v1/focuser/1/setup</code> on your server. Find/select the focuser, connect for setup, then disconnect setup when finished.</li>
+</ol>
+<p>Selection uses the USB serial number, so a changed COM number does not select a different device. A busy or missing device fails connection; it never silently falls back to a simulator.</p>
+<div class="shot-pair"><figure><a href="../../assets/native-fc3.png"><img src="../../assets/native-fc3.png" alt="Native setup with the physical FocusCube3, firmware 1.8.2." loading="lazy"></a><figcaption>Native setup with the physical FocusCube3, firmware 1.8.2. Select the image for full resolution.</figcaption></figure>
+<figure><a href="../../assets/alpaca-fc3.png"><img src="../../assets/alpaca-fc3.png" alt="Alpaca setup with the same physical FocusCube3. Neither capture uses simulation." loading="lazy"></a><figcaption>Alpaca setup with the same physical FocusCube3. Neither capture uses simulation. Select the image for full resolution.</figcaption></figure>
+</div>
+<h2 id="settings">Motion and settings</h2>
+<ul><li>Positions use absolute steps with a software range of 0–1,000,000. This is not a measured mechanical limit.</li>
+<li>Hardware backlash ranges from 0–1,000 steps. Set it to zero if the host compensates.</li>
+<li>Speed uses even integers from 2 through 400. Verified firmware 1.8.2 rounds odd speeds down; a zero speed must be corrected before movement.</li>
+<li>Halt waits for deceleration. Reverse and backlash are device settings.</li>
+<li>An absent or out-of-range temperature probe reports unavailable. Microns per step and temperature compensation belong to the host application.</li>
+</ul>
+<h2 id="sharing">Which clients can share?</h2>
+<p><strong>32-bit and 64-bit ASCOM clients share one local COM server and one serial worker.</strong> Disconnecting one client leaves others connected; the final disconnect releases the port. All clients see and control the same focuser position.</p>
+<p>Alpaca clients also share the Alpaca server’s worker. Sharing <em>between</em> the native NINA provider, ASCOM server, Alpaca server, and Unity is deferred. Choose one of these to own the port. NINA can use the ASCOM driver when it needs to share with another ASCOM application.</p>
+<h2>Validation and implementation</h2>
+<p>Hardware checks used an unmounted FocusCube3 and short moves in both directions. The implementation lives in <code>regain-fc3</code> and requires neither Unity nor its SDK. See <a href="https://github.com/pulsarfab/regain/blob/main/docs/focuscube3.md">protocol traces, tests, and serial ownership details</a>.</p>
+
+<!-- page-nav:start -->
+<nav class="next-prev" aria-label="Documentation pages"><a href="accessories.html" rel="prev">← CAA, EFW &amp; EAF</a><a href="ofp2.html" rel="next">Deep Sky Dad OFP2 →</a></nav>
+<!-- page-nav:end -->
+</main></div>
+<!-- site-footer:start -->
+<footer class="footer"><div class="footer-inner">
+  <span>PulsarFab · Open astronomy hardware &amp; software.</span>
+  <a href="../../docs/">All documentation</a>
+  <a href="../../docs/regain/">regain docs</a>
+  <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
+  <a href="https://github.com/pulsarfab/regain">regain source</a>
+  <a href="https://psf-guard.com/">PSF Guard</a>
+</div></footer>
+<!-- site-footer:end -->
+</body>
+</html>

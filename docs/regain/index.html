@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Regain control of your equipment. — PulsarFab</title>
+  <meta name="description" content="Native astronomy drivers, resilient camera capture, and one familiar setup experience across NINA, Windows ASCOM, and Alpaca.">
+  <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+  <link rel="stylesheet" href="../../css/site.css?v=1">
+  <!-- page-meta:start -->
+<link rel="canonical" href="https://pulsarfab.com/docs/regain/">
+  <meta property="og:title" content="Regain control of your equipment. — PulsarFab">
+  <meta property="og:description" content="Native astronomy drivers, resilient camera capture, and one familiar setup experience across NINA, Windows ASCOM, and Alpaca.">
+  <meta property="og:url" content="https://pulsarfab.com/docs/regain/">
+  <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
+  <meta property="og:type" content="website">
+<!-- page-meta:end -->
+</head>
+<body>
+<!-- site-header:start -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="../../"><img src="../../assets/logo.svg" alt=""> PulsarFab</a>
+    <div class="nav-links">
+      <a class="keep" href="../../docs/">Docs</a>
+      <a class="keep" href="../../#projects">Hardware</a>
+      <a href="https://github.com/pulsarfab">GitHub</a>
+      <a class="cta" href="../../docs/regain/install.html">Install regain</a>
+    </div>
+  </nav>
+</header>
+<!-- site-header:end -->
+<!-- release-note:start -->
+<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
+<!-- release-note:end -->
+<div class="docs-wrap">
+<!-- docs-nav:start -->
+<aside class="docs-nav" aria-label="Documentation navigation">
+<details class="docs-menu" open>
+  <summary>Browse regain documentation</summary>
+  <div class="docs-nav-sections">
+  <p><a href="../">← All documentation</a></p>
+  <h4>Start</h4>
+  <ul>
+    <li><a href="./" class="active" aria-current="page">Meet regain</a></li>
+    <li><a href="hardware.html">Supported hardware</a></li>
+    <li><a href="install.html">Install &amp; upgrade</a></li>
+  </ul>
+  <h4>Connect</h4>
+  <ul>
+    <li><a href="nina.html">NINA</a></li>
+    <li><a href="ascom.html">Windows ASCOM</a></li>
+    <li><a href="alpaca.html">Alpaca server</a></li>
+  </ul>
+  <h4>Equipment</h4>
+  <ul>
+    <li><a href="cameras.html">Cameras &amp; recovery</a></li>
+    <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
+    <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
+    <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
+  </ul>
+  <h4>Support</h4>
+  <ul>
+    <li><a href="troubleshooting.html">Settings &amp; troubleshooting</a></li>
+  </ul>
+  <h4>Project</h4>
+  <ul>
+    <li><a href="https://github.com/pulsarfab/regain">Source &amp; protocol notes</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/releases">Releases</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/issues">Report an issue</a></li>
+    <li><a href="https://nina-plugins.pulsarfab.com/">NINA plugin registry</a></li>
+  </ul>
+  </div>
+</details>
+<script>
+  (() => {
+    const menu = document.currentScript.previousElementSibling;
+    const narrow = window.matchMedia('(max-width: 900px)');
+    const sync = () => { menu.open = !narrow.matches; };
+    sync();
+    narrow.addEventListener('change', sync);
+  })();
+</script>
+</aside>
+<!-- docs-nav:end -->
+<main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
+<h1>Regain control of your equipment.</h1>
+<p class="lede">Native astronomy drivers, resilient camera capture, and one familiar setup experience across NINA, Windows ASCOM, and Alpaca.</p>
+
+<p>PulsarFab regain, formerly ZWOgain, connects your existing equipment using Rust drivers and matching setup tools. The camera SDK runs in a separate process, so a stuck SDK does not take down your imaging application. Accessory drivers talk directly to USB or serial without a vendor SDK.</p>
+<h2 id="use-cases">What do you want to do?</h2>
+<h3>Keep NINA or Alpaca captures running</h3>
+<p>Retry a failed download before repeating an exposure, reconnect with camera and cooler settings restored, and keep a completed image even if cleanup fails. Native NINA, ASCOM, and Alpaca use the same Rust recovery engine. <a href="cameras.html#recovery">Choose your retry policy →</a></p>
+<h3>Harden USB transfers without the camera SDK</h3>
+<p>Supported Direct USB drivers bound whole-frame reads, drain cancellations, reject partial images, and can reread retained frames. Windows ASI2600 P25 recovery can also reopen the USB handle and verify earlier pixel chunks. <a href="cameras.html#usb-recovery">Direct USB behavior and limits →</a></p>
+<h3>Put the whole rig on a small headless computer</h3>
+<p>One Alpaca server exposes supported cameras, rotators, filter wheels, focusers, and an OFP2 flat panel. Configure devices in a browser and connect over your LAN; Rust workers isolate device access. <a href="alpaca.html#headless">Set up a headless host →</a></p>
+<h3>Connect more than two ASCOM cameras</h3>
+<p>Four independent camera entries let a main camera, guider, and second imaging train keep separate serial selections and recovery settings. Both 32-bit and 64-bit clients are supported. <a href="ascom.html#multiple-cameras">Configure camera slots →</a></p>
+<h3>Keep the ASCOM side small</h3>
+<p>A thin .NET COM adapter delegates camera capture and recovery to local Rust workers over private pipes. No HTTP server or vendor control application is required. <a href="ascom.html#architecture">How the local driver runs →</a></p>
+<h2 id="choose">Choose your connection</h2>
+<div class="install-grid">
+<div class="card"><h3>NINA plugin</h3>
+<p>Choose regain devices directly in NINA. Setup inherits NINA’s theme.</p>
+<a class="card-link" href="nina.html">Set up NINA →</a></div>
+<div class="card"><h3>Native Windows ASCOM</h3>
+<p>Local drivers for 32-bit and 64-bit ASCOM applications. No Alpaca server required.</p>
+<a class="card-link" href="ascom.html">Set up ASCOM →</a></div>
+<div class="card"><h3>Alpaca server</h3>
+<p>Connect clients over your local network with browser-based device setup.</p>
+<a class="card-link" href="alpaca.html">Set up Alpaca →</a></div>
+</div>
+<p>For another frontend, embed the <a href="https://github.com/pulsarfab/regain/tree/main/crates">Rust device crates</a> or use their worker protocols. See the <a href="https://github.com/pulsarfab/regain/blob/main/docs/architecture.md">integration architecture</a>. The universal Alpaca server implements supported devices directly; it is not a generic proxy for arbitrary installed ASCOM drivers.</p>
+<h2 id="equipment">Equipment at a glance</h2>
+<p>See <a href="hardware.html">supported hardware and SDK-free coverage</a> for camera models, tested accessory firmware, USB-driver requirements, and validation limits.</p>
+<div class="table-wrap"><table><thead><tr><th>Equipment</th><th>Native NINA</th><th>Native ASCOM</th><th>Alpaca</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="cameras.html">ZWO ASI cameras</a></td><td>Yes</td><td>Four camera slots</td><td>Configurable slots</td></tr>
+<tr><td><a href="accessories.html">ZWO CAA / EFW / EAF</a></td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+<tr><td><a href="focuscube3.html">Pegasus FocusCube3</a></td><td>Yes</td><td>Shared COM server</td><td>Focuser 1</td></tr>
+<tr><td><a href="ofp2.html">Deep Sky Dad OFP2</a></td><td>Via Alpaca</td><td>Via Alpaca discovery</td><td>CoverCalibrator 0</td></tr>
+</tbody>
+</table>
+</div>
+<p>NINA and native ASCOM run on Windows x64. Rust workers and the Alpaca server build on Windows, Linux, and macOS. Linux/macOS USB hardware validation remains incomplete; successful simulator tests are not physical device validation.</p>
+<h2>One device, one owner</h2>
+<p>Disconnect other controllers before opening a device. FocusCube3 ASCOM clients share one local server, but native NINA, ASCOM, Alpaca, and Pegasus Unity cannot all own the serial port at once. Use the ASCOM driver inside NINA when sharing with other ASCOM clients.</p>
+<h2>Open implementation</h2>
+<p>Code and regain artwork use Apache-2.0. Bundled third-party components retain their own licenses. PulsarFab regain is an independent project and is not affiliated with or supported by ZWO. Protocol notes and hardware evidence live in the <a href="https://github.com/pulsarfab/regain/tree/main/docs">source documentation</a>.</p>
+
+<!-- page-nav:start -->
+<nav class="next-prev" aria-label="Documentation pages"><span></span><a href="hardware.html" rel="next">Supported hardware →</a></nav>
+<!-- page-nav:end -->
+</main></div>
+<!-- site-footer:start -->
+<footer class="footer"><div class="footer-inner">
+  <span>PulsarFab · Open astronomy hardware &amp; software.</span>
+  <a href="../../docs/">All documentation</a>
+  <a href="../../docs/regain/">regain docs</a>
+  <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
+  <a href="https://github.com/pulsarfab/regain">regain source</a>
+  <a href="https://psf-guard.com/">PSF Guard</a>
+</div></footer>
+<!-- site-footer:end -->
+</body>
+</html>

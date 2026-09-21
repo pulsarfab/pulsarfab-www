@@ -3,118 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Deep Sky Dad OFP2 — PulsarFab</title>
-  <meta name="description" content="Control the motorized cover and flat-panel brightness through Alpaca, using a direct Rust USB serial driver.">
-  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
-  <link rel="stylesheet" href="../css/site.css?v=1">
-  <!-- page-meta:start -->
-<link rel="canonical" href="https://pulsarfab.com/docs/ofp2.html">
-  <meta property="og:title" content="Deep Sky Dad OFP2 — PulsarFab">
-  <meta property="og:description" content="Control the motorized cover and flat-panel brightness through Alpaca, using a direct Rust USB serial driver.">
-  <meta property="og:url" content="https://pulsarfab.com/docs/ofp2.html">
-  <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
-  <meta property="og:type" content="website">
-<!-- page-meta:end -->
+  <title>Regain documentation moved — PulsarFab</title>
+  <meta name="description" content="Regain documentation now lives under /docs/regain/.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://pulsarfab.com/docs/regain/ofp2.html">
+  <meta http-equiv="refresh" content="0;url=regain/ofp2.html">
+  <script>location.replace("regain/ofp2.html" + location.search + location.hash);</script>
 </head>
 <body>
-<!-- site-header:start -->
-<a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <nav class="nav" aria-label="Primary navigation">
-    <a class="brand" href="../"><img src="../assets/logo.svg" alt=""> PulsarFab</a>
-    <div class="nav-links">
-      <a class="keep" href="../docs/">regain</a>
-      <a class="keep" href="../#projects">Hardware</a>
-      <a href="https://github.com/pulsarfab">GitHub</a>
-      <a class="cta" href="../docs/install.html">Install</a>
-    </div>
-  </nav>
-</header>
-<!-- site-header:end -->
-<!-- release-note:start -->
-<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
-<!-- release-note:end -->
-<div class="docs-wrap">
-<!-- docs-nav:start -->
-<aside class="docs-nav" aria-label="Documentation navigation">
-<details class="docs-menu" open>
-  <summary>Browse documentation</summary>
-  <div class="docs-nav-sections">
-  <h4>Start</h4>
-  <ul>
-    <li><a href="./">Meet regain</a></li>
-    <li><a href="hardware.html">Supported hardware</a></li>
-    <li><a href="install.html">Install &amp; upgrade</a></li>
-  </ul>
-  <h4>Connect</h4>
-  <ul>
-    <li><a href="nina.html">NINA</a></li>
-    <li><a href="ascom.html">Windows ASCOM</a></li>
-    <li><a href="alpaca.html">Alpaca server</a></li>
-  </ul>
-  <h4>Equipment</h4>
-  <ul>
-    <li><a href="cameras.html">Cameras &amp; recovery</a></li>
-    <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
-    <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
-    <li><a href="ofp2.html" class="active" aria-current="page">Deep Sky Dad OFP2</a></li>
-  </ul>
-  <h4>Support</h4>
-  <ul>
-    <li><a href="troubleshooting.html">Settings &amp; troubleshooting</a></li>
-  </ul>
-  <h4>Project</h4>
-  <ul>
-    <li><a href="https://github.com/pulsarfab/regain">Source &amp; protocol notes</a></li>
-    <li><a href="https://github.com/pulsarfab/regain/releases">Releases</a></li>
-    <li><a href="https://github.com/pulsarfab/regain/issues">Report an issue</a></li>
-    <li><a href="https://nina-plugins.pulsarfab.com/">NINA plugin registry</a></li>
-  </ul>
-  </div>
-</details>
-<script>
-  (() => {
-    const menu = document.currentScript.previousElementSibling;
-    const narrow = window.matchMedia('(max-width: 900px)');
-    const sync = () => { menu.open = !narrow.matches; };
-    sync();
-    narrow.addEventListener('change', sync);
-  })();
-</script>
-</aside>
-<!-- docs-nav:end -->
-<main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
-<h1>Deep Sky Dad OFP2</h1>
-<p class="lede">Control the motorized cover and flat-panel brightness through Alpaca, using a direct Rust USB serial driver.</p>
-
-<p>The OFP2 uses <code>regain-ofp2</code> and appears as <strong>CoverCalibrator device 0</strong>. No vendor ASCOM driver, SDK, or .NET runtime is required. NINA and Windows ASCOM applications connect through the Platform’s Alpaca discovery support.</p>
-<h2 id="connect">Set up the panel</h2>
-<ol><li>Connect USB and the external power supply. Disconnect the vendor driver and other apps using the panel’s serial port.</li>
-<li>Start the <a href="alpaca.html">Alpaca server</a> with <code>regain-ofp2</code> beside it.</li>
-<li>Open <code>http://127.0.0.1:11111/setup/v1/covercalibrator/0/setup</code>.</li>
-<li>Choose <strong>Find panels</strong>, select the OFP2, and <strong>Connect for setup</strong>.</li>
-<li>Check cover clearance, then use Open, Close, Halt, and brightness 0–4096. Disconnect setup when finished and select the panel in your imaging client.</li>
-</ol>
-<figure><a href="../assets/alpaca-ofp2.png"><img src="../assets/alpaca-ofp2.png" alt="Historical pre-rebrand screenshot of the physical OFP2, firmware 1.0.14.2, closed at brightness 128. The old ZWOgain name is visible; this is not simulation." loading="lazy"></a><figcaption>Historical pre-rebrand screenshot of the physical OFP2, firmware 1.0.14.2, closed at brightness 128. The old ZWOgain name is visible; this is not simulation. Select the image for full resolution.</figcaption></figure>
-<h2>Serial connection and profiles</h2>
-<p>Windows uses the built-in USB serial driver. Linux needs access to the panel’s serial port, commonly <code>/dev/ttyACM*</code>; macOS normally uses <code>/dev/cu.usbmodem*</code>. Do not replace the Windows driver with WinUSB/Zadig.</p>
-<p>The selected USB serial and stable UUID are stored in <code>cameras.ofp2.json</code> beside the Alpaca camera profile. Multiple Alpaca clients share one exclusive worker; the last disconnect releases it. A missing, busy, or ambiguous device fails rather than selecting another panel.</p>
-<h2>Protocol and hardware evidence</h2>
-<p>The Rust implementation verifies the board identity and product type before sending movement commands. Discovery uses read-only probes. Connecting does not change illumination, heater settings, or motion limits.</p>
-<p>The <a href="https://github.com/pulsarfab/regain/blob/main/docs/ofp2.md">OFP2 playbook</a> records the serial protocol, Rust API, worker commands, and validation. The <a href="https://github.com/pulsarfab/regain/blob/main/docs/ofp2-evidence.json">hardware evidence</a> is kept alongside the code.</p>
-
-<!-- page-nav:start -->
-<nav class="next-prev" aria-label="Documentation pages"><a href="focuscube3.html" rel="prev">← Pegasus FocusCube3</a><a href="troubleshooting.html" rel="next">Settings &amp; troubleshooting →</a></nav>
-<!-- page-nav:end -->
-</main></div>
-<!-- site-footer:start -->
-<footer class="footer"><div class="footer-inner">
-  <span>PulsarFab · Open astronomy hardware &amp; software.</span>
-  <a href="../docs/">regain docs</a>
-  <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
-  <a href="https://github.com/pulsarfab/regain">regain source</a>
-  <a href="https://psf-guard.com/">PSF Guard</a>
-</div></footer>
-<!-- site-footer:end -->
+  <nav aria-label="Primary navigation"><a href="./">All documentation</a></nav>
+  <main id="main"><h1>Regain documentation has moved</h1><p><a href="regain/ofp2.html">Continue to the regain guide</a>.</p></main>
 </body>
 </html>

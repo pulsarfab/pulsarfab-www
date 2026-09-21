@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cameras &amp; recovery — PulsarFab</title>
+  <meta name="description" content="Keep capture failures contained and choose when regain may retry a download or take a replacement exposure.">
+  <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+  <link rel="stylesheet" href="../../css/site.css?v=1">
+  <!-- page-meta:start -->
+<link rel="canonical" href="https://pulsarfab.com/docs/regain/cameras.html">
+  <meta property="og:title" content="Cameras &amp; recovery — PulsarFab">
+  <meta property="og:description" content="Keep capture failures contained and choose when regain may retry a download or take a replacement exposure.">
+  <meta property="og:url" content="https://pulsarfab.com/docs/regain/cameras.html">
+  <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
+  <meta property="og:type" content="website">
+<!-- page-meta:end -->
+</head>
+<body>
+<!-- site-header:start -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="../../"><img src="../../assets/logo.svg" alt=""> PulsarFab</a>
+    <div class="nav-links">
+      <a class="keep" href="../../docs/">Docs</a>
+      <a class="keep" href="../../#projects">Hardware</a>
+      <a href="https://github.com/pulsarfab">GitHub</a>
+      <a class="cta" href="../../docs/regain/install.html">Install regain</a>
+    </div>
+  </nav>
+</header>
+<!-- site-header:end -->
+<!-- release-note:start -->
+<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
+<!-- release-note:end -->
+<div class="docs-wrap">
+<!-- docs-nav:start -->
+<aside class="docs-nav" aria-label="Documentation navigation">
+<details class="docs-menu" open>
+  <summary>Browse regain documentation</summary>
+  <div class="docs-nav-sections">
+  <p><a href="../">← All documentation</a></p>
+  <h4>Start</h4>
+  <ul>
+    <li><a href="./">Meet regain</a></li>
+    <li><a href="hardware.html">Supported hardware</a></li>
+    <li><a href="install.html">Install &amp; upgrade</a></li>
+  </ul>
+  <h4>Connect</h4>
+  <ul>
+    <li><a href="nina.html">NINA</a></li>
+    <li><a href="ascom.html">Windows ASCOM</a></li>
+    <li><a href="alpaca.html">Alpaca server</a></li>
+  </ul>
+  <h4>Equipment</h4>
+  <ul>
+    <li><a href="cameras.html" class="active" aria-current="page">Cameras &amp; recovery</a></li>
+    <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
+    <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
+    <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
+  </ul>
+  <h4>Support</h4>
+  <ul>
+    <li><a href="troubleshooting.html">Settings &amp; troubleshooting</a></li>
+  </ul>
+  <h4>Project</h4>
+  <ul>
+    <li><a href="https://github.com/pulsarfab/regain">Source &amp; protocol notes</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/releases">Releases</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/issues">Report an issue</a></li>
+    <li><a href="https://nina-plugins.pulsarfab.com/">NINA plugin registry</a></li>
+  </ul>
+  </div>
+</details>
+<script>
+  (() => {
+    const menu = document.currentScript.previousElementSibling;
+    const narrow = window.matchMedia('(max-width: 900px)');
+    const sync = () => { menu.open = !narrow.matches; };
+    sync();
+    narrow.addEventListener('change', sync);
+  })();
+</script>
+</aside>
+<!-- docs-nav:end -->
+<main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
+<h1>Cameras &amp; recovery</h1>
+<p class="lede">Keep capture failures contained and choose when regain may retry a download or take a replacement exposure.</p>
+<p>Use <strong>PulsarFab regain Retryable Camera</strong> in NINA, a native ASCOM camera entry, or a camera slot on the Alpaca server. All three integrations share the Rust recovery engine. The imaging application waits during permitted recovery; exhausted recovery returns an error.</p>
+
+<h2 id="backend">Start with the SDK</h2>
+<p>The ZWO SDK backend is the default and runs in an isolated Rust worker. Other ZWO models can use it when supported by the bundled SDK. Direct USB is experimental and still needs the ZWO Windows camera driver on Windows.</p>
+<div class="table-wrap"><table><thead><tr><th>Tested direct camera</th><th>Binning</th><th>Maximum direct exposure</th></tr>
+</thead>
+<tbody><tr><td>ASI676MC USB3</td><td>1</td><td>30 seconds</td></tr>
+<tr><td>ASI2600MM Pro, original and P25</td><td>1–4</td><td>2,000 seconds</td></tr>
+<tr><td>ASI6200MM Pro, original and P25</td><td>1–4</td><td>2,000 seconds</td></tr>
+<tr><td>ASI220MM Mini guide USB2</td><td>1–2</td><td>10 seconds</td></tr>
+</tbody>
+</table>
+</div>
+<p>Full 1,200-second dark-frame captures passed in NINA on original and P25 ASI2600/ASI6200 models. The 2,000-second ceiling has not been tested. Live view and trigger modes are unsupported.</p>
+<h2 id="recovery">Default retry policy</h2>
+<table><thead><tr><th>Action</th><th>Default</th></tr>
+</thead>
+<tbody><tr><td>Download the same frame again</td><td>2 retries, at any exposure length</td></tr>
+<tr><td>Reconnect and take a replacement exposure</td><td>3 retries, only for exposures ≤30 seconds</td></tr>
+<tr><td>Wait before reconnecting</td><td>5 seconds</td></tr>
+</tbody>
+</table>
+<p>These limits are configurable; a count of zero disables that retry type. The SDK can retry a download while it still reports a ready frame. Direct ASI2600, ASI6200, and ASI676 drivers can reread camera memory; the guide camera cannot reread the same frame.</p>
+<p>A same-frame reread does not take another exposure, so it can recover a long integration even when the replacement-exposure limit is 30 seconds. A supervised SDK worker can be replaced if it hangs, preserving remembered settings without taking down the imaging application. Retained-frame recovery across worker replacement remains a research feature.</p>
+<figure><a href="../../assets/alpaca-recovery.png"><img src="../../assets/alpaca-recovery.png" alt="Shared camera recovery defaults in the Alpaca setup page, using simulation." loading="lazy"></a><figcaption>Shared camera recovery defaults in the Alpaca setup page, using simulation. Select the image for full resolution.</figcaption></figure>
+<h2>Restore cooling after reconnect</h2>
+<p>Regain restores camera settings and the cooler setpoint. Before taking another exposure, it waits for cooling to approach the temperature measured before the error and checks cooler output. Holding the restored setpoint for 30 seconds is also accepted.</p>
+<p>Abort stops capture, then reconnects to restore controls and cooling without another exposure. A cleanup error after a successful download preserves the image and reconnects before the next capture.</p>
+<h2 id="usb-recovery">Hardened USB transport and SDK-free capture</h2>
+<p>The experimental Direct USB backend never loads the camera SDK. It bounds each complete frame read, drains cancelled transfers before releasing buffers, rejects partial or late frames, and logs the failed chunk, completed byte count, and available USB status. Each retained-frame reread starts from byte zero with its own download timeout budget.</p>
+<p>On Windows, the <strong>ASI2600MM Pro P25</strong> can reopen its USB handle within the configured read-retry budget. It verifies the original camera identity and hashes of previously received pixel chunks, then rereads the retained frame without starting a new exposure. Missing verification evidence or a mismatch prevents this recovery from returning an image. Automatic USB port resets are not part of this path.</p>
+<p>Windows Direct USB still needs the installed ZWO camera USB driver. Linux/macOS use native OS USB access; physical USB validation there remains incomplete. The SDK backend remains the default for broader model support. See <a href="hardware.html">model coverage</a> and <a href="https://github.com/pulsarfab/regain/blob/main/docs/usb-lifecycle.md">USB lifecycle evidence and precise recovery conditions</a>.</p>
+<h2>SDK fallback and diagnostics</h2>
+<p><strong>Fall back to SDK</strong> is a separate Direct USB option. It keeps the same camera and stays active until disconnect. It cannot repeat a failed long exposure unless the recapture limit permits it. Logs record retry reasons, fallback, cooler recovery, and final errors.</p>
+<p>USB retry validation used controlled faults, not cable removal or power loss. See the <a href="https://github.com/pulsarfab/regain/blob/main/docs/transfer-recovery.md">recovery evidence</a> and <a href="https://github.com/pulsarfab/regain/blob/main/docs/nina-end-to-end.md">NINA validation</a> for limits and tested behavior.</p>
+
+<!-- page-nav:start -->
+<nav class="next-prev" aria-label="Documentation pages"><a href="alpaca.html" rel="prev">← Alpaca server</a><a href="accessories.html" rel="next">CAA, EFW &amp; EAF →</a></nav>
+<!-- page-nav:end -->
+</main></div>
+<!-- site-footer:start -->
+<footer class="footer"><div class="footer-inner">
+  <span>PulsarFab · Open astronomy hardware &amp; software.</span>
+  <a href="../../docs/">All documentation</a>
+  <a href="../../docs/regain/">regain docs</a>
+  <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
+  <a href="https://github.com/pulsarfab/regain">regain source</a>
+  <a href="https://psf-guard.com/">PSF Guard</a>
+</div></footer>
+<!-- site-footer:end -->
+</body>
+</html>

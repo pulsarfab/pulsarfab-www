@@ -3,140 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Supported hardware — PulsarFab</title>
-  <meta name="description" content="Supported regain camera and accessory models, SDK-free drivers, integration options, and hardware validation limits.">
-  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
-  <link rel="stylesheet" href="../css/site.css?v=1">
-  <!-- page-meta:start -->
-<link rel="canonical" href="https://pulsarfab.com/docs/hardware.html">
-  <meta property="og:title" content="Supported hardware — PulsarFab">
-  <meta property="og:description" content="Supported regain camera and accessory models, SDK-free drivers, integration options, and hardware validation limits.">
-  <meta property="og:url" content="https://pulsarfab.com/docs/hardware.html">
-  <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
-  <meta property="og:type" content="website">
-<!-- page-meta:end -->
+  <title>Regain documentation moved — PulsarFab</title>
+  <meta name="description" content="Regain documentation now lives under /docs/regain/.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://pulsarfab.com/docs/regain/hardware.html">
+  <meta http-equiv="refresh" content="0;url=regain/hardware.html">
+  <script>location.replace("regain/hardware.html" + location.search + location.hash);</script>
 </head>
 <body>
-<!-- site-header:start -->
-<a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <nav class="nav" aria-label="Primary navigation">
-    <a class="brand" href="../"><img src="../assets/logo.svg" alt=""> PulsarFab</a>
-    <div class="nav-links">
-      <a class="keep" href="../docs/">regain</a>
-      <a class="keep" href="../#projects">Hardware</a>
-      <a href="https://github.com/pulsarfab">GitHub</a>
-      <a class="cta" href="../docs/install.html">Install</a>
-    </div>
-  </nav>
-</header>
-<!-- site-header:end -->
-<!-- release-note:start -->
-<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
-<!-- release-note:end -->
-<div class="docs-wrap">
-<!-- docs-nav:start -->
-<aside class="docs-nav" aria-label="Documentation navigation">
-<details class="docs-menu" open>
-  <summary>Browse documentation</summary>
-  <div class="docs-nav-sections">
-  <h4>Start</h4>
-  <ul>
-    <li><a href="./">Meet regain</a></li>
-    <li><a href="hardware.html" class="active" aria-current="page">Supported hardware</a></li>
-    <li><a href="install.html">Install &amp; upgrade</a></li>
-  </ul>
-  <h4>Connect</h4>
-  <ul>
-    <li><a href="nina.html">NINA</a></li>
-    <li><a href="ascom.html">Windows ASCOM</a></li>
-    <li><a href="alpaca.html">Alpaca server</a></li>
-  </ul>
-  <h4>Equipment</h4>
-  <ul>
-    <li><a href="cameras.html">Cameras &amp; recovery</a></li>
-    <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
-    <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
-    <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
-  </ul>
-  <h4>Support</h4>
-  <ul>
-    <li><a href="troubleshooting.html">Settings &amp; troubleshooting</a></li>
-  </ul>
-  <h4>Project</h4>
-  <ul>
-    <li><a href="https://github.com/pulsarfab/regain">Source &amp; protocol notes</a></li>
-    <li><a href="https://github.com/pulsarfab/regain/releases">Releases</a></li>
-    <li><a href="https://github.com/pulsarfab/regain/issues">Report an issue</a></li>
-    <li><a href="https://nina-plugins.pulsarfab.com/">NINA plugin registry</a></li>
-  </ul>
-  </div>
-</details>
-<script>
-  (() => {
-    const menu = document.currentScript.previousElementSibling;
-    const narrow = window.matchMedia('(max-width: 900px)');
-    const sync = () => { menu.open = !narrow.matches; };
-    sync();
-    narrow.addEventListener('change', sync);
-  })();
-</script>
-</aside>
-<!-- docs-nav:end -->
-<main class="docs-main" id="main">
-<p class="eyebrow">regain documentation</p>
-<h1>Supported hardware</h1>
-<p class="lede">Choose a device and integration, then check its SDK-free path and tested limits.</p>
-
-<h2 id="cameras">Cameras</h2>
-<p>Cameras work through native NINA, native Windows ASCOM, and Alpaca. The SDK backend is the default; Direct USB is experimental and never loads the camera SDK. Both use the same recovery controller.</p>
-<div class="table-wrap"><table>
-<thead><tr><th>Camera</th><th>SDK-free path</th><th>Direct capture support</th></tr></thead>
-<tbody>
-<tr><td>ZWO ASI2600MM Pro, original and P25</td><td>Direct USB</td><td>RAW16, ROI, bins 1–4, gain/offset, cooling, dew heater, retained-frame rereads</td></tr>
-<tr><td>ZWO ASI6200MM Pro, original and P25</td><td>Direct USB</td><td>RAW16, ROI, bins 1–4, gain/offset, cooling, dew heater, retained-frame rereads</td></tr>
-<tr><td>ZWO ASI676MC</td><td>Direct USB</td><td>RAW16, bin 1, exposures up to 30 seconds, retained-frame rereads</td></tr>
-<tr><td>ZWO ASI220MM Mini</td><td>Direct USB</td><td>Guide camera, bins 1–2, exposures up to 10 seconds; no same-frame reread</td></tr>
-<tr><td>Other ZWO ASI cameras</td><td>SDK required</td><td>Models supported by the bundled SDK; direct capture is limited to the models above</td></tr>
-</tbody></table></div>
-<p>The listed direct models can also use the SDK backend. ASI2600/6200 direct exposure limits are 2,000 seconds; hardware tests covered 1,200-second dark frames. Direct live view and trigger modes are not implemented. See <a href="cameras.html">camera setup and recovery</a>.</p>
-
-<h2 id="accessories">Accessories: all SDK-free</h2>
-<div class="table-wrap"><table>
-<thead><tr><th>Device</th><th>Rust transport</th><th>Controls and tested hardware</th><th>Integration</th></tr></thead>
-<tbody>
-<tr><td><a href="accessories.html#caa">ZWO CAA</a></td><td>USB HID</td><td>Rotation, sync, reverse, reference/limits; CAA-M54 firmware 1.1.1</td><td>NINA, ASCOM, Alpaca</td></tr>
-<tr><td><a href="accessories.html#efw">ZWO EFW</a></td><td>USB HID</td><td>Slots, names, offsets, direction, calibration; seven-position EFW-S-0 firmware 3.6.2</td><td>NINA, ASCOM, Alpaca</td></tr>
-<tr><td><a href="accessories.html#eaf">ZWO EAF</a></td><td>USB HID</td><td>Absolute moves, halt, reverse, backlash, travel limit, temperature; EAFN firmware 3.8.1</td><td>NINA, ASCOM, Alpaca</td></tr>
-<tr><td><a href="focuscube3.html">Pegasus Astro FocusCube3</a></td><td>USB serial</td><td>Absolute moves, halt, temperature, reverse, backlash, speed; firmware 1.8.2</td><td>NINA, shared ASCOM server, Alpaca</td></tr>
-<tr><td><a href="ofp2.html">Deep Sky Dad OFP2</a></td><td>USB serial</td><td>Cover open/close/halt, brightness 0–4096; firmware 1.0.14.2</td><td>Alpaca CoverCalibrator; NINA/ASCOM via Alpaca discovery</td></tr>
-</tbody></table></div>
-<p>The EFW hardware checks included calibration and full slot sweeps. Older EAF firmware, EAF Pro/Bluetooth, and dual-disc wheels are unsupported. Temperature compensation remains the imaging application's responsibility.</p>
-
-<h2 id="drivers">SDK-free still needs OS device access</h2>
-<ul>
-<li><strong>Windows cameras:</strong> install the ZWO camera USB driver, including when using Direct USB.</li>
-<li><strong>Windows CAA, EFW, and EAF:</strong> use the built-in HID driver.</li>
-<li><strong>Windows FocusCube3 and OFP2:</strong> use USB Serial Device. Do not replace these accessory drivers with WinUSB/Zadig.</li>
-<li><strong>Linux/macOS:</strong> the host account needs USB, HID, or serial access. The SDK-free paths use native OS interfaces; SDK mode also needs its vendor library and runtime dependencies.</li>
-</ul>
-<p>NINA and native COM require Windows x64; the ASCOM drivers support 32-bit and 64-bit clients. The Rust workers and Alpaca server build on Windows, Linux, and macOS, with Linux/macOS CI builds for x86-64 and ARM64. See <a href="install.html#requirements">installation requirements</a> and <a href="alpaca.html#portable">portable setup</a>.</p>
-
-<h2 id="validation">What has been verified?</h2>
-<p>Physical-device validation is documented per model. Linux/macOS physical USB validation remains incomplete, and simulator tests do not establish hardware support. Camera USB recovery tests used controlled faults, not cable removal or power loss. A full ASCOM ConformU run remains outstanding.</p>
-<p>Protocol traces and evidence are in the <a href="https://github.com/pulsarfab/regain/tree/main/docs">source documentation</a>. Screenshots retain explicit physical-device, simulation, or historical labels. For a new camera, the separate <a href="https://github.com/pulsarfab/regain/blob/main/scripts/camera-kit/README.md">CameraKit</a> collects local diagnostics and SDK USB traces without uploading automatically.</p>
-<!-- page-nav:start -->
-<nav class="next-prev" aria-label="Documentation pages"><a href="./" rel="prev">← Meet regain</a><a href="install.html" rel="next">Install &amp; upgrade →</a></nav>
-<!-- page-nav:end -->
-</main></div>
-<!-- site-footer:start -->
-<footer class="footer"><div class="footer-inner">
-  <span>PulsarFab · Open astronomy hardware &amp; software.</span>
-  <a href="../docs/">regain docs</a>
-  <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
-  <a href="https://github.com/pulsarfab/regain">regain source</a>
-  <a href="https://psf-guard.com/">PSF Guard</a>
-</div></footer>
-<!-- site-footer:end -->
+  <nav aria-label="Primary navigation"><a href="./">All documentation</a></nav>
+  <main id="main"><h1>Regain documentation has moved</h1><p><a href="regain/hardware.html">Continue to the regain guide</a>.</p></main>
 </body>
 </html>
