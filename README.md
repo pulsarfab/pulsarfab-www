@@ -19,6 +19,11 @@ navigation, previous/next links, footer, metadata, and release status are genera
 by `scripts/build.mjs`. Change navigation and release status in `scripts/site.mjs`.
 Do not hand-edit generated marker blocks. New docs pages must appear in navigation.
 
+Keep the overview's use cases and `docs/hardware.html` aligned with the regain
+repository README. Put detailed recovery, ASCOM, and headless setup guidance in
+their respective guides. Preserve the distinction between SDK-free drivers and
+OS USB-driver requirements, and between tested hardware and simulator coverage.
+
 `npm run check` rejects stale generated HTML, broken local links/fragments, missing
 images, duplicate IDs, and missing page landmarks or descriptions. GitHub Actions
 runs it on pushes and pull requests. Generated HTML, sitemap, and robots.txt are

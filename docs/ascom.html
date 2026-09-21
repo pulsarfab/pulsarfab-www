@@ -43,6 +43,7 @@
   <h4>Start</h4>
   <ul>
     <li><a href="./">Meet regain</a></li>
+    <li><a href="hardware.html">Supported hardware</a></li>
     <li><a href="install.html">Install &amp; upgrade</a></li>
   </ul>
   <h4>Connect</h4>
@@ -87,6 +88,8 @@
 <p class="lede">Local camera and accessory drivers with matching setup dialogs, for both 32-bit and 64-bit clients.</p>
 
 <p>The native drivers launch local Rust workers. They do not connect through an Alpaca bridge and do not require an Alpaca server.</p>
+<h2 id="architecture">Keep the ASCOM side small</h2>
+<p>The camera driver is a thin .NET Framework COM adapter. Capture and recovery run in Rust workers over private binary pipes, with the camera SDK isolated in its worker when SDK mode is selected. This provides a local connection without an HTTP server or vendor control application. The native adapter still requires .NET Framework and ASCOM Platform.</p>
 <h2 id="setup">Install and connect</h2>
 <ol><li>Install the requirements listed in <a href="install.html#requirements">Install &amp; upgrade</a>.</li>
 <li>Download the regain ASCOM setup executable from the release page. Close device-control apps and running Alpaca servers, then run the installer as administrator.</li>
@@ -94,6 +97,10 @@
 <li>Open <strong>Setup</strong>, refresh devices, select the physical device, and configure its settings. Close setup and connect from your application.</li>
 </ol>
 <p>The Start menu contains camera and accessory setup shortcuts. Four camera entries provide independent settings: <strong>Retryable Camera 1</strong> through <strong>4</strong>. Configure cameras 2–4 from their own Chooser entries.</p>
+<h2 id="multiple-cameras">Connect more than two cameras</h2>
+<p>For example, assign <strong>Retryable Camera 1</strong> to your main imaging camera, <strong>2</strong> to the guider, and <strong>3</strong> to a second imaging train. A fourth entry is available for another camera. These are separate configurations for distinct physical devices, available to both 32-bit and 64-bit ASCOM clients.</p>
+<ol><li>Open each camera entry’s own Setup dialog.</li><li>Select its physical camera and save a distinct serial, especially when models match.</li><li>Choose that camera’s SDK or Direct USB backend and recovery settings.</li><li>Close setup, then connect the corresponding entry in each imaging application.</li></ol>
+<p>A missing or busy saved camera fails connection instead of silently selecting another one. For network clients, use <a href="alpaca.html#devices">Alpaca camera slots</a>; their device numbers and UUIDs remain stable when changing the selected physical camera.</p>
 <h2>Matching controls</h2>
 <p>Camera setup groups device selection, recovery, cooler, and timeout settings. Accessory dialogs expose device selection, motion, and device settings in the same style. Standalone dialogs use a light theme; NINA-hosted controls inherit its theme.</p>
 <figure><a href="../assets/native-efw-calibration.png"><img src="../assets/native-efw-calibration.png" alt="Actual native EFW controls rendered with a simulated wheel. Motion includes Calibrate wheel and slot selection." loading="lazy"></a><figcaption>Actual native EFW controls rendered with a simulated wheel. Motion includes Calibrate wheel and slot selection. Select the image for full resolution.</figcaption></figure>

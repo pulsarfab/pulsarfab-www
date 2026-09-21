@@ -43,6 +43,7 @@
   <h4>Start</h4>
   <ul>
     <li><a href="./">Meet regain</a></li>
+    <li><a href="hardware.html">Supported hardware</a></li>
     <li><a href="install.html">Install &amp; upgrade</a></li>
   </ul>
   <h4>Connect</h4>
@@ -85,6 +86,7 @@
 <main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
 <h1>Cameras &amp; recovery</h1>
 <p class="lede">Keep capture failures contained and choose when regain may retry a download or take a replacement exposure.</p>
+<p>Use <strong>PulsarFab regain Retryable Camera</strong> in NINA, a native ASCOM camera entry, or a camera slot on the Alpaca server. All three integrations share the Rust recovery engine. The imaging application waits during permitted recovery; exhausted recovery returns an error.</p>
 
 <h2 id="backend">Start with the SDK</h2>
 <p>The ZWO SDK backend is the default and runs in an isolated Rust worker. Other ZWO models can use it when supported by the bundled SDK. Direct USB is experimental and still needs the ZWO Windows camera driver on Windows.</p>
@@ -107,10 +109,15 @@
 </tbody>
 </table>
 <p>These limits are configurable; a count of zero disables that retry type. The SDK can retry a download while it still reports a ready frame. Direct ASI2600, ASI6200, and ASI676 drivers can reread camera memory; the guide camera cannot reread the same frame.</p>
+<p>A same-frame reread does not take another exposure, so it can recover a long integration even when the replacement-exposure limit is 30 seconds. A supervised SDK worker can be replaced if it hangs, preserving remembered settings without taking down the imaging application. Retained-frame recovery across worker replacement remains a research feature.</p>
 <figure><a href="../assets/alpaca-recovery.png"><img src="../assets/alpaca-recovery.png" alt="Shared camera recovery defaults in the Alpaca setup page, using simulation." loading="lazy"></a><figcaption>Shared camera recovery defaults in the Alpaca setup page, using simulation. Select the image for full resolution.</figcaption></figure>
 <h2>Restore cooling after reconnect</h2>
 <p>Regain restores camera settings and the cooler setpoint. Before taking another exposure, it waits for cooling to approach the temperature measured before the error and checks cooler output. Holding the restored setpoint for 30 seconds is also accepted.</p>
 <p>Abort stops capture, then reconnects to restore controls and cooling without another exposure. A cleanup error after a successful download preserves the image and reconnects before the next capture.</p>
+<h2 id="usb-recovery">Hardened USB transport and SDK-free capture</h2>
+<p>The experimental Direct USB backend never loads the camera SDK. It bounds each complete frame read, drains cancelled transfers before releasing buffers, rejects partial or late frames, and logs the failed chunk, completed byte count, and available USB status. Each retained-frame reread starts from byte zero with its own download timeout budget.</p>
+<p>On Windows, the <strong>ASI2600MM Pro P25</strong> can reopen its USB handle within the configured read-retry budget. It verifies the original camera identity and hashes of previously received pixel chunks, then rereads the retained frame without starting a new exposure. Missing verification evidence or a mismatch prevents this recovery from returning an image. Automatic USB port resets are not part of this path.</p>
+<p>Windows Direct USB still needs the installed ZWO camera USB driver. Linux/macOS use native OS USB access; physical USB validation there remains incomplete. The SDK backend remains the default for broader model support. See <a href="hardware.html">model coverage</a> and <a href="https://github.com/pulsarfab/regain/blob/main/docs/usb-lifecycle.md">USB lifecycle evidence and precise recovery conditions</a>.</p>
 <h2>SDK fallback and diagnostics</h2>
 <p><strong>Fall back to SDK</strong> is a separate Direct USB option. It keeps the same camera and stays active until disconnect. It cannot repeat a failed long exposure unless the recapture limit permits it. Logs record retry reasons, fallback, cooler recovery, and final errors.</p>
 <p>USB retry validation used controlled faults, not cable removal or power loss. See the <a href="https://github.com/pulsarfab/regain/blob/main/docs/transfer-recovery.md">recovery evidence</a> and <a href="https://github.com/pulsarfab/regain/blob/main/docs/nina-end-to-end.md">NINA validation</a> for limits and tested behavior.</p>

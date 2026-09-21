@@ -43,6 +43,7 @@
   <h4>Start</h4>
   <ul>
     <li><a href="./" class="active" aria-current="page">Meet regain</a></li>
+    <li><a href="hardware.html">Supported hardware</a></li>
     <li><a href="install.html">Install &amp; upgrade</a></li>
   </ul>
   <h4>Connect</h4>
@@ -87,6 +88,17 @@
 <p class="lede">Native astronomy drivers, resilient camera capture, and one familiar setup experience across NINA, Windows ASCOM, and Alpaca.</p>
 
 <p>PulsarFab regain, formerly ZWOgain, connects your existing equipment using Rust drivers and matching setup tools. The camera SDK runs in a separate process, so a stuck SDK does not take down your imaging application. Accessory drivers talk directly to USB or serial without a vendor SDK.</p>
+<h2 id="use-cases">What do you want to do?</h2>
+<h3>Keep NINA or Alpaca captures running</h3>
+<p>Retry a failed download before repeating an exposure, reconnect with camera and cooler settings restored, and keep a completed image even if cleanup fails. Native NINA, ASCOM, and Alpaca use the same Rust recovery engine. <a href="cameras.html#recovery">Choose your retry policy →</a></p>
+<h3>Harden USB transfers without the camera SDK</h3>
+<p>Supported Direct USB drivers bound whole-frame reads, drain cancellations, reject partial images, and can reread retained frames. Windows ASI2600 P25 recovery can also reopen the USB handle and verify earlier pixel chunks. <a href="cameras.html#usb-recovery">Direct USB behavior and limits →</a></p>
+<h3>Put the whole rig on a small headless computer</h3>
+<p>One Alpaca server exposes supported cameras, rotators, filter wheels, focusers, and an OFP2 flat panel. Configure devices in a browser and connect over your LAN; Rust workers isolate device access. <a href="alpaca.html#headless">Set up a headless host →</a></p>
+<h3>Connect more than two ASCOM cameras</h3>
+<p>Four independent camera entries let a main camera, guider, and second imaging train keep separate serial selections and recovery settings. Both 32-bit and 64-bit clients are supported. <a href="ascom.html#multiple-cameras">Configure camera slots →</a></p>
+<h3>Keep the ASCOM side small</h3>
+<p>A thin .NET COM adapter delegates camera capture and recovery to local Rust workers over private pipes. No HTTP server or vendor control application is required. <a href="ascom.html#architecture">How the local driver runs →</a></p>
 <h2 id="choose">Choose your connection</h2>
 <div class="install-grid">
 <div class="card"><h3>NINA plugin</h3>
@@ -99,7 +111,9 @@
 <p>Connect clients over your local network with browser-based device setup.</p>
 <a class="card-link" href="alpaca.html">Set up Alpaca →</a></div>
 </div>
+<p>For another frontend, embed the <a href="https://github.com/pulsarfab/regain/tree/main/crates">Rust device crates</a> or use their worker protocols. See the <a href="https://github.com/pulsarfab/regain/blob/main/docs/architecture.md">integration architecture</a>. The universal Alpaca server implements supported devices directly; it is not a generic proxy for arbitrary installed ASCOM drivers.</p>
 <h2 id="equipment">Equipment at a glance</h2>
+<p>See <a href="hardware.html">supported hardware and SDK-free coverage</a> for camera models, tested accessory firmware, USB-driver requirements, and validation limits.</p>
 <div class="table-wrap"><table><thead><tr><th>Equipment</th><th>Native NINA</th><th>Native ASCOM</th><th>Alpaca</th></tr>
 </thead>
 <tbody>
@@ -117,7 +131,7 @@
 <p>Code and regain artwork use Apache-2.0. Bundled third-party components retain their own licenses. PulsarFab regain is an independent project and is not affiliated with or supported by ZWO. Protocol notes and hardware evidence live in the <a href="https://github.com/pulsarfab/regain/tree/main/docs">source documentation</a>.</p>
 
 <!-- page-nav:start -->
-<nav class="next-prev" aria-label="Documentation pages"><span></span><a href="install.html" rel="next">Install &amp; upgrade →</a></nav>
+<nav class="next-prev" aria-label="Documentation pages"><span></span><a href="hardware.html" rel="next">Supported hardware →</a></nav>
 <!-- page-nav:end -->
 </main></div>
 <!-- site-footer:start -->

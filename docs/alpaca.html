@@ -43,6 +43,7 @@
   <h4>Start</h4>
   <ul>
     <li><a href="./">Meet regain</a></li>
+    <li><a href="hardware.html">Supported hardware</a></li>
     <li><a href="install.html">Install &amp; upgrade</a></li>
   </ul>
   <h4>Connect</h4>
@@ -85,6 +86,12 @@
 <main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
 <h1>Run the Alpaca server</h1>
 <p class="lede">Use a browser to configure equipment on the USB host, then connect imaging clients locally or across a trusted LAN.</p>
+<h2 id="headless">One server for the whole rig</h2>
+<p>Place a small computer beside the telescope and run one <strong>regain Alpaca server</strong> for supported camera slots, a CAA rotator, an EFW filter wheel, EAF and FocusCube3 focusers, and an OFP2 cover/flat panel. NINA and other Alpaca-capable clients connect over the LAN while setup stays in the browser.</p>
+<p>The Rust server and device workers need no .NET runtime, desktop UI, or vendor accessory applications. Linux x86-64 and ARM64 builds suit small headless hosts; Windows and macOS builds are also available. One server manages the equipment through separate workers that isolate device access. Physical USB validation on Linux/macOS remains incomplete.</p>
+<p>All listed accessory drivers are SDK-free. Supported camera models can use Direct USB; broader camera coverage uses the SDK backend. This universal server implements the <a href="hardware.html">supported hardware</a> directly and does not proxy arbitrary installed ASCOM drivers.</p>
+<ol><li>Install the matching build and give the host account access to USB, HID, and serial devices; see <a href="#portable">platform requirements</a>.</li><li>Keep the server, workers, and required SDK library together. Use an absolute <code>--profiles</code> path for unattended startup.</li><li>Bind to the host’s LAN address, configure device serials in browser setup, and <a href="#network">enable LAN discovery</a>.</li><li>Run the server under your own systemd, launchd, or Windows startup task. No startup service is installed automatically.</li></ol>
+<p>Give each physical device one owning frontend. Multiple Alpaca clients share the server’s device connection, but native NINA, native ASCOM, and vendor applications must release that same USB or serial device first. See <a href="focuscube3.html#sharing">FocusCube3 sharing boundaries</a>.</p>
 
 <h2 id="windows">Start on Windows</h2>
 <p>Extract the complete Windows ASCOM ZIP, or use the files installed by the ASCOM installer. From that folder:</p>
