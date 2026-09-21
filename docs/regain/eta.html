@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wanderer Astro ETA M54 — PulsarFab</title>
+  <meta name="description" content="Adjust back focus and tilt through NINA, shared ASCOM, or Alpaca using the SDK-free ETA M54 serial driver.">
+  <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+  <link rel="stylesheet" href="../../css/site.css?v=1">
+  <!-- page-meta:start -->
+<link rel="canonical" href="https://pulsarfab.com/docs/regain/eta.html">
+  <meta property="og:title" content="Wanderer Astro ETA M54 — PulsarFab">
+  <meta property="og:description" content="Adjust back focus and tilt through NINA, shared ASCOM, or Alpaca using the SDK-free ETA M54 serial driver.">
+  <meta property="og:url" content="https://pulsarfab.com/docs/regain/eta.html">
+  <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
+  <meta property="og:type" content="website">
+<!-- page-meta:end -->
+</head>
+<body>
+<!-- site-header:start -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="../../"><img src="../../assets/logo.svg" alt=""> PulsarFab</a>
+    <div class="nav-links">
+      <a class="keep" href="../../docs/">Docs</a>
+      <a class="keep" href="../../#projects">Hardware</a>
+      <a href="https://github.com/pulsarfab">GitHub</a>
+      <a class="cta" href="../../docs/regain/install.html">Install regain</a>
+    </div>
+  </nav>
+</header>
+<!-- site-header:end -->
+<!-- release-note:start -->
+<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
+<!-- release-note:end -->
+<div class="docs-wrap">
+<!-- docs-nav:start -->
+<aside class="docs-nav" aria-label="Documentation navigation">
+<details class="docs-menu" open>
+  <summary>Browse regain documentation</summary>
+  <div class="docs-nav-sections">
+  <p><a href="../">← All documentation</a></p>
+  <h4>Start</h4>
+  <ul>
+    <li><a href="./">Meet regain</a></li>
+    <li><a href="hardware.html">Supported hardware</a></li>
+    <li><a href="install.html">Install &amp; upgrade</a></li>
+  </ul>
+  <h4>Connect</h4>
+  <ul>
+    <li><a href="nina.html">NINA</a></li>
+    <li><a href="ascom.html">Windows ASCOM</a></li>
+    <li><a href="alpaca.html">Alpaca server</a></li>
+  </ul>
+  <h4>Equipment</h4>
+  <ul>
+    <li><a href="cameras.html">Cameras &amp; recovery</a></li>
+    <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
+    <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
+    <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
+    <li><a href="eta.html" class="active" aria-current="page">Wanderer ETA M54</a></li>
+  </ul>
+  <h4>Support</h4>
+  <ul>
+    <li><a href="troubleshooting.html">Settings &amp; troubleshooting</a></li>
+  </ul>
+  <h4>Project</h4>
+  <ul>
+    <li><a href="https://github.com/pulsarfab/regain">Source &amp; protocol notes</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/releases">Releases</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/issues">Report an issue</a></li>
+    <li><a href="https://nina-plugins.pulsarfab.com/">NINA plugin registry</a></li>
+  </ul>
+  </div>
+</details>
+<script>
+  (() => {
+    const menu = document.currentScript.previousElementSibling;
+    const narrow = window.matchMedia('(max-width: 900px)');
+    const sync = () => { menu.open = !narrow.matches; };
+    sync();
+    narrow.addEventListener('change', sync);
+  })();
+</script>
+</aside>
+<!-- docs-nav:end -->
+<main id="main" class="docs-content">
+<p class="eyebrow">SDK-free serial control</p>
+<h1>Wanderer Astro ETA M54</h1>
+<p class="lead">Adjust back focus while preserving tilt, or move one of the three tilt points. The same Rust driver powers NINA, native ASCOM and Alpaca, without Wanderer Empire or a vendor SDK.</p>
+<div class="callout"><strong>Current source and CI builds.</strong> ETA support is not in release 0.4.0.0. The physical M54's identity and encoder readings are verified on Windows; movement is tested in simulation and awaits hardware validation. M92 support is not claimed.</div>
+<h2>What do you want to do?</h2>
+<div class="table-scroll"><table><thead><tr><th>Task</th><th>Use</th></tr></thead><tbody>
+<tr><td>Adjust back focus in NINA</td><td>Choose <strong>PulsarFab regain Wanderer Astro ETA M54</strong> under focusers; open its setup gear for individual points.</td></tr>
+<tr><td>Share the device between ASCOM apps</td><td>Choose the same name in the ASCOM focuser chooser. One local server owns the serial port for all regain ASCOM clients.</td></tr>
+<tr><td>Control it from a headless host</td><td>Run the universal Alpaca server and configure <strong>focuser 2</strong> at <code>/setup/v1/focuser/2/setup</code>.</td></tr>
+<tr><td>Embed control in software</td><td>Use the <code>regain-eta</code> Rust crate or its JSON worker.</td></tr>
+</tbody></table></div>
+<h2 id="setup">Connect the device</h2>
+<ol><li>Connect USB. Install the CH340 serial driver if needed; keep the serial driver rather than replacing it with WinUSB.</li><li>Disconnect Wanderer Empire and other serial clients. Refresh devices in regain and select the ETA's port.</li><li>Connect and inspect all three encoder positions. Use <strong>Motion</strong> for back focus and <strong>Tilt points</strong> for individual targets.</li></ol>
+<p>The tested M54 uses COM3 and does not supply a unique hardware serial. Selection follows the <strong>port path</strong>, so verify it after changing USB connections. Regain checks the M54 identity but cannot distinguish two M54 units if their ports swap.</p>
+<figure><a href="../../assets/native-eta.png"><img src="../../assets/native-eta.png" alt="ETA M54 setup showing live read-only encoder positions on COM3" loading="lazy"></a><figcaption>Production setup controls with live readings from the physical M54, firmware 20260804. No simulated values or movement. NINA supplies its own theme.</figcaption></figure>
+<h2 id="movement">Back focus and tilt</h2>
+<p>The focuser position is the mean encoder reading, rounded to whole micrometres (µm) and bounded to 0–1200. A back-focus move shifts all three targets equally, retaining tilt to 1 µm command resolution. Regain checks every target before sending any command and moves the points in sequence. Existing tilt reduces the available common travel.</p>
+<p>Individual targets are 0–1200 µm per point. Status keeps the raw encoder readings, including small negative readings near zero. A move completes after three readings within 2 µm of its target and at least 500 ms; a 60-second timeout faults the connection without replaying the command. Physical validation of these completion rules is pending.</p>
+<div class="callout"><strong>No hardware stop command is documented.</strong> Halt reports not implemented. <strong>Cancel queued points</strong> removes only movements that have not started; the active point finishes. Cancelling in NINA does the same. Inspect all points after cancellation, since only part of a back-focus move may have completed.</div>
+<h2 id="sharing">Share through native ASCOM</h2>
+<p>The native driver <code>ASCOM.Regain.ETA.Focuser</code> shares one Rust worker across 32-bit and 64-bit ASCOM applications. Each connection has its own lease; the last disconnect releases the port. It uses the same server and sharing code as regain's FocusCube3 and OFP2 drivers.</p>
+<p>Native NINA, Alpaca and vendor software are separate port owners. Disconnect one before using another. There is no general serial-sharing background service.</p>
+<h2 id="protocol">Protocol and validation</h2>
+<p>The M54 streams three encoder positions over 19200-baud serial. The Rust driver uses the published protocol, validated against a passive trace of the attached device. No homing, temperature compensation or automatic image-based tilt analysis is provided.</p>
+<p>See the <a href="https://github.com/pulsarfab/regain/blob/main/docs/eta.md">worker commands and protocol notes</a>, <a href="https://github.com/pulsarfab/regain/blob/main/docs/eta-evidence.json">validation record</a>, and <a href="https://github.com/pulsarfab/regain/blob/main/docs/eta-serial.jsonl">passive serial trace</a>. Linux and macOS physical transport testing remains pending.</p>
+<!-- page-nav:start -->
+<nav class="next-prev" aria-label="Documentation pages"><a href="ofp2.html" rel="prev">← Deep Sky Dad OFP2</a><a href="troubleshooting.html" rel="next">Settings &amp; troubleshooting →</a></nav>
+<!-- page-nav:end -->
+</main></div>
+<!-- site-footer:start -->
+<footer class="footer"><div class="footer-inner">
+  <span>PulsarFab · Open astronomy hardware &amp; software.</span>
+  <a href="../../docs/">All documentation</a>
+  <a href="../../docs/regain/">regain docs</a>
+  <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
+  <a href="https://github.com/pulsarfab/regain">regain source</a>
+</div></footer>
+<!-- site-footer:end -->
+</body>
+</html>
