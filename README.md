@@ -1,8 +1,8 @@
 # PulsarFab website
 
 Static marketing and regain documentation for **https://pulsarfab.com/**.
-The dark layout, cards, documentation sidebar, and shared-block generation follow
-`theatrus/psf-guard-docs`, with PulsarFab's amber/copper palette and its own content.
+Shared navigation and page elements are generated from one source, with PulsarFab's
+amber/copper palette.
 
 ## Edit and generate
 
@@ -37,15 +37,12 @@ checked in, so the deployed site needs no Node process or build step.
 
 The site documents regain 0.4.0.0. Release status is controlled by `scripts/site.mjs`.
 For each new version, set `release.published` to `true` only after verifying the
-signed GitHub release AND both NINA source endpoints.
-Both `nina-plugins.pulsarfab.com` and `nina-plugins.psf-guard.com` are served by
-`theatrus/nina-plugins-registry`; update that repository once, not this site, to
-publish plugin packages.
+signed GitHub release and `nina-plugins.pulsarfab.com`. Publish plugin packages
+through `theatrus/nina-plugins-registry`, not this site.
 
 Screenshots and regain artwork come from `pulsarfab/regain` at tag `v0.4.0.0`.
 Preserve screenshot captions: FocusCube3 is physical; OFP2 is historical physical
 hardware with the old brand; other screenshots use explicitly labeled simulation.
-The PSF Guard site's analytics and conversion settings are not copied here.
 
 ## Publish
 

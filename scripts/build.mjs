@@ -88,7 +88,6 @@ for (const file of pages) {
   <a href="${prefix}docs/regain/">regain docs</a>
   <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
   <a href="${sourceUrl}">regain source</a>
-  <a href="https://psf-guard.com/">PSF Guard</a>
 </div></footer>`, file);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   const description = html.match(/<meta name="description" content="([^"]+)"/)?.[1];

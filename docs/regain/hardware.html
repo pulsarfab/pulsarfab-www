@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Supported hardware — PulsarFab</title>
-  <meta name="description" content="Supported regain camera and accessory models, SDK-free drivers, integration options, and hardware validation limits.">
+  <meta name="description" content="Camera support in SDK-free and SDK modes, retryable downloads, and supported accessories.">
   <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
   <link rel="stylesheet" href="../../css/site.css?v=1">
   <!-- page-meta:start -->
 <link rel="canonical" href="https://pulsarfab.com/docs/regain/hardware.html">
   <meta property="og:title" content="Supported hardware — PulsarFab">
-  <meta property="og:description" content="Supported regain camera and accessory models, SDK-free drivers, integration options, and hardware validation limits.">
+  <meta property="og:description" content="Camera support in SDK-free and SDK modes, retryable downloads, and supported accessories.">
   <meta property="og:url" content="https://pulsarfab.com/docs/regain/hardware.html">
   <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
   <meta property="og:type" content="website">
@@ -87,32 +87,41 @@
 <main class="docs-main" id="main">
 <p class="eyebrow">regain documentation</p>
 <h1>Supported hardware</h1>
-<p class="lede">Choose a device and integration, then check its SDK-free path and tested limits.</p>
+<p class="lede">Check camera modes, download recovery, and accessory compatibility before connecting.</p>
 
-<h2 id="cameras">Cameras</h2>
-<p>Cameras work through native NINA, native Windows ASCOM, and Alpaca. The SDK backend is the default; Direct USB is experimental and never loads the camera SDK. Both use the same recovery controller.</p>
+<h2 id="cameras">Choose your camera mode</h2>
+<p>All camera modes work in NINA, native Windows ASCOM, and Alpaca. <strong>Direct USB</strong> uses regain's Rust drivers without the ZWO SDK. <strong>ZWO SDK</strong> is the default and covers a broader range of ASI cameras.</p>
 <div class="table-wrap"><table>
-<thead><tr><th>Camera</th><th>SDK-free path</th><th>Direct capture support</th></tr></thead>
+<thead><tr><th>Camera</th><th>SDK-free capture</th><th>Same-image download retry</th><th>SDK mode</th></tr></thead>
 <tbody>
-<tr><td>ZWO ASI2600MM Pro, original and P25</td><td>Direct USB</td><td>RAW16, ROI, bins 1–4, gain/offset, cooling, dew heater, retained-frame rereads</td></tr>
-<tr><td>ZWO ASI6200MM Pro, original and P25</td><td>Direct USB</td><td>RAW16, ROI, bins 1–4, gain/offset, cooling, dew heater, retained-frame rereads</td></tr>
-<tr><td>ZWO ASI676MC</td><td>Direct USB</td><td>RAW16, bin 1, exposures up to 30 seconds, retained-frame rereads</td></tr>
-<tr><td>ZWO ASI220MM Mini</td><td>Direct USB</td><td>Guide camera, bins 1–2, exposures up to 10 seconds; no same-frame reread</td></tr>
-<tr><td>Other ZWO ASI cameras</td><td>SDK required</td><td>Models supported by the bundled SDK; direct capture is limited to the models above</td></tr>
+<tr><td>ZWO ASI2600MM Pro</td><td>Yes</td><td>Yes, through the direct driver</td><td>Yes</td></tr>
+<tr><td>ZWO ASI6200MM Pro</td><td>Yes</td><td>Yes, through the direct driver</td><td>Yes</td></tr>
+<tr><td>ZWO ASI676MC</td><td>Yes</td><td>Yes, through the direct driver</td><td>Yes</td></tr>
+<tr><td>ZWO ASI220MM Mini</td><td>Yes</td><td>No direct reread support</td><td>Yes</td></tr>
+<tr><td>Other ZWO ASI cameras</td><td>No</td><td>Only while the SDK still reports an image ready</td><td>If supported by the bundled SDK</td></tr>
 </tbody></table></div>
-<p>The listed direct models can also use the SDK backend. ASI2600/6200 direct exposure limits are 2,000 seconds; hardware tests covered 1,200-second dark frames. Direct live view and trigger modes are not implemented. See <a href="cameras.html">camera setup and recovery</a>.</p>
+<p>Direct USB is experimental. In SDK mode, download retries depend on the SDK's ready-frame state; they do not use regain's direct memory reread.</p>
+<h3>Direct capture limits</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Camera</th><th>Format</th><th>Binning</th><th>Maximum exposure</th></tr></thead>
+<tbody>
+<tr><td>ASI2600MM Pro / ASI6200MM Pro</td><td>RAW16</td><td>1–4</td><td>2,000 seconds</td></tr>
+<tr><td>ASI676MC</td><td>RAW16</td><td>1</td><td>30 seconds</td></tr>
+<tr><td>ASI220MM Mini</td><td>RAW16</td><td>1–2</td><td>10 seconds</td></tr>
+</tbody></table></div>
+<p>The cooled direct cameras also support ROI, gain, offset, cooling, and dew heater control. Direct live view and trigger modes are not supported. See <a href="cameras.html">camera setup and recovery</a>.</p>
 
 <h2 id="accessories">Accessories: all SDK-free</h2>
 <div class="table-wrap"><table>
-<thead><tr><th>Device</th><th>Rust transport</th><th>Controls and tested hardware</th><th>Integration</th></tr></thead>
+<thead><tr><th>Device</th><th>Rust transport</th><th>Controls and compatibility</th><th>Integration</th></tr></thead>
 <tbody>
-<tr><td><a href="accessories.html#caa">ZWO CAA</a></td><td>USB HID</td><td>Rotation, sync, reverse, reference/limits; CAA-M54 firmware 1.1.1</td><td>NINA, ASCOM, Alpaca</td></tr>
-<tr><td><a href="accessories.html#efw">ZWO EFW</a></td><td>USB HID</td><td>Slots, names, offsets, direction, calibration; seven-position EFW-S-0 firmware 3.6.2</td><td>NINA, ASCOM, Alpaca</td></tr>
+<tr><td><a href="accessories.html#caa">ZWO CAA</a></td><td>USB HID</td><td>Rotation, sync, reverse, reference/limits; CAA-M54</td><td>NINA, ASCOM, Alpaca</td></tr>
+<tr><td><a href="accessories.html#efw">ZWO EFW</a></td><td>USB HID</td><td>Slots, names, offsets, direction, calibration; seven-position EFW-S-0</td><td>NINA, ASCOM, Alpaca</td></tr>
 <tr><td><a href="accessories.html#eaf">ZWO EAF</a></td><td>USB HID</td><td>Absolute moves, halt, reverse, backlash, travel limit, temperature; EAFN firmware 3.8.1</td><td>NINA, ASCOM, Alpaca</td></tr>
-<tr><td><a href="focuscube3.html">Pegasus Astro FocusCube3</a></td><td>USB serial</td><td>Absolute moves, halt, temperature, reverse, backlash, speed; firmware 1.8.2</td><td>NINA, shared ASCOM server, Alpaca</td></tr>
-<tr><td><a href="ofp2.html">Deep Sky Dad OFP2</a></td><td>USB serial</td><td>Cover open/close/halt, brightness 0–4096; firmware 1.0.14.2</td><td>Alpaca CoverCalibrator; NINA/ASCOM via Alpaca discovery</td></tr>
+<tr><td><a href="focuscube3.html">Pegasus Astro FocusCube3</a></td><td>USB serial</td><td>Absolute moves, halt, temperature, reverse, backlash, speed</td><td>NINA, shared ASCOM server, Alpaca</td></tr>
+<tr><td><a href="ofp2.html">Deep Sky Dad OFP2</a></td><td>USB serial</td><td>Cover open/close/halt, brightness 0–4096</td><td>Alpaca CoverCalibrator; NINA/ASCOM via Alpaca discovery</td></tr>
 </tbody></table></div>
-<p>The EFW hardware checks included calibration and full slot sweeps. Older EAF firmware, EAF Pro/Bluetooth, and dual-disc wheels are unsupported. Temperature compensation remains the imaging application's responsibility.</p>
+<p>Older EAF firmware, EAF Pro/Bluetooth, and dual-disc wheels are unsupported. Temperature compensation remains the imaging application's responsibility.</p>
 
 <h2 id="drivers">SDK-free still needs OS device access</h2>
 <ul>
@@ -123,9 +132,9 @@
 </ul>
 <p>NINA and native COM require Windows x64; the ASCOM drivers support 32-bit and 64-bit clients. The Rust workers and Alpaca server build on Windows, Linux, and macOS, with Linux/macOS CI builds for x86-64 and ARM64. See <a href="install.html#requirements">installation requirements</a> and <a href="alpaca.html#portable">portable setup</a>.</p>
 
-<h2 id="validation">What has been verified?</h2>
-<p>Physical-device validation is documented per model. Linux/macOS physical USB validation remains incomplete, and simulator tests do not establish hardware support. Camera USB recovery tests used controlled faults, not cable removal or power loss. A full ASCOM ConformU run remains outstanding.</p>
-<p>Protocol traces and evidence are in the <a href="https://github.com/pulsarfab/regain/tree/main/docs">source documentation</a>. Screenshots retain explicit physical-device, simulation, or historical labels. For a new camera, the separate <a href="https://github.com/pulsarfab/regain/blob/main/scripts/camera-kit/README.md">CameraKit</a> collects local diagnostics and SDK USB traces without uploading automatically.</p>
+<h2 id="validation">Compatibility notes</h2>
+<p>Linux/macOS physical-device validation is incomplete. Same-image recovery requires the camera to retain the frame; it cannot recover an image lost when power is removed. Detailed model and platform evidence is in the <a href="https://github.com/pulsarfab/regain/tree/main/docs">source documentation</a>.</p>
+<p>To help add a camera, use <a href="https://github.com/pulsarfab/regain/blob/main/scripts/camera-kit/README.md">CameraKit</a> to collect local diagnostics and USB traces.</p>
 <!-- page-nav:start -->
 <nav class="next-prev" aria-label="Documentation pages"><a href="./" rel="prev">← Meet regain</a><a href="install.html" rel="next">Install &amp; upgrade →</a></nav>
 <!-- page-nav:end -->
@@ -137,7 +146,6 @@
   <a href="../../docs/regain/">regain docs</a>
   <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
   <a href="https://github.com/pulsarfab/regain">regain source</a>
-  <a href="https://psf-guard.com/">PSF Guard</a>
 </div></footer>
 <!-- site-footer:end -->
 </body>

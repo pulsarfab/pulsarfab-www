@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cameras &amp; recovery — PulsarFab</title>
-  <meta name="description" content="Keep capture failures contained and choose when regain may retry a download or take a replacement exposure.">
+  <meta name="description" content="Choose SDK-free camera rereads or SDK mode, and configure download retries separately from replacement exposures.">
   <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
   <link rel="stylesheet" href="../../css/site.css?v=1">
   <!-- page-meta:start -->
 <link rel="canonical" href="https://pulsarfab.com/docs/regain/cameras.html">
   <meta property="og:title" content="Cameras &amp; recovery — PulsarFab">
-  <meta property="og:description" content="Keep capture failures contained and choose when regain may retry a download or take a replacement exposure.">
+  <meta property="og:description" content="Choose SDK-free camera rereads or SDK mode, and configure download retries separately from replacement exposures.">
   <meta property="og:url" content="https://pulsarfab.com/docs/regain/cameras.html">
   <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
   <meta property="og:type" content="website">
@@ -86,42 +86,45 @@
 <!-- docs-nav:end -->
 <main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
 <h1>Cameras &amp; recovery</h1>
-<p class="lede">Keep capture failures contained and choose when regain may retry a download or take a replacement exposure.</p>
-<p>Use <strong>PulsarFab regain Retryable Camera</strong> in NINA, a native ASCOM camera entry, or a camera slot on the Alpaca server. All three integrations share the Rust recovery engine. The imaging application waits during permitted recovery; exhausted recovery returns an error.</p>
+<p class="lede">Retry the download before repeating the exposure.</p>
+<p>Use <strong>PulsarFab regain Retryable Camera</strong> in NINA, a native ASCOM camera entry, or an Alpaca camera slot. All three share the same recovery settings.</p>
 
-<h2 id="backend">Start with the SDK</h2>
-<p>The ZWO SDK backend is the default and runs in an isolated Rust worker. Other ZWO models can use it when supported by the bundled SDK. Direct USB is experimental and still needs the ZWO Windows camera driver on Windows.</p>
-<div class="table-wrap"><table><thead><tr><th>Tested direct camera</th><th>Binning</th><th>Maximum direct exposure</th></tr>
-</thead>
-<tbody><tr><td>ASI676MC USB3</td><td>1</td><td>30 seconds</td></tr>
-<tr><td>ASI2600MM Pro, original and P25</td><td>1–4</td><td>2,000 seconds</td></tr>
-<tr><td>ASI6200MM Pro, original and P25</td><td>1–4</td><td>2,000 seconds</td></tr>
-<tr><td>ASI220MM Mini guide USB2</td><td>1–2</td><td>10 seconds</td></tr>
-</tbody>
-</table>
-</div>
-<p>Full 1,200-second dark-frame captures passed in NINA on original and P25 ASI2600/ASI6200 models. The 2,000-second ceiling has not been tested. Live view and trigger modes are unsupported.</p>
-<h2 id="recovery">Default retry policy</h2>
-<table><thead><tr><th>Action</th><th>Default</th></tr>
-</thead>
-<tbody><tr><td>Download the same frame again</td><td>2 retries, at any exposure length</td></tr>
-<tr><td>Reconnect and take a replacement exposure</td><td>3 retries, only for exposures ≤30 seconds</td></tr>
+<h2 id="backend">Choose SDK-free or SDK mode</h2>
+<p><strong>Direct USB (experimental)</strong> talks to supported cameras without the ZWO SDK. On cameras with reread support, it can restart a failed download from the image still held in camera memory. That saves the original exposure, including a long integration.</p>
+<p><strong>ZWO SDK</strong> is the default for broader ASI support. The SDK runs in a separate worker so regain can restart it if it hangs. Download retries are possible while the SDK still reports an image ready.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Camera</th><th>SDK-free capture</th><th>Same-image download retry</th><th>SDK mode</th></tr></thead>
+<tbody>
+<tr><td>ZWO ASI2600MM Pro</td><td>Yes</td><td>Yes, through the direct driver</td><td>Yes</td></tr>
+<tr><td>ZWO ASI6200MM Pro</td><td>Yes</td><td>Yes, through the direct driver</td><td>Yes</td></tr>
+<tr><td>ZWO ASI676MC</td><td>Yes</td><td>Yes, through the direct driver</td><td>Yes</td></tr>
+<tr><td>ZWO ASI220MM Mini</td><td>Yes</td><td>No direct reread support</td><td>Yes</td></tr>
+<tr><td>Other ZWO ASI cameras</td><td>No</td><td>Only while the SDK still reports an image ready</td><td>If supported by the bundled SDK</td></tr>
+</tbody></table></div>
+<p>Direct USB is experimental. In SDK mode, download retries depend on the SDK's ready-frame state; they do not use regain's direct memory reread.</p>
+<p>Select the backend in camera setup before connecting. See <a href="hardware.html#cameras">direct capture limits</a> for supported formats, binning, and exposure lengths. SDK-free capture still requires the OS camera USB driver.</p>
+
+<h2 id="recovery">Set your retry policy</h2>
+<div class="table-wrap"><table><thead><tr><th>Action</th><th>Default</th></tr></thead>
+<tbody>
+<tr><td>Retry the image download</td><td>2 retries</td></tr>
+<tr><td>Reconnect and take a replacement exposure</td><td>3 retries, for exposures up to 30 seconds</td></tr>
 <tr><td>Wait before reconnecting</td><td>5 seconds</td></tr>
-</tbody>
-</table>
-<p>These limits are configurable; a count of zero disables that retry type. The SDK can retry a download while it still reports a ready frame. Direct ASI2600, ASI6200, and ASI676 drivers can reread camera memory; the guide camera cannot reread the same frame.</p>
-<p>A same-frame reread does not take another exposure, so it can recover a long integration even when the replacement-exposure limit is 30 seconds. A supervised SDK worker can be replaced if it hangs, preserving remembered settings without taking down the imaging application. Retained-frame recovery across worker replacement remains a research feature.</p>
-<figure><a href="../../assets/alpaca-recovery.png"><img src="../../assets/alpaca-recovery.png" alt="Shared camera recovery defaults in the Alpaca setup page, using simulation." loading="lazy"></a><figcaption>Shared camera recovery defaults in the Alpaca setup page, using simulation. Select the image for full resolution.</figcaption></figure>
-<h2>Restore cooling after reconnect</h2>
-<p>Regain restores camera settings and the cooler setpoint. Before taking another exposure, it waits for cooling to approach the temperature measured before the error and checks cooler output. Holding the restored setpoint for 30 seconds is also accepted.</p>
-<p>Abort stops capture, then reconnects to restore controls and cooling without another exposure. A cleanup error after a successful download preserves the image and reconnects before the next capture.</p>
-<h2 id="usb-recovery">Hardened USB transport and SDK-free capture</h2>
-<p>The experimental Direct USB backend never loads the camera SDK. It bounds each complete frame read, drains cancelled transfers before releasing buffers, rejects partial or late frames, and logs the failed chunk, completed byte count, and available USB status. Each retained-frame reread starts from byte zero with its own download timeout budget.</p>
-<p>On Windows, the <strong>ASI2600MM Pro P25</strong> can reopen its USB handle within the configured read-retry budget. It verifies the original camera identity and hashes of previously received pixel chunks, then rereads the retained frame without starting a new exposure. Missing verification evidence or a mismatch prevents this recovery from returning an image. Automatic USB port resets are not part of this path.</p>
-<p>Windows Direct USB still needs the installed ZWO camera USB driver. Linux/macOS use native OS USB access; physical USB validation there remains incomplete. The SDK backend remains the default for broader model support. See <a href="hardware.html">model coverage</a> and <a href="https://github.com/pulsarfab/regain/blob/main/docs/usb-lifecycle.md">USB lifecycle evidence and precise recovery conditions</a>.</p>
-<h2>SDK fallback and diagnostics</h2>
-<p><strong>Fall back to SDK</strong> is a separate Direct USB option. It keeps the same camera and stays active until disconnect. It cannot repeat a failed long exposure unless the recapture limit permits it. Logs record retry reasons, fallback, cooler recovery, and final errors.</p>
-<p>USB retry validation used controlled faults, not cable removal or power loss. See the <a href="https://github.com/pulsarfab/regain/blob/main/docs/transfer-recovery.md">recovery evidence</a> and <a href="https://github.com/pulsarfab/regain/blob/main/docs/nina-end-to-end.md">NINA validation</a> for limits and tested behavior.</p>
+</tbody></table></div>
+<p>A download retry keeps the original exposure. A replacement exposure starts again. Direct cameras with reread support can retry downloads at any supported exposure length, independent of the replacement-exposure limit.</p>
+<p>Set a retry count to zero to disable that action. Your imaging application waits during recovery and receives an error if recovery fails. Rereading requires the image to remain in camera memory; power loss can erase it.</p>
+<figure><a href="../../assets/alpaca-recovery.png"><img src="../../assets/alpaca-recovery.png" alt="Camera recovery settings in Alpaca setup, using simulation." loading="lazy"></a><figcaption>Camera recovery settings in Alpaca setup, using simulation. Select the image for full resolution.</figcaption></figure>
+
+<h2 id="usb-recovery">Handle failed USB transfers directly</h2>
+<p>The SDK-free driver controls the transfer and the reread. It limits stalled downloads, cancels outstanding transfers safely, and rejects incomplete images. Each reread starts at the beginning of the retained image with a fresh download timeout.</p>
+<p>Recovery depends on the camera keeping the frame available. For implementation details and tested recovery conditions, see the <a href="https://github.com/pulsarfab/regain/blob/main/docs/usb-lifecycle.md">USB transport notes</a>.</p>
+
+<h2>Restore camera and cooler settings</h2>
+<p>After reconnecting, regain restores camera settings and waits for cooling to recover before a replacement exposure. If cleanup fails after a successful download, it keeps the image and reconnects before the next capture. Abort never starts a replacement exposure.</p>
+
+<h2>Optional SDK fallback</h2>
+<p>Enable <strong>Fall back to SDK</strong> to switch from Direct USB to the SDK after a failure. It keeps the same camera and stays in SDK mode until disconnect. Any replacement exposure still needs to fit your configured retry limit.</p>
+<p>Logs record recovery attempts and final errors. See <a href="troubleshooting.html">settings and troubleshooting</a> for log locations.</p>
 
 <!-- page-nav:start -->
 <nav class="next-prev" aria-label="Documentation pages"><a href="alpaca.html" rel="prev">← Alpaca server</a><a href="accessories.html" rel="next">CAA, EFW &amp; EAF →</a></nav>
@@ -134,7 +137,6 @@
   <a href="../../docs/regain/">regain docs</a>
   <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
   <a href="https://github.com/pulsarfab/regain">regain source</a>
-  <a href="https://psf-guard.com/">PSF Guard</a>
 </div></footer>
 <!-- site-footer:end -->
 </body>

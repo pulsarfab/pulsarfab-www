@@ -86,20 +86,19 @@
 <!-- docs-nav:end -->
 <main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
 <h1>Regain control of your equipment.</h1>
-<p class="lede">Native astronomy drivers, resilient camera capture, and one familiar setup experience across NINA, Windows ASCOM, and Alpaca.</p>
+<p class="lede">Recover failed camera downloads. Control devices without vendor SDKs. Connect through NINA, native ASCOM, or one Alpaca server.</p>
 
-<p>PulsarFab regain, formerly ZWOgain, connects your existing equipment using Rust drivers and matching setup tools. The camera SDK runs in a separate process, so a stuck SDK does not take down your imaging application. Accessory drivers talk directly to USB or serial without a vendor SDK.</p>
 <h2 id="use-cases">What do you want to do?</h2>
-<h3>Keep NINA or Alpaca captures running</h3>
-<p>Retry a failed download before repeating an exposure, reconnect with camera and cooler settings restored, and keep a completed image even if cleanup fails. Native NINA, ASCOM, and Alpaca use the same Rust recovery engine. <a href="cameras.html#recovery">Choose your retry policy →</a></p>
-<h3>Harden USB transfers without the camera SDK</h3>
-<p>Supported Direct USB drivers bound whole-frame reads, drain cancellations, reject partial images, and can reread retained frames. Windows ASI2600 P25 recovery can also reopen the USB handle and verify earlier pixel chunks. <a href="cameras.html#usb-recovery">Direct USB behavior and limits →</a></p>
-<h3>Put the whole rig on a small headless computer</h3>
-<p>One Alpaca server exposes supported cameras, rotators, filter wheels, focusers, and an OFP2 flat panel. Configure devices in a browser and connect over your LAN; Rust workers isolate device access. <a href="alpaca.html#headless">Set up a headless host →</a></p>
+<h3>Save an exposure after a failed download</h3>
+<p>Choose Direct USB with an <strong>ASI2600MM Pro, ASI6200MM Pro, or ASI676MC</strong>. Regain's SDK-free drivers can reread the image still in camera memory after a failed USB download, without repeating the exposure. Use the same recovery in NINA, native ASCOM, or Alpaca. <a href="cameras.html#backend">Choose a camera mode →</a></p>
+<h3>Keep using your camera in SDK mode</h3>
+<p>The default ZWO SDK mode covers more ASI cameras. Regain can retry a download while the SDK still has the image, restore settings after reconnecting, and restart a stuck SDK worker. <a href="cameras.html#recovery">Configure recovery →</a></p>
+<h3>Run the whole rig from a small headless computer</h3>
+<p>One Alpaca server exposes supported cameras, rotators, filter wheels, focusers, and a flat panel. Configure devices in a browser and connect over your LAN. <a href="alpaca.html#headless">Set up a headless rig →</a></p>
 <h3>Connect more than two ASCOM cameras</h3>
-<p>Four independent camera entries let a main camera, guider, and second imaging train keep separate serial selections and recovery settings. Both 32-bit and 64-bit clients are supported. <a href="ascom.html#multiple-cameras">Configure camera slots →</a></p>
-<h3>Keep the ASCOM side small</h3>
-<p>A thin .NET COM adapter delegates camera capture and recovery to local Rust workers over private pipes. No HTTP server or vendor control application is required. <a href="ascom.html#architecture">How the local driver runs →</a></p>
+<p>Give your main camera, guider, and second imaging train separate entries, each with its own settings. Regain provides four camera entries for 32-bit and 64-bit ASCOM clients. <a href="ascom.html#multiple-cameras">Configure camera slots →</a></p>
+<h3>Use a lightweight local ASCOM driver</h3>
+<p>The native ASCOM adapter connects your application to Rust workers that handle device control and recovery. An Alpaca server is optional. <a href="ascom.html">Install native ASCOM →</a></p>
 <h2 id="choose">Choose your connection</h2>
 <div class="install-grid">
 <div class="card"><h3>NINA plugin</h3>
@@ -113,15 +112,16 @@
 <a class="card-link" href="alpaca.html">Set up Alpaca →</a></div>
 </div>
 <p>For another frontend, embed the <a href="https://github.com/pulsarfab/regain/tree/main/crates">Rust device crates</a> or use their worker protocols. See the <a href="https://github.com/pulsarfab/regain/blob/main/docs/architecture.md">integration architecture</a>. The universal Alpaca server implements supported devices directly; it is not a generic proxy for arbitrary installed ASCOM drivers.</p>
-<h2 id="equipment">Equipment at a glance</h2>
-<p>See <a href="hardware.html">supported hardware and SDK-free coverage</a> for camera models, tested accessory firmware, USB-driver requirements, and validation limits.</p>
+<h2 id="equipment">Supported hardware</h2>
+<p><strong>SDK-free cameras:</strong> ASI2600MM Pro, ASI6200MM Pro, and ASI676MC support direct capture with retryable downloads. ASI220MM Mini supports direct capture without same-image rereads. Direct USB is experimental. <strong>SDK mode:</strong> these and other ASI cameras supported by the bundled ZWO SDK.</p>
+<p>See <a href="hardware.html">supported hardware and SDK-free coverage</a> for camera modes, download recovery, and accessory compatibility.</p>
 <div class="table-wrap"><table><thead><tr><th>Equipment</th><th>Native NINA</th><th>Native ASCOM</th><th>Alpaca</th></tr>
 </thead>
 <tbody>
 <tr><td><a href="cameras.html">ZWO ASI cameras</a></td><td>Yes</td><td>Four camera slots</td><td>Configurable slots</td></tr>
 <tr><td><a href="accessories.html">ZWO CAA / EFW / EAF</a></td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-<tr><td><a href="focuscube3.html">Pegasus FocusCube3</a></td><td>Yes</td><td>Shared COM server</td><td>Focuser 1</td></tr>
-<tr><td><a href="ofp2.html">Deep Sky Dad OFP2</a></td><td>Via Alpaca</td><td>Via Alpaca discovery</td><td>CoverCalibrator 0</td></tr>
+<tr><td><a href="focuscube3.html">Pegasus FocusCube3</a></td><td>Yes</td><td>Shared COM server</td><td>Yes</td></tr>
+<tr><td><a href="ofp2.html">Deep Sky Dad OFP2</a></td><td>Via Alpaca</td><td>Via Alpaca discovery</td><td>Cover and flat panel</td></tr>
 </tbody>
 </table>
 </div>
@@ -142,7 +142,6 @@
   <a href="../../docs/regain/">regain docs</a>
   <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
   <a href="https://github.com/pulsarfab/regain">regain source</a>
-  <a href="https://psf-guard.com/">PSF Guard</a>
 </div></footer>
 <!-- site-footer:end -->
 </body>
