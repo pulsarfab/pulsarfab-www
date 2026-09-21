@@ -94,7 +94,7 @@
 <h2 id="setup">Install and connect</h2>
 <ol><li>Install the requirements listed in <a href="install.html#requirements">Install &amp; upgrade</a>.</li>
 <li>Download the regain ASCOM setup executable from the release page. Close device-control apps and running Alpaca servers, then run the installer as administrator.</li>
-<li>In your application’s ASCOM Chooser, select a regain camera, CAA rotator, EFW filter wheel, EAF focuser, or Pegasus FocusCube3.</li>
+<li>In your application’s ASCOM Chooser, select a regain camera, CAA rotator, EFW filter wheel, EAF focuser, Pegasus FocusCube3, or Deep Sky Dad OFP2 (current source/CI builds).</li>
 <li>Open <strong>Setup</strong>, refresh devices, select the physical device, and configure its settings. Close setup and connect from your application.</li>
 </ol>
 <p>The Start menu contains camera and accessory setup shortcuts. Four camera entries provide independent settings: <strong>Retryable Camera 1</strong> through <strong>4</strong>. Configure cameras 2–4 from their own Chooser entries.</p>
@@ -105,6 +105,8 @@
 <h2>Matching controls</h2>
 <p>Camera setup groups device selection, recovery, cooler, and timeout settings. Accessory dialogs expose device selection, motion, and device settings in the same style. Standalone dialogs use a light theme; NINA-hosted controls inherit its theme.</p>
 <figure><a href="../../assets/native-efw-calibration.png"><img src="../../assets/native-efw-calibration.png" alt="Actual native EFW controls rendered with a simulated wheel. Motion includes Calibrate wheel and slot selection." loading="lazy"></a><figcaption>Actual native EFW controls rendered with a simulated wheel. Motion includes Calibrate wheel and slot selection. Select the image for full resolution.</figcaption></figure>
+<h2>OFP2 cover and flat panel</h2>
+<p>Current source and CI builds add <strong>PulsarFab regain Deep Sky Dad OFP2</strong> to the CoverCalibrator chooser. It shares one serial connection across 32-bit and 64-bit ASCOM clients and provides the same style of setup dialog. NINA can select it as an ASCOM flat panel. Release 0.4.0.0 includes Alpaca support only. See <a href="ofp2.html#ascom">OFP2 setup and sharing</a>.</p>
 <h2>FocusCube3 sharing</h2>
 <p>FocusCube3 uses one out-of-process COM server across 32-bit and 64-bit applications. Each client has its own connection lease; disconnecting one leaves the others connected. This sharing does not extend to native NINA, Alpaca, or Unity. See <a href="focuscube3.html">FocusCube3 setup</a>.</p>
 <h2 id="portable">Portable registration</h2>

@@ -102,7 +102,7 @@
 <li><strong>PulsarFab regain EAF Focuser</strong></li>
 <li><strong>PulsarFab regain Pegasus FocusCube3</strong></li>
 </ul>
-<p>For the OFP2 flat panel, use <a href="ofp2.html">Alpaca discovery</a>. It does not have a native regain NINA provider.</p>
+<p>For the OFP2 flat panel, use <a href="ofp2.html">native ASCOM (current source/CI builds) or Alpaca discovery</a>. NINA can share the native ASCOM connection with other ASCOM applications.</p>
 <h2>Set up your camera</h2>
 <p>Choose <strong>Direct USB (experimental)</strong> for SDK-free capture on supported cameras, or keep <strong>ZWO SDK</strong> for broader ASI support. Check <a href="hardware.html#cameras">which cameras support same-image download retries</a>. Pick the camera and save its serial when multiple cameras share a model. Main and guide cameras are separate USB devices. Disconnect other camera applications first.</p>
 <p>Set retries and cooler recovery in the setup dialog. Recoverable failures are logged while NINA waits; exhausted recovery returns an error. See <a href="cameras.html">camera recovery behavior</a> before increasing replacement-exposure limits.</p>

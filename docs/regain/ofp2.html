@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Deep Sky Dad OFP2 — PulsarFab</title>
-  <meta name="description" content="Control the motorized cover and flat-panel brightness through Alpaca, using a direct Rust USB serial driver.">
+  <meta name="description" content="Control the cover and flat-panel brightness through native ASCOM or Alpaca, using an SDK-free Rust serial driver.">
   <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
   <link rel="stylesheet" href="../../css/site.css?v=1">
   <!-- page-meta:start -->
 <link rel="canonical" href="https://pulsarfab.com/docs/regain/ofp2.html">
   <meta property="og:title" content="Deep Sky Dad OFP2 — PulsarFab">
-  <meta property="og:description" content="Control the motorized cover and flat-panel brightness through Alpaca, using a direct Rust USB serial driver.">
+  <meta property="og:description" content="Control the cover and flat-panel brightness through native ASCOM or Alpaca, using an SDK-free Rust serial driver.">
   <meta property="og:url" content="https://pulsarfab.com/docs/regain/ofp2.html">
   <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
   <meta property="og:type" content="website">
@@ -86,10 +86,21 @@
 <!-- docs-nav:end -->
 <main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
 <h1>Deep Sky Dad OFP2</h1>
-<p class="lede">Control the motorized cover and flat-panel brightness through Alpaca, using a direct Rust USB serial driver.</p>
+<p class="lede">Control the cover and flat-panel brightness through native ASCOM or Alpaca, using an SDK-free Rust serial driver.</p>
 
-<p>The OFP2 uses <code>regain-ofp2</code> and appears as <strong>CoverCalibrator device 0</strong>. No vendor ASCOM driver, SDK, or .NET runtime is required. NINA and Windows ASCOM applications connect through the Platform’s Alpaca discovery support.</p>
-<h2 id="connect">Set up the panel</h2>
+<p>Both connections use <code>regain-ofp2</code> for direct USB serial control. Native ASCOM lets NINA and other Windows applications share the panel. Alpaca provides network access.</p>
+<p><strong>Availability:</strong> native OFP2 ASCOM is in current source and CI builds. Release 0.4.0.0 includes Alpaca support only.</p>
+<h2 id="ascom">Connect through native ASCOM</h2>
+<ol><li>Install a current <a href="ascom.html">regain ASCOM build</a> and connect USB and external power.</li>
+<li>Disconnect the vendor driver and Alpaca to release the serial port.</li>
+<li>In your application's ASCOM flat-panel chooser, select <strong>PulsarFab regain Deep Sky Dad OFP2</strong>. NINA can use this entry through its ASCOM flat-panel selection.</li>
+<li>Open <strong>Setup</strong>, refresh devices, select the panel, and connect. The <strong>Cover &amp; light</strong> tab provides Open, Close, Halt, and brightness 0–4096.</li>
+<li>Close setup and connect from your application. The Start menu also includes an OFP2 setup shortcut.</li></ol>
+<h2 id="sharing">Share the serial port between ASCOM clients</h2>
+<p>Regain runs one local OFP2 server and one serial worker for both 32-bit and 64-bit ASCOM applications. Each client connects independently; disconnecting one leaves the others connected. The final disconnect releases the port. Setup uses the same server and cannot disconnect a panel while an ASCOM client is using it.</p>
+<p>Sharing applies to regain ASCOM clients. The vendor driver and regain Alpaca need exclusive access relative to this server. Use NINA's ASCOM selection when sharing with another ASCOM application.</p>
+<figure><a href="../../assets/native-ofp2.png"><img src="../../assets/native-ofp2.png" alt="Native OFP2 cover and light setup using simulation." loading="lazy"></a><figcaption>Native OFP2 setup controls using simulation. Select the image for full resolution.</figcaption></figure>
+<h2 id="connect">Connect through Alpaca</h2>
 <ol><li>Connect USB and the external power supply. Disconnect the vendor driver and other apps using the panel’s serial port.</li>
 <li>Start the <a href="alpaca.html">Alpaca server</a> with <code>regain-ofp2</code> beside it.</li>
 <li>Open <code>http://127.0.0.1:11111/setup/v1/covercalibrator/0/setup</code>.</li>
@@ -98,6 +109,7 @@
 </ol>
 <figure><a href="../../assets/alpaca-ofp2.png"><img src="../../assets/alpaca-ofp2.png" alt="Historical pre-rebrand screenshot of the physical OFP2, firmware 1.0.14.2, closed at brightness 128. The old ZWOgain name is visible; this is not simulation." loading="lazy"></a><figcaption>Historical pre-rebrand screenshot of the physical OFP2, firmware 1.0.14.2, closed at brightness 128. The old ZWOgain name is visible; this is not simulation. Select the image for full resolution.</figcaption></figure>
 <h2>Serial connection and profiles</h2>
+<p>Native ASCOM saves the USB serial in <code>%LOCALAPPDATA%\Regain\Accessories\ofp2-ascom.json</code>. It needs .NET Framework 4.8 and ASCOM Platform; the standalone Alpaca server needs neither.</p>
 <p>Windows uses the built-in USB serial driver. Linux needs access to the panel’s serial port, commonly <code>/dev/ttyACM*</code>; macOS normally uses <code>/dev/cu.usbmodem*</code>. Do not replace the Windows driver with WinUSB/Zadig.</p>
 <p>The selected USB serial and stable UUID are stored in <code>cameras.ofp2.json</code> beside the Alpaca camera profile. Multiple Alpaca clients share one exclusive worker; the last disconnect releases it. A missing, busy, or ambiguous device fails rather than selecting another panel.</p>
 <h2>Protocol and hardware evidence</h2>
