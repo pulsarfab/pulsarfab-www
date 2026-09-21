@@ -85,13 +85,13 @@
 </script>
 </aside>
 <!-- docs-nav:end -->
-<main id="main" class="docs-content">
+<main id="main" class="docs-main">
 <p class="eyebrow">SDK-free serial control</p>
 <h1>Wanderer Astro ETA M54</h1>
-<p class="lead">Adjust back focus while preserving tilt, or move one of the three tilt points. The same Rust driver powers NINA, native ASCOM and Alpaca, without Wanderer Empire or a vendor SDK.</p>
-<div class="callout"><strong>Current source and CI builds.</strong> ETA support is not in release 0.4.0.0. The physical M54's identity and encoder readings are verified on Windows; movement is tested in simulation and awaits hardware validation. M92 support is not claimed.</div>
+<p class="lede">Adjust back focus while preserving tilt, or move one of the three tilt points. The same Rust driver powers NINA, native ASCOM and Alpaca, without Wanderer Empire or a vendor SDK.</p>
+<div class="callout"><strong>Current source and CI builds.</strong> ETA support is not in release 0.4.0.0. The physical M54's identity, encoder readings and shared serial connection are verified on Windows through Rust, Alpaca and separate 32/64-bit ASCOM clients; movement is tested in simulation and awaits hardware validation. M92 support is not claimed.</div>
 <h2>What do you want to do?</h2>
-<div class="table-scroll"><table><thead><tr><th>Task</th><th>Use</th></tr></thead><tbody>
+<div class="table-wrap"><table><thead><tr><th>Task</th><th>Use</th></tr></thead><tbody>
 <tr><td>Adjust back focus in NINA</td><td>Choose <strong>PulsarFab regain Wanderer Astro ETA M54</strong> under focusers; open its setup gear for individual points.</td></tr>
 <tr><td>Share the device between ASCOM apps</td><td>Choose the same name in the ASCOM focuser chooser. One local server owns the serial port for all regain ASCOM clients.</td></tr>
 <tr><td>Control it from a headless host</td><td>Run the universal Alpaca server and configure <strong>focuser 2</strong> at <code>/setup/v1/focuser/2/setup</code>.</td></tr>
