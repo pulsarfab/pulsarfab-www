@@ -93,7 +93,7 @@
 <ol><li>Connect USB. Windows uses its built-in USB Serial Device driver.</li>
 <li>Disconnect FocusCube3 in Pegasus Unity. Closing the Unity window may leave <code>Peg.Server.exe</code> holding the COM port.</li>
 <li>In native NINA or ASCOM, select <strong>PulsarFab regain Pegasus FocusCube3</strong> and open setup. Refresh, select the device, and connect for setup.</li>
-<li>For Alpaca, open <code>/setup/v1/focuser/1/setup</code> on your server. Find/select the focuser, connect for setup, then disconnect setup when finished.</li>
+<li>For Alpaca in current source/CI, open <code>/setup/focusers</code> and add a FocusCube3 slot. Find/select its serial, connect for setup, then disconnect setup when finished. Add separate slots for additional FocusCube3s.</li>
 </ol>
 <p>Selection uses the USB serial number, so a changed COM number does not select a different device. A busy or missing device fails connection; it never silently falls back to a simulator.</p>
 <div class="shot-pair"><figure><a href="../../assets/native-fc3.png"><img src="../../assets/native-fc3.png" alt="Native setup with the physical FocusCube3, firmware 1.8.2." loading="lazy"></a><figcaption>Native setup with the physical FocusCube3, firmware 1.8.2. Select the image for full resolution.</figcaption></figure>

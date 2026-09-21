@@ -94,7 +94,7 @@
 <div class="table-wrap"><table><thead><tr><th>Task</th><th>Use</th></tr></thead><tbody>
 <tr><td>Adjust back focus in NINA</td><td>Choose <strong>PulsarFab regain Wanderer Astro ETA M54</strong> under focusers; open its setup gear for individual points.</td></tr>
 <tr><td>Share the device between ASCOM apps</td><td>Choose the same name in the ASCOM focuser chooser. One local server owns the serial port for all regain ASCOM clients.</td></tr>
-<tr><td>Control it from a headless host</td><td>Run the universal Alpaca server and configure <strong>focuser 2</strong> at <code>/setup/v1/focuser/2/setup</code>.</td></tr>
+<tr><td>Control it from a headless host</td><td>Run the universal Alpaca server and add an ETA slot under <code>/setup/focusers</code>. Each ETA has its own saved number and port selection.</td></tr>
 <tr><td>Embed control in software</td><td>Use the <code>regain-wanderer::eta</code> Rust module or <code>regain-device wanderer eta</code> JSON worker (current source/CI).</td></tr>
 </tbody></table></div>
 <h2 id="setup">Connect the device</h2>

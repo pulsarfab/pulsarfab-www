@@ -110,14 +110,13 @@
 <tbody><tr><td>Cameras</td><td><code>/setup</code></td></tr>
 <tr><td>CAA</td><td><code>/setup/v1/rotator/0/setup</code></td></tr>
 <tr><td>EFW</td><td><code>/setup/v1/filterwheel/0/setup</code></td></tr>
-<tr><td>EAF</td><td><code>/setup/v1/focuser/0/setup</code></td></tr>
-<tr><td>FocusCube3</td><td><code>/setup/v1/focuser/1/setup</code></td></tr>
-<tr><td><a href="eta.html">ETA M54 (source/CI)</a></td><td><code>/setup/v1/focuser/2/setup</code></td></tr>
+<tr><td>EAF, FocusCube3, <a href="eta.html">ETA M54</a> (current source/CI)</td><td>Add a slot under <code>/setup/focusers</code>; open its setup link.</td></tr>
 <tr><td>OFP2</td><td><code>/setup/v1/covercalibrator/0/setup</code></td></tr>
 </tbody>
 </table>
 </div>
 <p>Camera device numbers and UUIDs stay stable when changing a slot’s physical camera. Disconnect clients before editing setup or scanning USB.</p>
+<p>Current source/CI supports multiple focuser slots, including repeated models. Each has its own name, serial or port selection, and stable Alpaca number. Numbers identify instances, not models, and do not change with USB discovery order. Existing EAF/FocusCube3/ETA profiles keep their saved numbers and UUIDs when upgrading. See <a href="https://github.com/pulsarfab/regain/blob/main/docs/focusers.md">multiple focusers and migration</a>.</p>
 <h2 id="network">Connect across your LAN</h2>
 <p>The default listener binds to <code>127.0.0.1</code>. Bind to the USB host’s LAN IPv4 address to allow remote clients:</p>
 <pre><code>.\regain-alpaca.exe --listen 192.168.1.10 --port 11111</code></pre><p>Replace the example address with your host’s address. Allow the HTTP TCP port and UDP <code>32227</code> through the host firewall for discovery. If discovery is unavailable, connect by address. Remote clients do not need the host’s USB drivers.</p>
