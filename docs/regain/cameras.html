@@ -32,7 +32,7 @@
 </header>
 <!-- site-header:end -->
 <!-- release-note:start -->
-<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
+<div class="release-note">regain 0.5.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.0.0">Read the release notes</a></div>
 <!-- release-note:end -->
 <div class="docs-wrap">
 <!-- docs-nav:start -->
@@ -120,7 +120,7 @@
 <p>The SDK-free driver controls the transfer and the reread. It limits stalled downloads, cancels outstanding transfers safely, and rejects incomplete images. Each reread starts at the beginning of the retained image with a fresh download timeout.</p>
 <p>Recovery depends on the camera keeping the frame available. For implementation details and tested recovery conditions, see the <a href="https://github.com/pulsarfab/regain/blob/main/docs/usb-lifecycle.md">USB transport notes</a>.</p>
 
-<h2 id="usb-reset">Recover a stuck USB camera (source/CI)</h2>
+<h2 id="usb-reset">Recover a stuck USB camera</h2>
 <p>Set <strong>USB reset after failed attempts</strong> to <strong>2</strong> to try an ordinary reconnect first. This opt-in step is shared by NINA, ASCOM, and Alpaca. It runs at most once per capture, only when another replacement exposure is allowed. The retained image is abandoned; regain reconnects the same serial, restores settings and cooling, and takes a new exposure.</p>
 <p>Windows cycles only the camera's USB port through an administrator helper. Interactive sessions may show UAC; unattended operation needs an elevated host. Linux supports device reset and optional port disable/enable with scoped permissions. USB cycling does not switch an external 12 V supply, and a hub may not physically remove USB power.</p>
 <p>Supported USB identities are the ASI676MC, ASI2600MM Pro/Duo, ASI6200MM Pro, and ASI220MM Mini, using either SDK or direct mode. Other SDK cameras are not yet eligible. Windows ASI676 reset and a fresh frame are hardware-verified; physical Linux validation is pending. See <a href="https://github.com/pulsarfab/regain/blob/main/docs/usb-recovery.md">USB recovery setup and limitations</a>.</p>

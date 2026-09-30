@@ -32,7 +32,7 @@
 </header>
 <!-- site-header:end -->
 <!-- release-note:start -->
-<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
+<div class="release-note">regain 0.5.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.0.0">Read the release notes</a></div>
 <!-- release-note:end -->
 <div class="docs-wrap">
 <!-- docs-nav:start -->
@@ -90,7 +90,7 @@
 <p class="lede">Control the cover and flat-panel brightness through native ASCOM or Alpaca, using an SDK-free Rust serial driver.</p>
 
 <p>Both connections use the same Rust protocol implementation for direct USB serial control. Current source groups it in <code>regain-deepskydad::ofp2</code> and runs it through <code>regain-device deepskydad ofp2</code>. Native ASCOM lets NINA and other Windows applications share the panel. Alpaca provides network access.</p>
-<p><strong>Availability:</strong> native OFP2 ASCOM is in current source and CI builds. Release 0.4.0.0 includes Alpaca support only.</p>
+<p><strong>Availability:</strong> native OFP2 ASCOM is included from regain 0.5.0.0.</p>
 <h2 id="ascom">Connect through native ASCOM</h2>
 <ol><li>Install a current <a href="ascom.html">regain ASCOM build</a> and connect USB and external power.</li>
 <li>Disconnect the vendor driver and Alpaca to release the serial port.</li>

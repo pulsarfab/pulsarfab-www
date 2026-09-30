@@ -32,7 +32,7 @@
 </header>
 <!-- site-header:end -->
 <!-- release-note:start -->
-<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
+<div class="release-note">regain 0.5.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.0.0">Read the release notes</a></div>
 <!-- release-note:end -->
 <div class="docs-wrap">
 <!-- docs-nav:start -->
@@ -112,7 +112,7 @@
 <p>Connect clients over your local network with browser-based device setup.</p>
 <a class="card-link" href="alpaca.html">Set up Alpaca →</a></div>
 </div>
-<p>For another frontend, embed the <a href="https://github.com/pulsarfab/regain/tree/main/crates">Rust vendor crates</a> or use their worker protocols. Current source/CI groups ZWO, Pegasus, DeepSkyDad, and Wanderer support by vendor, with shared serial and accessory IPC code. One <code>regain-device</code> executable selects the vendor and device; each session still runs in its own process. See the <a href="https://github.com/pulsarfab/regain/blob/main/docs/architecture.md">integration architecture</a>. The universal Alpaca server implements supported devices directly; it is not a generic proxy for arbitrary installed ASCOM drivers.</p>
+<p>For another frontend, embed the <a href="https://github.com/pulsarfab/regain/tree/main/crates">Rust vendor crates</a> or use their worker protocols. Regain 0.5.0.0 groups ZWO, Pegasus, DeepSkyDad, and Wanderer support by vendor, with shared serial and accessory IPC code. One <code>regain-device</code> executable selects the vendor and device; each session still runs in its own process. See the <a href="https://github.com/pulsarfab/regain/blob/main/docs/architecture.md">integration architecture</a>. The universal Alpaca server implements supported devices directly; it is not a generic proxy for arbitrary installed ASCOM drivers.</p>
 <h2 id="equipment">Supported hardware</h2>
 <p><strong>SDK-free cameras:</strong> ASI2600MM Pro, ASI6200MM Pro, and ASI676MC support direct capture with retryable downloads. ASI220MM Mini supports direct capture without same-image rereads. Direct USB is experimental. <strong>SDK mode:</strong> these and other ASI cameras supported by the bundled ZWO SDK.</p>
 <p>See <a href="hardware.html">supported hardware and SDK-free coverage</a> for camera modes, download recovery, and accessory compatibility.</p>
@@ -122,8 +122,8 @@
 <tr><td><a href="cameras.html">ZWO ASI cameras</a></td><td>Yes</td><td>Four camera slots</td><td>Configurable slots</td></tr>
 <tr><td><a href="accessories.html">ZWO CAA / EFW / EAF</a></td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
 <tr><td><a href="focuscube3.html">Pegasus FocusCube3</a></td><td>Yes</td><td>Shared COM server</td><td>Yes</td></tr>
-<tr><td><a href="eta.html">Wanderer Astro ETA M54 (source/CI)</a></td><td>Back focus and tilt</td><td>Shared COM server</td><td>Configurable focuser slot</td></tr>
-<tr><td><a href="ofp2.html">Deep Sky Dad OFP2</a></td><td>Via ASCOM or Alpaca</td><td>Shared COM server (source/CI)</td><td>Cover and flat panel</td></tr>
+<tr><td><a href="eta.html">Wanderer Astro ETA M54</a></td><td>Back focus and tilt</td><td>Shared COM server</td><td>Configurable focuser slot</td></tr>
+<tr><td><a href="ofp2.html">Deep Sky Dad OFP2</a></td><td>Via ASCOM or Alpaca</td><td>Shared COM server</td><td>Cover and flat panel</td></tr>
 </tbody>
 </table>
 </div>

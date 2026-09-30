@@ -32,7 +32,7 @@
 </header>
 <!-- site-header:end -->
 <!-- release-note:start -->
-<div class="release-note">regain 0.4.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.4.0.0">Read the release notes</a></div>
+<div class="release-note">regain 0.5.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.0.0">Read the release notes</a></div>
 <!-- release-note:end -->
 <div class="docs-wrap">
 <!-- docs-nav:start -->
@@ -106,7 +106,7 @@
 <ul><li><strong>NINA:</strong> Windows x64 and NINA 3.2.0.9001 or later.</li>
 <li><strong>Native ASCOM:</strong> Windows 10 or later, x64, .NET Framework 4.8, and ASCOM Platform. Both 32-bit and 64-bit clients are supported.</li>
 <li><strong>Cameras:</strong> install the ZWO Windows camera driver, including for Direct USB mode.</li>
-<li><strong>ETA M54 (source/CI):</strong> CH340 serial driver, selected by port; <a href="eta.html">setup and current validation limits</a>.</li>
+<li><strong>ETA M54:</strong> CH340 serial driver, selected by port; <a href="eta.html">setup and current validation limits</a>.</li>
 <li><strong>CAA, EFW, EAF:</strong> Windows’ built-in HID driver. <strong>FocusCube3 and OFP2:</strong> built-in USB Serial Device driver. Do not replace these with WinUSB/Zadig.</li>
 </ul>
 <h2 id="upgrade">Upgrade from ZWOgain</h2>
@@ -121,7 +121,7 @@
 <p>The tagged source is available for local builds. A Windows plugin build needs stable Rust, .NET 8 SDK, and the Visual Studio C++ build tools. In the source checkout:</p>
 <pre><code>git clone https://github.com/pulsarfab/regain.git
 cd regain
-git checkout v0.4.0.0
+git checkout v0.5.0.0
 pwsh ./scripts/build.ps1
 pwsh ./scripts/build-ascom.ps1</code></pre>
 <p>The first script writes the NINA ZIP; the second writes the portable ASCOM ZIP. For a source-built installer, see the <a href="https://github.com/pulsarfab/regain/blob/main/README.md#windows-ascom-setup">Windows build instructions</a>. Linux and macOS users can build the Rust workspace for Alpaca; see <a href="alpaca.html#portable">portable setup</a>.</p>

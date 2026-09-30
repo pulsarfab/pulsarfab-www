@@ -1,7 +1,7 @@
 export const siteUrl = "https://pulsarfab.com";
 export const sourceUrl = "https://github.com/pulsarfab/regain";
 // Switch to published only after the signed release and shared NINA feed are live.
-export const release = { version: "0.4.0.0", published: true, previous: "0.3.1.0" };
+export const release = { version: "0.5.0.0", published: true, previous: "0.4.0.0" };
 export const navigation = [
   { label: "Start", pages: [["index.html", "Meet regain"], ["hardware.html", "Supported hardware"], ["install.html", "Install & upgrade"]] },
   { label: "Connect", pages: [["nina.html", "NINA"], ["ascom.html", "Windows ASCOM"], ["alpaca.html", "Alpaca server"]] },
