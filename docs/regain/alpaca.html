@@ -53,6 +53,10 @@
     <li><a href="ascom.html">Windows ASCOM</a></li>
     <li><a href="alpaca.html" class="active" aria-current="page">Alpaca server</a></li>
   </ul>
+  <h4>Development preview</h4>
+  <ul>
+    <li><a href="hub.html">Regain Hub (0.6 preview)</a></li>
+  </ul>
   <h4>Equipment</h4>
   <ul>
     <li><a href="cameras.html">Cameras &amp; recovery</a></li>
@@ -89,6 +93,7 @@
 <h1>Run the Alpaca server</h1>
 <p class="lede">Use a browser to configure equipment on the USB host, then connect imaging clients locally or across a trusted LAN.</p>
 <h2 id="headless">One server for the whole rig</h2>
+<div class="callout info"><p><strong>Need to republish ASCOM or combine sources?</strong> See the <a href="hub.html">0.6 Hub development preview</a>. The standalone server described here provides native hardware integrations; the preview adds shared virtual devices.</p></div>
 <p>Place a small computer beside the telescope and run one <strong>regain Alpaca server</strong> for supported camera slots, a CAA rotator, an EFW filter wheel, EAF and FocusCube3 focusers, and an OFP2 cover/flat panel. NINA and other Alpaca-capable clients connect over the LAN while setup stays in the browser.</p>
 <p>The Rust server and device workers need no .NET runtime, desktop UI, or vendor accessory applications. Linux x86-64 and ARM64 builds suit small headless hosts; Windows and macOS builds are also available. One server manages the equipment through separate workers that isolate device access. Physical USB validation on Linux/macOS remains incomplete.</p>
 <p>All listed accessory drivers are SDK-free. Supported camera models can use Direct USB; broader camera coverage uses the SDK backend. This universal server implements the <a href="hardware.html">supported hardware</a> directly and does not proxy arbitrary installed ASCOM drivers.</p>
@@ -137,7 +142,7 @@
 <p>Keep the process running while clients are connected. For unattended startup, configure your own Windows task, systemd service, or launchd job with an absolute profile path and the right device permissions.</p>
 
 <!-- page-nav:start -->
-<nav class="next-prev" aria-label="Documentation pages"><a href="ascom.html" rel="prev">← Windows ASCOM</a><a href="cameras.html" rel="next">Cameras &amp; recovery →</a></nav>
+<nav class="next-prev" aria-label="Documentation pages"><a href="ascom.html" rel="prev">← Windows ASCOM</a><a href="hub.html" rel="next">Regain Hub (0.6 preview) →</a></nav>
 <!-- page-nav:end -->
 </main></div>
 <!-- site-footer:start -->

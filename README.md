@@ -35,12 +35,16 @@ checked in, so the deployed site needs no Node process or build step.
 
 ## Releases and screenshots
 
-The site documents regain 0.4.0.0. Release status is controlled by `scripts/site.mjs`.
+Stable guides document regain 0.5.0.0. The Hub guide is a separately labeled 0.6
+development preview and must not imply inclusion in the stable packages.
+Release status and per-page preview banners are controlled by `scripts/site.mjs`.
 For each new version, set `release.published` to `true` only after verifying the
 signed GitHub release and `nina-plugins.pulsarfab.com`. Publish plugin packages
 through `theatrus/nina-plugins-registry`, not this site.
 
-Screenshots and regain artwork come from `pulsarfab/regain` at tag `v0.4.0.0`.
+Stable screenshots and regain artwork come from `pulsarfab/regain` at tag `v0.4.0.0`.
+Hub screenshots come from development commit `f40cd8698183303feda19edd19c5b7403fd47ab5`
+and show explicit simulation; retain their captions.
 Preserve screenshot captions: FocusCube3 is physical; OFP2 is historical physical
 hardware with the old brand; other screenshots use explicitly labeled simulation.
 

@@ -2,9 +2,12 @@ export const siteUrl = "https://pulsarfab.com";
 export const sourceUrl = "https://github.com/pulsarfab/regain";
 // Switch to published only after the signed release and shared NINA feed are live.
 export const release = { version: "0.5.0.0", published: true, previous: "0.4.0.0" };
+// Development guides have their own banner; never imply inclusion in a stable ZIP.
+export const previews = { "hub.html": { version: "0.6", branch: "codex/regain-hub" } };
 export const navigation = [
   { label: "Start", pages: [["index.html", "Meet regain"], ["hardware.html", "Supported hardware"], ["install.html", "Install & upgrade"]] },
   { label: "Connect", pages: [["nina.html", "NINA"], ["ascom.html", "Windows ASCOM"], ["alpaca.html", "Alpaca server"]] },
+  { label: "Development preview", pages: [["hub.html", "Regain Hub (0.6 preview)"]] },
   { label: "Equipment", pages: [["cameras.html", "Cameras & recovery"], ["accessories.html", "CAA, EFW & EAF"], ["focuscube3.html", "Pegasus FocusCube3"], ["ofp2.html", "Deep Sky Dad OFP2"], ["eta.html", "Wanderer ETA M54"]] },
   { label: "Support", pages: [["troubleshooting.html", "Settings & troubleshooting"]] }
 ];

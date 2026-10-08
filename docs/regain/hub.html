@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Regain Hub preview — PulsarFab</title>
+  <meta name="description" content="Combine equipment sources and share virtual devices through native NINA, Windows ASCOM and Alpaca with the Regain 0.6 Hub preview.">
+  <!-- page-meta:start -->
+<link rel="canonical" href="https://pulsarfab.com/docs/regain/hub.html">
+  <meta property="og:title" content="Regain Hub preview — PulsarFab">
+  <meta property="og:description" content="Combine equipment sources and share virtual devices through native NINA, Windows ASCOM and Alpaca with the Regain 0.6 Hub preview.">
+  <meta property="og:url" content="https://pulsarfab.com/docs/regain/hub.html">
+  <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
+  <meta property="og:type" content="website">
+<!-- page-meta:end -->
+  <link rel="stylesheet" href="../../css/site.css">
+</head>
+<body>
+<!-- site-header:start -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="../../"><img src="../../assets/logo.svg" alt=""> PulsarFab</a>
+    <div class="nav-links">
+      <a class="keep" href="../../docs/">Docs</a>
+      <a class="keep" href="../../#projects">Hardware</a>
+      <a href="https://github.com/pulsarfab">GitHub</a>
+      <a class="cta" href="../../docs/regain/install.html">Install regain</a>
+    </div>
+  </nav>
+</header>
+<!-- site-header:end -->
+<!-- release-note:start -->
+<div class="release-note">regain 0.6 development preview · Not included in published 0.5 packages. <a href="https://github.com/pulsarfab/regain/tree/codex%2Fregain-hub">Development source</a></div>
+<!-- release-note:end -->
+<div class="docs-wrap">
+<!-- docs-nav:start -->
+<aside class="docs-nav" aria-label="Documentation navigation">
+<details class="docs-menu" open>
+  <summary>Browse regain documentation</summary>
+  <div class="docs-nav-sections">
+  <p><a href="../">← All documentation</a></p>
+  <h4>Start</h4>
+  <ul>
+    <li><a href="./">Meet regain</a></li>
+    <li><a href="hardware.html">Supported hardware</a></li>
+    <li><a href="install.html">Install &amp; upgrade</a></li>
+  </ul>
+  <h4>Connect</h4>
+  <ul>
+    <li><a href="nina.html">NINA</a></li>
+    <li><a href="ascom.html">Windows ASCOM</a></li>
+    <li><a href="alpaca.html">Alpaca server</a></li>
+  </ul>
+  <h4>Development preview</h4>
+  <ul>
+    <li><a href="hub.html" class="active" aria-current="page">Regain Hub (0.6 preview)</a></li>
+  </ul>
+  <h4>Equipment</h4>
+  <ul>
+    <li><a href="cameras.html">Cameras &amp; recovery</a></li>
+    <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
+    <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
+    <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
+    <li><a href="eta.html">Wanderer ETA M54</a></li>
+  </ul>
+  <h4>Support</h4>
+  <ul>
+    <li><a href="troubleshooting.html">Settings &amp; troubleshooting</a></li>
+  </ul>
+  <h4>Project</h4>
+  <ul>
+    <li><a href="https://github.com/pulsarfab/regain">Source &amp; protocol notes</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/releases">Releases</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/issues">Report an issue</a></li>
+    <li><a href="https://nina-plugins.pulsarfab.com/">NINA plugin registry</a></li>
+  </ul>
+  </div>
+</details>
+<script>
+  (() => {
+    const menu = document.currentScript.previousElementSibling;
+    const narrow = window.matchMedia('(max-width: 900px)');
+    const sync = () => { menu.open = !narrow.matches; };
+    sync();
+    narrow.addEventListener('change', sync);
+  })();
+</script>
+</aside>
+<!-- docs-nav:end -->
+<main class="docs-main" id="main">
+<p class="eyebrow">0.6 development preview</p>
+<h1>One hub for your equipment.</h1>
+<p class="lede">Combine device sources, then use the same saved outputs in native NINA, Windows ASCOM and Alpaca.</p>
+<div class="callout info"><p>This guide describes the development branch. Published 0.5 packages do not include the hub. External conformance, installed-client and physical acceptance remain open in the <a href="https://github.com/pulsarfab/regain/blob/codex/regain-hub/docs/hub-plan.md">implementation plan</a>.</p></div>
+
+<h2 id="use-cases">What do you want to do?</h2>
+<h3>Build one switch panel</h3>
+<p>Map writable switches and read-only gauges from several drivers into one Switch output. Give each channel a label and units; write permission and bounds remain explicit.</p>
+<h3>Require several safety monitors to agree</h3>
+<p>Combine selected monitors with freshness limits, confirmations and a recovery hold. Missing or expired evidence returns unsafe. Reconnecting alone does not establish permission to continue imaging.</p>
+<h3>Combine weather instruments</h3>
+<p>Choose sources and fallbacks per metric. Each reading retains its age and availability; a missing measurement does not become zero.</p>
+<h3>Use an installed ASCOM driver over Alpaca</h3>
+<p>Run the hub on Windows, import the driver through an isolated 32-bit or 64-bit helper, then publish an output of that device class. A stalled driver has a bounded deadline and cannot keep old safety evidence fresh.</p>
+<h3>Share equipment across applications</h3>
+<p>Several outputs can reference one source connection. Native NINA attaches directly over private local IPC; it needs neither an ASCOM output nor an HTTP listener. ASCOM and Alpaca attach to the same host. Camera captures and motion have explicit ownership rather than independent competing commands.</p>
+<h3>Coordinate a set of cameras or focusers</h3>
+<p>Configure an explicit camera or focuser group and invoke it from a Regain NINA sequence item. Camera groups retain separate images and frozen scalar metadata. Both group types report each member's result, including partial success; they do not promise atomic hardware action or a simultaneous shutter.</p>
+
+<h2 id="connections">Inputs and outputs</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Inputs</th><th>Outputs</th><th>Frontends</th></tr></thead>
+<tbody><tr><td>Supported native Regain devices, Alpaca, Windows ASCOM, another hub output, explicit simulation</td><td>Camera, Focuser, Rotator, FilterWheel, CoverCalibrator, Switch, SafetyMonitor, ObservingConditions</td><td>Native NINA, native Windows ASCOM, Alpaca</td></tr></tbody>
+</table></div>
+<p>Sources must implement the selected device class. Native hardware coverage remains model-specific; see <a href="hardware.html">supported hardware</a> and the <a href="https://github.com/pulsarfab/regain/blob/codex/regain-hub/README.md#supported-hardware">development support table</a>. Mounts and domes are outside this hub's scope.</p>
+<p>Native camera sources reuse Regain's SDK/direct recovery engine. Republishing an upstream camera does not add SDK-free image rereads; those require a <a href="cameras.html#backend">supported native direct driver</a>.</p>
+
+<h2 id="setup">Set up once</h2>
+<ol>
+<li>Build and deploy matching frontends and workers from the development branch. Create a new configuration in native setup, or run <code>regain-alpaca --hub-init --hub-config ABSOLUTE_NEW_FILE_PATH</code>. This creates an empty file without starting equipment.</li>
+<li>In a NINA hub <strong>configure</strong> choice, select the file, choose <strong>Load hub outputs</strong>, then <strong>Edit shared configuration</strong>. Browser setup uses <code>regain-alpaca --hub-config ABSOLUTE_FILE_PATH --port 11111</code> and <code>http://127.0.0.1:11111/setup/hub</code>.</li>
+<li>Find sources through Alpaca discovery or the local native/COM catalogs. Discovery creates a draft; configure source connection policy and add the outputs you need.</li>
+<li>Select <strong>Review changes</strong>, disconnect output clients, then <strong>Apply</strong>. The native and browser editors use the same parameter keys, descriptions, defaults and validation.</li>
+<li>Select the saved output in NINA or Alpaca. For native ASCOM, open <strong>Hub outputs setup</strong> and register the selected output. Connecting a client acquires the source leases.</li>
+</ol>
+<p>Saved UUIDs and device numbers keep output identity stable across renaming and reordering. Several outputs share equipment by referencing the same source ID. Standalone drivers and vendor applications still need to release that physical device before the hub opens it.</p>
+<figure><a href="../../assets/hub-setup-simulation.jpg"><img src="../../assets/hub-setup-simulation.jpg" alt="Regain Hub browser editor with explicitly simulated equipment." loading="lazy"></a><figcaption>The production browser editor with simulated equipment. This demonstrates setup, not physical-device acceptance.</figcaption></figure>
+<figure><a href="../../assets/hub-native-editor-simulation.png"><img src="../../assets/hub-native-editor-simulation.png" alt="Native Regain Hub configuration editor using simulation." loading="lazy"></a><figcaption>The shared native editor in a private simulation fixture. NINA and native ASCOM use this configuration editor.</figcaption></figure>
+
+<h2 id="transfer">Transfer settings</h2>
+<p>Use <strong>Import / export</strong> to export saved configuration without credentials. Restore keeps the current hub's identities; Copy creates new identities and unused device numbers for another hub. Review hardware addresses and bind credentials on the destination before applying. Import prepares an inert draft and does not restore active sessions.</p>
+<h2 id="recovery">Recover without replaying commands</h2>
+<p>Source failures and OS resume invalidate old observations. Safety stays unsafe until fresh evidence satisfies its policy. Typed equipment sessions require explicit reconnect after their source generation changes. Interrupted exposures and writes retain an uncertain outcome for reconciliation; the hub does not repeat them automatically.</p>
+<p>Follow the <a href="https://github.com/pulsarfab/regain/blob/codex/regain-hub/docs/hub-setup.md">full setup guide</a> for source-specific controls, credentials, discovery, group operations and recovery. The <a href="https://github.com/pulsarfab/regain/blob/codex/regain-hub/docs/hub-conformance.md">conformance record</a> separates simulated protocol coverage from remaining acceptance.</p>
+<!-- page-nav:start -->
+<nav class="next-prev" aria-label="Documentation pages"><a href="alpaca.html" rel="prev">← Alpaca server</a><a href="cameras.html" rel="next">Cameras &amp; recovery →</a></nav>
+<!-- page-nav:end -->
+</main></div>
+<!-- site-footer:start -->
+<footer class="footer"><div class="footer-inner">
+  <span>PulsarFab · Open astronomy hardware &amp; software.</span>
+  <a href="../../docs/">All documentation</a>
+  <a href="../../docs/regain/">regain docs</a>
+  <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
+  <a href="https://github.com/pulsarfab/regain">regain source</a>
+</div></footer>
+<!-- site-footer:end -->
+</body>
+</html>

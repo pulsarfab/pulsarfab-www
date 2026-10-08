@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { siteUrl, sourceUrl, release, navigation } from './site.mjs';
+import { siteUrl, sourceUrl, release, previews, navigation } from './site.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const check = process.argv.includes('--check');
@@ -79,9 +79,12 @@ for (const file of pages) {
   const prefix = file === '404.html' ? '/' : '../'.repeat(file.split('/').length - 1);
   let html = fs.readFileSync(path.join(root, file), 'utf8');
   html = replace(html, 'site-header', header(file, prefix), file);
-  html = replace(html, 'release-note', isRegain ? `<div class="release-note">${release.published
+  const preview = isRegain ? previews[path.basename(file)] : undefined;
+  html = replace(html, 'release-note', preview
+    ? `<div class="release-note">regain ${escape(preview.version)} development preview · Not included in published 0.5 packages. <a href="${sourceUrl}/tree/${encodeURIComponent(preview.branch)}">Development source</a></div>`
+    : isRegain ? `<div class="release-note">${release.published
     ? `regain ${release.version} · <a href="${sourceUrl}/releases/tag/v${release.version}">Read the release notes</a>`
-    : `regain ${release.version} documentation · Signed release pending. <a href="${prefix}docs/regain/install.html#source">Build the tagged source</a> or view the <a href="${sourceUrl}/releases">current public release, ZWOgain ${release.previous}</a>.`}</div>` : '', file);
+    : `regain ${release.version} documentation · Signed release pending. <a href="${prefix}docs/regain/install.html#source">Build the tagged source</a> or view the <a href="${sourceUrl}/releases">current public release</a>.`}</div>` : '', file);
   html = replace(html, 'site-footer', `<footer class="footer"><div class="footer-inner">
   <span>PulsarFab · Open astronomy hardware &amp; software.</span>
   <a href="${prefix}docs/">All documentation</a>
