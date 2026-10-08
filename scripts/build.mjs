@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { siteUrl, sourceUrl, release, previews, navigation } from './site.mjs';
+import { siteUrl, sourceUrl, release, previews, navigation, directCameras } from './site.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const check = process.argv.includes('--check');
@@ -74,6 +74,24 @@ function pageNav(file) {
   const link = (item, previous) => item ? `<a href="${item[0] === 'index.html' ? './' : item[0]}" rel="${previous ? 'prev' : 'next'}">${previous ? '← ' : ''}${escape(item[1])}${previous ? '' : ' →'}</a>` : '<span></span>';
   return `<nav class="next-prev" aria-label="Documentation pages">${link(ordered[index - 1], true)}${link(ordered[index + 1], false)}</nav>`;
 }
+const cameraName = camera => camera.guide
+  ? `<a href="${sourceUrl}/blob/v${release.version}/docs/${camera.guide}">ZWO ${escape(camera.name)}</a>`
+  : `ZWO ${escape(camera.name)}`;
+function cameraSupport() {
+  return `<div class="table-wrap"><table>
+<thead><tr><th>Camera</th><th>SDK-free capture</th><th>Same-image download retry</th><th>SDK mode</th></tr></thead>
+<tbody>
+${directCameras.map(camera => `<tr><td>${cameraName(camera)}</td><td>Yes, experimental</td><td>${camera.reread ? 'Yes, in Direct USB still mode' : 'No direct reread support'}</td><td>Yes</td></tr>`).join('\n')}
+<tr><td>Other ZWO ASI cameras</td><td>No</td><td>Only while the SDK still reports an image ready</td><td>If supported by the bundled SDK</td></tr>
+</tbody></table></div>`;
+}
+function cameraLimits() {
+  return `<div class="table-wrap"><table>
+<thead><tr><th>Camera</th><th>Format</th><th>Binning</th><th>Maximum still exposure</th></tr></thead>
+<tbody>
+${directCameras.map(camera => `<tr><td>${cameraName(camera)}</td><td>RAW16</td><td>${camera.bins}</td><td>${camera.seconds.toLocaleString('en-US')} seconds</td></tr>`).join('\n')}
+</tbody></table></div>`;
+}
 for (const file of pages) {
   const isRegain = file.startsWith('docs/regain/');
   const prefix = file === '404.html' ? '/' : '../'.repeat(file.split('/').length - 1);
@@ -104,6 +122,12 @@ for (const file of pages) {
   if (isRegain) {
     html = replace(html, 'docs-nav', sidebar(file), file);
     html = replace(html, 'page-nav', pageNav(file), file);
+    if (['hardware.html', 'cameras.html'].includes(path.basename(file))) {
+      html = replace(html, 'camera-support', cameraSupport(), file);
+    }
+    if (path.basename(file) === 'hardware.html') {
+      html = replace(html, 'camera-limits', cameraLimits(), file);
+    }
   }
   output(file, html);
 }

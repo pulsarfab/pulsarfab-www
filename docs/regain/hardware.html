@@ -32,7 +32,7 @@
 </header>
 <!-- site-header:end -->
 <!-- release-note:start -->
-<div class="release-note">regain 0.5.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.0.0">Read the release notes</a></div>
+<div class="release-note">regain 0.5.11.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.11.0">Read the release notes</a></div>
 <!-- release-note:end -->
 <div class="docs-wrap">
 <!-- docs-nav:start -->
@@ -62,6 +62,7 @@
     <li><a href="cameras.html">Cameras &amp; recovery</a></li>
     <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
     <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
+    <li><a href="falcon-v2.html">Pegasus Falcon V2</a></li>
     <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
     <li><a href="eta.html">Wanderer ETA M54</a></li>
   </ul>
@@ -96,25 +97,36 @@
 
 <h2 id="cameras">Choose your camera mode</h2>
 <p>All camera modes work in NINA, native Windows ASCOM, and Alpaca. <strong>Direct USB</strong> uses regain's Rust drivers without the ZWO SDK. <strong>ZWO SDK</strong> is the default and covers a broader range of ASI cameras.</p>
+<!-- camera-support:start -->
 <div class="table-wrap"><table>
 <thead><tr><th>Camera</th><th>SDK-free capture</th><th>Same-image download retry</th><th>SDK mode</th></tr></thead>
 <tbody>
-<tr><td>ZWO ASI2600MM Pro</td><td>Yes</td><td>Yes, through the direct driver</td><td>Yes</td></tr>
-<tr><td>ZWO ASI6200MM Pro</td><td>Yes</td><td>Yes, through the direct driver</td><td>Yes</td></tr>
-<tr><td>ZWO ASI676MC</td><td>Yes</td><td>Yes, through the direct driver</td><td>Yes</td></tr>
-<tr><td>ZWO ASI220MM Mini</td><td>Yes</td><td>No direct reread support</td><td>Yes</td></tr>
+<tr><td>ZWO ASI2600MM Pro / Duo main sensor</td><td>Yes, experimental</td><td>Yes, in Direct USB still mode</td><td>Yes</td></tr>
+<tr><td>ZWO ASI6200MM Pro</td><td>Yes, experimental</td><td>Yes, in Direct USB still mode</td><td>Yes</td></tr>
+<tr><td>ZWO ASI676MC</td><td>Yes, experimental</td><td>Yes, in Direct USB still mode</td><td>Yes</td></tr>
+<tr><td><a href="https://github.com/pulsarfab/regain/blob/v0.5.11.0/docs/asi662mc.md">ZWO ASI662MC</a></td><td>Yes, experimental</td><td>Yes, in Direct USB still mode</td><td>Yes</td></tr>
+<tr><td><a href="https://github.com/pulsarfab/regain/blob/v0.5.11.0/docs/asi585mm-pro.md">ZWO ASI585MM Pro</a></td><td>Yes, experimental</td><td>Yes, in Direct USB still mode</td><td>Yes</td></tr>
+<tr><td>ZWO ASI220MM Mini / Duo guide sensor</td><td>Yes, experimental</td><td>No direct reread support</td><td>Yes</td></tr>
 <tr><td>Other ZWO ASI cameras</td><td>No</td><td>Only while the SDK still reports an image ready</td><td>If supported by the bundled SDK</td></tr>
 </tbody></table></div>
+<!-- camera-support:end -->
 <p>Direct USB is experimental. In SDK mode, download retries depend on the SDK's ready-frame state; they do not use regain's direct memory reread.</p>
 <h3>Direct capture limits</h3>
+<!-- camera-limits:start -->
 <div class="table-wrap"><table>
-<thead><tr><th>Camera</th><th>Format</th><th>Binning</th><th>Maximum exposure</th></tr></thead>
+<thead><tr><th>Camera</th><th>Format</th><th>Binning</th><th>Maximum still exposure</th></tr></thead>
 <tbody>
-<tr><td>ASI2600MM Pro / ASI6200MM Pro</td><td>RAW16</td><td>1–4</td><td>2,000 seconds</td></tr>
-<tr><td>ASI676MC</td><td>RAW16</td><td>1</td><td>30 seconds</td></tr>
-<tr><td>ASI220MM Mini</td><td>RAW16</td><td>1–2</td><td>10 seconds</td></tr>
+<tr><td>ZWO ASI2600MM Pro / Duo main sensor</td><td>RAW16</td><td>1–4</td><td>2,000 seconds</td></tr>
+<tr><td>ZWO ASI6200MM Pro</td><td>RAW16</td><td>1–4</td><td>2,000 seconds</td></tr>
+<tr><td>ZWO ASI676MC</td><td>RAW16</td><td>1</td><td>2,000 seconds</td></tr>
+<tr><td><a href="https://github.com/pulsarfab/regain/blob/v0.5.11.0/docs/asi662mc.md">ZWO ASI662MC</a></td><td>RAW16</td><td>1</td><td>2,000 seconds</td></tr>
+<tr><td><a href="https://github.com/pulsarfab/regain/blob/v0.5.11.0/docs/asi585mm-pro.md">ZWO ASI585MM Pro</a></td><td>RAW16</td><td>1–4</td><td>2,000 seconds</td></tr>
+<tr><td>ZWO ASI220MM Mini / Duo guide sensor</td><td>RAW16</td><td>1–2</td><td>10 seconds</td></tr>
 </tbody></table></div>
-<p>The cooled direct cameras also support ROI, gain, offset, cooling, and dew heater control. Direct live view and trigger modes are not supported. See <a href="cameras.html">camera setup and recovery</a>.</p>
+<!-- camera-limits:end -->
+<p>These are accepted still-exposure limits, not a claim of hardware testing at every duration. ASI585MM Pro and ASI662MC each recovered an interrupted download after a 600-second exposure. ASI585MM Pro has been tested on Windows USB 3; physical validation varies by model and connection. See <a href="https://github.com/pulsarfab/regain/blob/v0.5.11.0/docs/usb2-cameras.md">USB transport validation</a>.
+</p>
+<p>Direct cameras support ROI, gain and offset. Cooler, heater, fan and LED controls appear only when supported: ASI585MM Pro has cooling but no controllable heater; ASI662MC has no cooling. ASI585MC variants are not supported by the ASI585MM Pro direct driver. The <a href="cameras.html#continuous">Rust/worker continuous API</a> also supports native video on ASI585MM Pro, ASI662MC and ASI676MC; the imaging frontends use still capture.</p>
 
 <h2 id="accessories">Accessories: all SDK-free</h2>
 <div class="table-wrap"><table>
@@ -124,6 +136,7 @@
 <tr><td><a href="accessories.html#efw">ZWO EFW</a></td><td>USB HID</td><td>Slots, names, offsets, direction, calibration; seven-position EFW-S-0</td><td>NINA, ASCOM, Alpaca</td></tr>
 <tr><td><a href="accessories.html#eaf">ZWO EAF</a></td><td>USB HID</td><td>Absolute moves, halt, reverse, backlash, travel limit, temperature; EAFN firmware 3.8.1</td><td>NINA, ASCOM, Alpaca</td></tr>
 <tr><td><a href="focuscube3.html">Pegasus Astro FocusCube3</a></td><td>USB serial</td><td>Absolute moves, halt, temperature, reverse, backlash, speed</td><td>NINA, shared ASCOM server, Alpaca</td></tr>
+<tr><td><a href="falcon-v2.html">Pegasus Astro Falcon V2</a></td><td>USB serial</td><td>Rotation, halt, sync, reverse, origin and explicit multi-turn motion; firmware 1.8 revision A tested. V1 unsupported.</td><td>NINA, shared ASCOM server, Alpaca</td></tr>
 <tr><td><a href="ofp2.html">Deep Sky Dad OFP2</a></td><td>USB serial</td><td>Cover open/close/halt, brightness 0–4096</td><td>Shared native ASCOM server, Alpaca; NINA through either</td></tr>
 <tr><td><a href="eta.html">Wanderer Astro ETA M54</a></td><td>CH340 USB serial</td><td>Back focus retaining tilt, three point targets; no hardware halt. Physical movement validation pending.</td><td>NINA, shared ASCOM server, Alpaca</td></tr>
 </tbody></table></div>
@@ -133,7 +146,7 @@
 <ul>
 <li><strong>Windows cameras:</strong> install the ZWO camera USB driver, including when using Direct USB.</li>
 <li><strong>Windows CAA, EFW, and EAF:</strong> use the built-in HID driver.</li>
-<li><strong>Windows FocusCube3 and OFP2:</strong> use USB Serial Device. Do not replace these accessory drivers with WinUSB/Zadig.</li>
+<li><strong>Windows FocusCube3, Falcon V2 and OFP2:</strong> use USB Serial Device. Do not replace these accessory drivers with WinUSB/Zadig.</li>
 <li><strong>Linux/macOS:</strong> the host account needs USB, HID, or serial access. The SDK-free paths use native OS interfaces; SDK mode also needs its vendor library and runtime dependencies.</li>
 </ul>
 <p>NINA and native COM require Windows x64; the ASCOM drivers support 32-bit and 64-bit clients. The Rust workers and Alpaca server build on Windows, Linux, and macOS, with Linux/macOS CI builds for x86-64 and ARM64. See <a href="install.html#requirements">installation requirements</a> and <a href="alpaca.html#portable">portable setup</a>.</p>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pegasus Astro Falcon V2 — PulsarFab</title>
+  <meta name="description" content="Control Falcon V2 rotation with SDK-free Rust, native NINA, shared ASCOM or Alpaca. Setup, origin controls and tested hardware.">
+  <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+  <link rel="stylesheet" href="../../css/site.css?v=1">
+  <!-- page-meta:start -->
+<link rel="canonical" href="https://pulsarfab.com/docs/regain/falcon-v2.html">
+  <meta property="og:title" content="Pegasus Astro Falcon V2 — PulsarFab">
+  <meta property="og:description" content="Control Falcon V2 rotation with SDK-free Rust, native NINA, shared ASCOM or Alpaca. Setup, origin controls and tested hardware.">
+  <meta property="og:url" content="https://pulsarfab.com/docs/regain/falcon-v2.html">
+  <meta property="og:image" content="https://pulsarfab.com/assets/regain.png">
+  <meta property="og:type" content="website">
+<!-- page-meta:end -->
+</head>
+<body>
+<!-- site-header:start -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="../../"><img src="../../assets/logo.svg" alt=""> PulsarFab</a>
+    <div class="nav-links">
+      <a class="keep" href="../../docs/">Docs</a>
+      <a class="keep" href="../../#projects">Hardware</a>
+      <a href="https://github.com/pulsarfab">GitHub</a>
+      <a class="cta" href="../../docs/regain/install.html">Install regain</a>
+    </div>
+  </nav>
+</header>
+<!-- site-header:end -->
+<!-- release-note:start -->
+<div class="release-note">regain 0.5.11.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.11.0">Read the release notes</a></div>
+<!-- release-note:end -->
+<div class="docs-wrap">
+<!-- docs-nav:start -->
+<aside class="docs-nav" aria-label="Documentation navigation">
+<details class="docs-menu" open>
+  <summary>Browse regain documentation</summary>
+  <div class="docs-nav-sections">
+  <p><a href="../">← All documentation</a></p>
+  <h4>Start</h4>
+  <ul>
+    <li><a href="./">Meet regain</a></li>
+    <li><a href="hardware.html">Supported hardware</a></li>
+    <li><a href="install.html">Install &amp; upgrade</a></li>
+  </ul>
+  <h4>Connect</h4>
+  <ul>
+    <li><a href="nina.html">NINA</a></li>
+    <li><a href="ascom.html">Windows ASCOM</a></li>
+    <li><a href="alpaca.html">Alpaca server</a></li>
+  </ul>
+  <h4>Development preview</h4>
+  <ul>
+    <li><a href="hub.html">Regain Hub (0.6 preview)</a></li>
+  </ul>
+  <h4>Equipment</h4>
+  <ul>
+    <li><a href="cameras.html">Cameras &amp; recovery</a></li>
+    <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
+    <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
+    <li><a href="falcon-v2.html" class="active" aria-current="page">Pegasus Falcon V2</a></li>
+    <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
+    <li><a href="eta.html">Wanderer ETA M54</a></li>
+  </ul>
+  <h4>Support</h4>
+  <ul>
+    <li><a href="troubleshooting.html">Settings &amp; troubleshooting</a></li>
+  </ul>
+  <h4>Project</h4>
+  <ul>
+    <li><a href="https://github.com/pulsarfab/regain">Source &amp; protocol notes</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/releases">Releases</a></li>
+    <li><a href="https://github.com/pulsarfab/regain/issues">Report an issue</a></li>
+    <li><a href="https://nina-plugins.pulsarfab.com/">NINA plugin registry</a></li>
+  </ul>
+  </div>
+</details>
+<script>
+  (() => {
+    const menu = document.currentScript.previousElementSibling;
+    const narrow = window.matchMedia('(max-width: 900px)');
+    const sync = () => { menu.open = !narrow.matches; };
+    sync();
+    narrow.addEventListener('change', sync);
+  })();
+</script>
+</aside>
+<!-- docs-nav:end -->
+<main class="docs-main" id="main"><p class="eyebrow">regain documentation</p>
+<h1>Pegasus Astro Falcon V2</h1>
+<p class="lede">SDK-free rotation through native NINA, shared Windows ASCOM, or Alpaca.</p>
+<p>Experimental support covers Falcon V2, not V1. The same Rust driver powers all three connections; Pegasus Unity and its SDK are not required.</p>
+
+<h2 id="connect">Connect the rotator</h2>
+<ol><li>Connect USB. Windows uses its built-in USB Serial Device driver.</li>
+<li>Disconnect Falcon in Unity. Its background server can retain the port after the window closes.</li>
+<li>In native NINA or the ASCOM Rotator chooser, select <strong>PulsarFab regain Pegasus Falcon V2</strong>. Open setup, refresh devices, select the USB serial and connect for setup.</li>
+<li>For Alpaca, open <code>/setup/rotators</code>, add a <strong>Pegasus Falcon V2</strong> slot and select its USB serial. Add separate slots for additional Falcons or CAAs. Each slot keeps a stable number and UUID.</li></ol>
+<p>Selection follows the USB serial rather than a fixed COM number. A busy or missing device fails connection; it never silently selects a simulator.</p>
+<figure><a href="../../assets/native-falcon.png"><img src="../../assets/native-falcon.png" alt="Native regain setup connected to a physical Pegasus Falcon V2, showing motion and sync controls." loading="lazy"></a><figcaption>Native setup connected to the physical Falcon V2. This is the standalone theme; NINA supplies its own theme. Select the image for full resolution.</figcaption></figure>
+
+<h2 id="motion">Rotate, sync and set an origin</h2>
+<ul><li>Normal moves use mechanical angles from 0° up to, but excluding, 360°. Firmware chooses the route around its mechanical origin.</li>
+<li><strong>Sync</strong> changes the sky angle without moving. Reverse changes motor direction in firmware while preserving the current reported sky angle.</li>
+<li><strong>Set reference</strong> and <strong>Reset origin</strong> relabel the current mechanical position without moving. They change where firmware applies its cable-wrap routing.</li>
+<li><strong>Multi-turn</strong> explicitly accepts up to ±450°, in segments of at most 90° with reference resets. It bypasses normal wrap protection; check clearance and cable slack before starting.</li></ul>
+<p>Halt cancels pending multi-turn segments. An uncertain command requires reconnect rather than automatic replay. An unfinished reference operation makes the saved coordinates uncertain; reconnect discards that sky offset so you can sync again.</p>
+<p>Standard ASCOM and Alpaca moves, halt, sync and reverse use their normal interface members. Reference and multi-turn operations are also available as regain actions. Speed and microsteps are readable; setters, derotation, Wi-Fi setup and firmware updates are not exposed.</p>
+
+<h2 id="sharing">Share with ASCOM clients</h2>
+<p>The native ASCOM driver supports 32-bit and 64-bit clients through <code>Regain.Pegasus.ASCOM.exe</code>, which also hosts FocusCube3. Each Falcon client holds its own connection lease. Disconnecting one leaves siblings connected; the last disconnect stops motion and releases the port.</p>
+<p>Alpaca clients share the server’s worker. Native NINA, ASCOM, Alpaca and Unity still need exclusive ownership relative to one another. Choose NINA’s ASCOM connection when sharing with another ASCOM application. The <a href="hub.html">0.6 Hub preview</a> provides a separate shared-host model.</p>
+
+<h2 id="validation">Hardware validation and source</h2>
+<p>Windows tests used a physical Falcon V2, firmware 1.8 revision A: short moves, crossing zero, ±450° travel, halt, origin reset, reverse, reconnects, native NINA, Alpaca and shared 32/64-bit ASCOM. Linux/macOS physical validation is pending.</p>
+<p>The implementation is <code>regain-pegasus::falcon</code>, using the common <code>regain-device</code> worker and serial framing. See the <a href="https://github.com/pulsarfab/regain/blob/v0.5.11.0/docs/falcon-v2.md">protocol, actions and test commands</a> and <a href="https://github.com/pulsarfab/regain/blob/v0.5.11.0/docs/falcon-v2-evidence.json">hardware test record</a>.</p>
+
+<!-- page-nav:start -->
+<nav class="next-prev" aria-label="Documentation pages"><a href="focuscube3.html" rel="prev">← Pegasus FocusCube3</a><a href="ofp2.html" rel="next">Deep Sky Dad OFP2 →</a></nav>
+<!-- page-nav:end -->
+</main></div>
+<!-- site-footer:start -->
+<footer class="footer"><div class="footer-inner">
+  <span>PulsarFab · Open astronomy hardware &amp; software.</span>
+  <a href="../../docs/">All documentation</a>
+  <a href="../../docs/regain/">regain docs</a>
+  <a href="https://github.com/pulsarfab/pulsarfab">Hardware source</a>
+  <a href="https://github.com/pulsarfab/regain">regain source</a>
+</div></footer>
+<!-- site-footer:end -->
+</body>
+</html>

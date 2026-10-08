@@ -17,7 +17,8 @@ python -m http.server 8765
 Edit page bodies in `index.html`, the project index at `docs/index.html`, and
 regain guides under `docs/regain/*.html`. Shared headers, documentation
 navigation, previous/next links, footer, metadata, and release status are generated
-by `scripts/build.mjs`. Change navigation and release status in `scripts/site.mjs`.
+by `scripts/build.mjs`. Change navigation, release status and the shared camera capability data in `scripts/site.mjs`.
+The generator renders camera support and capture-limit tables from that data.
 Do not hand-edit generated marker blocks. New regain pages must appear in navigation.
 Keep `/docs/` as the project index; each product gets its own documentation directory.
 The generator keeps the former `/docs/*.html` regain URLs as redirects, preserving
@@ -35,14 +36,19 @@ checked in, so the deployed site needs no Node process or build step.
 
 ## Releases and screenshots
 
-Stable guides document regain 0.5.0.0. The Hub guide is a separately labeled 0.6
+Stable guides document regain 0.5.11.0. The Hub guide is a separately labeled 0.6
 development preview and must not imply inclusion in the stable packages.
 Release status and per-page preview banners are controlled by `scripts/site.mjs`.
 For each new version, set `release.published` to `true` only after verifying the
 signed GitHub release and `nina-plugins.pulsarfab.com`. Publish plugin packages
 through `theatrus/nina-plugins-registry`, not this site.
 
-Stable screenshots and regain artwork come from `pulsarfab/regain` at tag `v0.4.0.0`.
+Most stable screenshots and regain artwork come from `pulsarfab/regain` at tag `v0.4.0.0`.
+The physical Falcon V2 screenshot comes from tag `v0.5.11.0`.
+Release 0.5.11.0 was checked against its signed StackFoundry LLC installer and
+the live NINA feed; the downloaded plugin SHA-256 matches both feed and manifest.
+Published 0.5.11 packages still require the VC runtime; the static-link fix is in
+current main/release/0.5 source and ships in the next release.
 Hub screenshots come from development commit `f40cd8698183303feda19edd19c5b7403fd47ab5`
 and show explicit simulation; retain their captions.
 Preserve screenshot captions: FocusCube3 is physical; OFP2 is historical physical

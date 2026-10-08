@@ -32,7 +32,7 @@
 </header>
 <!-- site-header:end -->
 <!-- release-note:start -->
-<div class="release-note">regain 0.5.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.0.0">Read the release notes</a></div>
+<div class="release-note">regain 0.5.11.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.11.0">Read the release notes</a></div>
 <!-- release-note:end -->
 <div class="docs-wrap">
 <!-- docs-nav:start -->
@@ -62,6 +62,7 @@
     <li><a href="cameras.html" class="active" aria-current="page">Cameras &amp; recovery</a></li>
     <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
     <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
+    <li><a href="falcon-v2.html">Pegasus Falcon V2</a></li>
     <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
     <li><a href="eta.html">Wanderer ETA M54</a></li>
   </ul>
@@ -97,17 +98,26 @@
 <h2 id="backend">Choose SDK-free or SDK mode</h2>
 <p><strong>Direct USB (experimental)</strong> talks to supported cameras without the ZWO SDK. On cameras with reread support, it can restart a failed download from the image still held in camera memory. That saves the original exposure, including a long integration.</p>
 <p><strong>ZWO SDK</strong> is the default for broader ASI support. The SDK runs in a separate worker so regain can restart it if it hangs. Download retries are possible while the SDK still reports an image ready.</p>
+<!-- camera-support:start -->
 <div class="table-wrap"><table>
 <thead><tr><th>Camera</th><th>SDK-free capture</th><th>Same-image download retry</th><th>SDK mode</th></tr></thead>
 <tbody>
-<tr><td>ZWO ASI2600MM Pro</td><td>Yes</td><td>Yes, through the direct driver</td><td>Yes</td></tr>
-<tr><td>ZWO ASI6200MM Pro</td><td>Yes</td><td>Yes, through the direct driver</td><td>Yes</td></tr>
-<tr><td>ZWO ASI676MC</td><td>Yes</td><td>Yes, through the direct driver</td><td>Yes</td></tr>
-<tr><td>ZWO ASI220MM Mini</td><td>Yes</td><td>No direct reread support</td><td>Yes</td></tr>
+<tr><td>ZWO ASI2600MM Pro / Duo main sensor</td><td>Yes, experimental</td><td>Yes, in Direct USB still mode</td><td>Yes</td></tr>
+<tr><td>ZWO ASI6200MM Pro</td><td>Yes, experimental</td><td>Yes, in Direct USB still mode</td><td>Yes</td></tr>
+<tr><td>ZWO ASI676MC</td><td>Yes, experimental</td><td>Yes, in Direct USB still mode</td><td>Yes</td></tr>
+<tr><td><a href="https://github.com/pulsarfab/regain/blob/v0.5.11.0/docs/asi662mc.md">ZWO ASI662MC</a></td><td>Yes, experimental</td><td>Yes, in Direct USB still mode</td><td>Yes</td></tr>
+<tr><td><a href="https://github.com/pulsarfab/regain/blob/v0.5.11.0/docs/asi585mm-pro.md">ZWO ASI585MM Pro</a></td><td>Yes, experimental</td><td>Yes, in Direct USB still mode</td><td>Yes</td></tr>
+<tr><td>ZWO ASI220MM Mini / Duo guide sensor</td><td>Yes, experimental</td><td>No direct reread support</td><td>Yes</td></tr>
 <tr><td>Other ZWO ASI cameras</td><td>No</td><td>Only while the SDK still reports an image ready</td><td>If supported by the bundled SDK</td></tr>
 </tbody></table></div>
+<!-- camera-support:end -->
 <p>Direct USB is experimental. In SDK mode, download retries depend on the SDK's ready-frame state; they do not use regain's direct memory reread.</p>
 <p>Select the backend in camera setup before connecting. See <a href="hardware.html#cameras">direct capture limits</a> for supported formats, binning, and exposure lengths. SDK-free capture still requires the OS camera USB driver.</p>
+
+<h2 id="continuous">Build a live preview with the Rust or worker APIs</h2>
+<p>Continuous acquisition keeps draining the camera even when a consumer is slow, retaining only the latest frame. SDK video and Direct USB video on ASI585MM Pro, ASI662MC and ASI676MC support live exposure/gain changes, settings generations and marked transition frames. Other direct cameras use repeated still captures.</p>
+<p>Direct video accepts exposures up to 30 seconds and cannot reread a previous video frame. On ASI585MM Pro and ASI662MC, retained still capture uses a roughly 100 ms minimum frame interval for short exposures; this adds latency without changing integration time. Color-camera API clients can opt into shared software white balance and AWB; raw output is preserved by default.</p>
+<p>These are Rust/worker features. NINA, ASCOM and Alpaca use still capture and do not expose new video or AWB controls. See <a href="https://github.com/pulsarfab/regain/blob/v0.5.11.0/docs/continuous-acquisition.md">continuous acquisition</a> and <a href="https://github.com/pulsarfab/regain/blob/v0.5.11.0/docs/white-balance.md">white balance</a> for API setup.</p>
 
 <h2 id="recovery">Set your retry policy</h2>
 <div class="table-wrap"><table><thead><tr><th>Action</th><th>Default</th></tr></thead>
@@ -127,8 +137,10 @@
 <h2 id="usb-reset">Recover a stuck USB camera</h2>
 <p>Set <strong>USB reset after failed attempts</strong> to <strong>2</strong> to try an ordinary reconnect first. This opt-in step is shared by NINA, ASCOM, and Alpaca. It runs at most once per capture, only when another replacement exposure is allowed. The retained image is abandoned; regain reconnects the same serial, restores settings and cooling, and takes a new exposure.</p>
 <p>Windows cycles only the camera's USB port through an administrator helper. Interactive sessions may show UAC; unattended operation needs an elevated host. Linux supports device reset and optional port disable/enable with scoped permissions. USB cycling does not switch an external 12 V supply, and a hub may not physically remove USB power.</p>
-<p>Supported USB identities are the ASI676MC, ASI2600MM Pro/Duo, ASI6200MM Pro, and ASI220MM Mini, using either SDK or direct mode. Other SDK cameras are not yet eligible. Windows ASI676 reset and a fresh frame are hardware-verified; physical Linux validation is pending. See <a href="https://github.com/pulsarfab/regain/blob/main/docs/usb-recovery.md">USB recovery setup and limitations</a>.</p>
+<p>Supported USB identities are ASI585MM Pro, ASI662MC, ASI676MC, ASI2600MM Pro/Duo, ASI6200MM Pro and ASI220MM Mini, using either SDK or direct mode. Other SDK cameras are not yet eligible. Windows ASI676 reset and a fresh frame are hardware-verified; physical Linux validation is pending. See <a href="https://github.com/pulsarfab/regain/blob/main/docs/usb-recovery.md">USB recovery setup and limitations</a>.</p>
 
+<h2>Use the controls your camera provides</h2>
+<p>Both backends capture RAW16 with model-specific exposure and binning limits. Cooling and optional heater/fan/LED controls appear only when supported. ASI585MM Pro exposes cooler enable, temperature, target and power, but no controllable heater. ASI662MC has no cooling. The ASI585MM Pro direct driver does not cover ASI585MC variants.</p>
 <h2>Restore camera and cooler settings</h2>
 <p>After reconnecting, regain restores camera settings and waits for cooling to recover before a replacement exposure. If cleanup fails after a successful download, it keeps the image and reconnects before the next capture. Abort never starts a replacement exposure.</p>
 

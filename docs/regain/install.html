@@ -32,7 +32,7 @@
 </header>
 <!-- site-header:end -->
 <!-- release-note:start -->
-<div class="release-note">regain 0.5.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.0.0">Read the release notes</a></div>
+<div class="release-note">regain 0.5.11.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.11.0">Read the release notes</a></div>
 <!-- release-note:end -->
 <div class="docs-wrap">
 <!-- docs-nav:start -->
@@ -62,6 +62,7 @@
     <li><a href="cameras.html">Cameras &amp; recovery</a></li>
     <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
     <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
+    <li><a href="falcon-v2.html">Pegasus Falcon V2</a></li>
     <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
     <li><a href="eta.html">Wanderer ETA M54</a></li>
   </ul>
@@ -94,7 +95,7 @@
 <p class="lede">Choose the package for your imaging application, then keep your saved equipment profiles when upgrading.</p>
 
 <h2 id="packages">Choose a package</h2>
-<p>Use the <a href="https://github.com/pulsarfab/regain/releases">release page</a> to check which version is published. The names below apply to regain 0.4.0.0 and later.</p>
+<p>Download regain 0.5.11.0 from the <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.11.0">release page</a>, or install the NINA plugin from its registry. The 0.6 Hub preview is separate.</p>
 <div class="table-wrap"><table><thead><tr><th>Package</th><th>Use it for</th></tr>
 </thead>
 <tbody>
@@ -109,9 +110,10 @@
 <h2 id="requirements">Windows requirements</h2>
 <ul><li><strong>NINA:</strong> Windows x64 and NINA 3.2.0.9001 or later.</li>
 <li><strong>Native ASCOM:</strong> Windows 10 or later, x64, .NET Framework 4.8, and ASCOM Platform. Both 32-bit and 64-bit clients are supported.</li>
+<li><strong>Published 0.5.11 packages:</strong> install the <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist">Microsoft Visual C++ v14 x64 Redistributable</a> if Windows reports a missing <code>VCRUNTIME140.dll</code>. Current <code>main</code> and <code>release/0.5</code> source builds statically link this runtime; that fix ships in the next release.</li>
 <li><strong>Cameras:</strong> install the ZWO Windows camera driver, including for Direct USB mode.</li>
 <li><strong>ETA M54:</strong> CH340 serial driver, selected by port; <a href="eta.html">setup and current validation limits</a>.</li>
-<li><strong>CAA, EFW, EAF:</strong> Windows’ built-in HID driver. <strong>FocusCube3 and OFP2:</strong> built-in USB Serial Device driver. Do not replace these with WinUSB/Zadig.</li>
+<li><strong>CAA, EFW, EAF:</strong> Windows’ built-in HID driver. <strong>FocusCube3, Falcon V2 and OFP2:</strong> built-in USB Serial Device driver. Do not replace these with WinUSB/Zadig.</li>
 </ul>
 <h2 id="upgrade">Upgrade from ZWOgain</h2>
 <p>The plugin GUID, saved NINA equipment IDs, and ASCOM COM identities remain unchanged. Updating through the shared NINA registry keeps the same plugin entry.</p>
@@ -121,11 +123,11 @@
 <li>Existing settings copy from <code>%LOCALAPPDATA%\ZwoGain</code> to <code>%LOCALAPPDATA%\Regain</code> when needed. Existing regain settings are never overwritten; the old files remain.</li>
 </ol>
 <p>Selections are independent between native NINA, native ASCOM, and Alpaca. See <a href="troubleshooting.html#settings">settings locations</a> before changing or removing profiles. ASCOM uninstall preserves settings and logs.</p>
-<h2 id="source">Build the 0.4 source</h2>
-<p>The tagged source is available for local builds. A Windows plugin build needs stable Rust, .NET 8 SDK, and the Visual Studio C++ build tools. In the source checkout:</p>
+<h2 id="source">Build the stable source</h2>
+<p>The tagged source matches the published packages and still needs the VC runtime described above. A Windows plugin build needs stable Rust, .NET 8 SDK, and the Visual Studio C++ build tools. In the source checkout:</p>
 <pre><code>git clone https://github.com/pulsarfab/regain.git
 cd regain
-git checkout v0.5.0.0
+git checkout v0.5.11.0
 pwsh ./scripts/build.ps1
 pwsh ./scripts/build-ascom.ps1</code></pre>
 <p>The first script writes the NINA ZIP; the second writes the portable ASCOM ZIP. For a source-built installer, see the <a href="https://github.com/pulsarfab/regain/blob/main/README.md#windows-ascom-setup">Windows build instructions</a>. Linux and macOS users can build the Rust workspace for Alpaca; see <a href="alpaca.html#portable">portable setup</a>.</p>

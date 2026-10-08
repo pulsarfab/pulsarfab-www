@@ -32,7 +32,7 @@
 </header>
 <!-- site-header:end -->
 <!-- release-note:start -->
-<div class="release-note">regain 0.5.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.0.0">Read the release notes</a></div>
+<div class="release-note">regain 0.5.11.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.11.0">Read the release notes</a></div>
 <!-- release-note:end -->
 <div class="docs-wrap">
 <!-- docs-nav:start -->
@@ -62,6 +62,7 @@
     <li><a href="cameras.html">Cameras &amp; recovery</a></li>
     <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
     <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
+    <li><a href="falcon-v2.html">Pegasus Falcon V2</a></li>
     <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
     <li><a href="eta.html">Wanderer ETA M54</a></li>
   </ul>
@@ -107,6 +108,7 @@
 <li><strong>PulsarFab regain EFW Filter Wheel</strong></li>
 <li><strong>PulsarFab regain EAF Focuser</strong></li>
 <li><strong>PulsarFab regain Pegasus FocusCube3</strong></li>
+<li><strong>PulsarFab regain Pegasus Falcon V2</strong> — <a href="falcon-v2.html">rotator setup and origin controls</a></li>
 <li><strong>PulsarFab regain Wanderer Astro ETA M54</strong> — <a href="eta.html">back focus and tilt</a>, physical movement validation pending</li>
 </ul>
 <p>For the OFP2 flat panel, use <a href="ofp2.html">native ASCOM or Alpaca discovery</a>. NINA can share the native ASCOM connection with other ASCOM applications.</p>
@@ -116,8 +118,8 @@
 <h2>Focus and filters</h2>
 <p>EFW filter names and focus offsets are configured in setup; NINA keeps its per-filter exposure and autofocus settings. Set hardware backlash to zero if NINA handles backlash compensation. Temperature compensation remains the imaging application’s responsibility.</p>
 <figure><a href="../../assets/native-fc3.png"><img src="../../assets/native-fc3.png" alt="Physical FocusCube3, firmware 1.8.2, in the native setup dialog. This capture uses the standalone theme; NINA supplies its own theme." loading="lazy"></a><figcaption>Physical FocusCube3, firmware 1.8.2, in the native setup dialog. This capture uses the standalone theme; NINA supplies its own theme. Select the image for full resolution.</figcaption></figure>
-<h2>Share FocusCube3 with another ASCOM client</h2>
-<p>Select the regain <em>ASCOM</em> focuser in NINA instead of the native plugin provider. All ASCOM clients share the same position and serial connection. The native plugin cannot connect alongside the ASCOM server. See <a href="focuscube3.html#sharing">port ownership</a>.</p>
+<h2>Share a Pegasus device with another ASCOM client</h2>
+<p>Select the regain <em>ASCOM</em> FocusCube3 focuser or Falcon V2 rotator in NINA instead of the native plugin provider. ASCOM clients of that device share its position and serial connection. The native plugin cannot connect alongside the ASCOM server. See <a href="focuscube3.html#sharing">port ownership</a>.</p>
 
 <!-- page-nav:start -->
 <nav class="next-prev" aria-label="Documentation pages"><a href="install.html" rel="prev">← Install &amp; upgrade</a><a href="ascom.html" rel="next">Windows ASCOM →</a></nav>

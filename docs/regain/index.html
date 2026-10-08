@@ -32,7 +32,7 @@
 </header>
 <!-- site-header:end -->
 <!-- release-note:start -->
-<div class="release-note">regain 0.5.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.0.0">Read the release notes</a></div>
+<div class="release-note">regain 0.5.11.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.11.0">Read the release notes</a></div>
 <!-- release-note:end -->
 <div class="docs-wrap">
 <!-- docs-nav:start -->
@@ -62,6 +62,7 @@
     <li><a href="cameras.html">Cameras &amp; recovery</a></li>
     <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
     <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
+    <li><a href="falcon-v2.html">Pegasus Falcon V2</a></li>
     <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
     <li><a href="eta.html">Wanderer ETA M54</a></li>
   </ul>
@@ -95,9 +96,11 @@
 
 <h2 id="use-cases">What do you want to do?</h2>
 <h3>Save an exposure after a failed download</h3>
-<p>Choose Direct USB with an <strong>ASI2600MM Pro, ASI6200MM Pro, or ASI676MC</strong>. Regain's SDK-free drivers can reread the image still in camera memory after a failed USB download, without repeating the exposure. Use the same recovery in NINA, native ASCOM, or Alpaca. <a href="cameras.html#backend">Choose a camera mode →</a></p>
+<p>Choose Direct USB with an <strong>ASI2600MM Pro/Duo main sensor, ASI6200MM Pro, ASI676MC, ASI662MC, or ASI585MM Pro</strong>. Regain's SDK-free drivers can reread the image still in camera memory after a failed USB download, without repeating the exposure. Use the same recovery in NINA, native ASCOM, or Alpaca. <a href="cameras.html#backend">Choose a camera mode →</a></p>
 <h3>Keep using your camera in SDK mode</h3>
 <p>The default ZWO SDK mode covers more ASI cameras. Regain can retry a download while the SDK still has the image, restore settings after reconnecting, and restart a stuck SDK worker. <a href="cameras.html#recovery">Configure recovery →</a></p>
+<h3>Build a live camera preview</h3>
+<p>The Rust and worker APIs drain continuous acquisition independently of a slow consumer and deliver the latest frame. Direct video on ASI585MM Pro, ASI662MC and ASI676MC supports live exposure/gain edits; other direct cameras use repeated still captures. Video frames cannot be reread. NINA, ASCOM and Alpaca use still capture. <a href="cameras.html#continuous">Explore continuous acquisition →</a></p>
 <h3>Run the whole rig from a small headless computer</h3>
 <p>One Alpaca server exposes supported cameras, rotators, filter wheels, focusers, and a flat panel. Configure devices in a browser and connect over your LAN. <a href="alpaca.html#headless">Set up a headless rig →</a></p>
 <h3>Connect more than two ASCOM cameras</h3>
@@ -117,16 +120,17 @@
 <p>Connect clients over your local network with browser-based device setup.</p>
 <a class="card-link" href="alpaca.html">Set up Alpaca →</a></div>
 </div>
-<p>For another frontend, embed the <a href="https://github.com/pulsarfab/regain/tree/main/crates">Rust vendor crates</a> or use their worker protocols. Regain 0.5.0.0 groups ZWO, Pegasus, DeepSkyDad, and Wanderer support by vendor, with shared serial and accessory IPC code. One <code>regain-device</code> executable selects the vendor and device; each session still runs in its own process. See the <a href="https://github.com/pulsarfab/regain/blob/main/docs/architecture.md">integration architecture</a>. The universal Alpaca server implements supported devices directly; it is not a generic proxy for arbitrary installed ASCOM drivers.</p>
+<p>For another frontend, embed the <a href="https://github.com/pulsarfab/regain/tree/main/crates">Rust vendor crates</a> or use their worker protocols. Regain groups ZWO, Pegasus, DeepSkyDad, and Wanderer support by vendor, with shared serial and accessory IPC code. One <code>regain-device</code> executable selects the vendor and device; each session still runs in its own process. See the <a href="https://github.com/pulsarfab/regain/blob/main/docs/architecture.md">integration architecture</a>. The universal Alpaca server implements supported devices directly; it is not a generic proxy for arbitrary installed ASCOM drivers.</p>
 <h2 id="equipment">Supported hardware</h2>
-<p><strong>SDK-free cameras:</strong> ASI2600MM Pro, ASI6200MM Pro, and ASI676MC support direct capture with retryable downloads. ASI220MM Mini supports direct capture without same-image rereads. Direct USB is experimental. <strong>SDK mode:</strong> these and other ASI cameras supported by the bundled ZWO SDK.</p>
+<p><strong>SDK-free cameras:</strong> ASI2600MM Pro/Duo main sensor, ASI6200MM Pro, ASI676MC, ASI662MC and ASI585MM Pro support direct capture with retryable downloads. ASI220MM Mini/Duo guide sensor supports direct capture without same-image rereads. ASI585MC variants are not covered by the ASI585MM Pro direct driver. Direct USB is experimental. <strong>SDK mode:</strong> these and other ASI cameras supported by the bundled ZWO SDK.</p>
 <p>See <a href="hardware.html">supported hardware and SDK-free coverage</a> for camera modes, download recovery, and accessory compatibility.</p>
 <div class="table-wrap"><table><thead><tr><th>Equipment</th><th>Native NINA</th><th>Native ASCOM</th><th>Alpaca</th></tr>
 </thead>
 <tbody>
 <tr><td><a href="cameras.html">ZWO ASI cameras</a></td><td>Yes</td><td>Four camera slots</td><td>Configurable slots</td></tr>
 <tr><td><a href="accessories.html">ZWO CAA / EFW / EAF</a></td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-<tr><td><a href="focuscube3.html">Pegasus FocusCube3</a></td><td>Yes</td><td>Shared COM server</td><td>Yes</td></tr>
+<tr><td><a href="focuscube3.html">Pegasus FocusCube3</a></td><td>Yes</td><td>Shared COM server</td><td>Configurable focuser slots</td></tr>
+<tr><td><a href="falcon-v2.html">Pegasus Falcon V2</a></td><td>Yes</td><td>Shared COM server</td><td>Configurable rotator slots</td></tr>
 <tr><td><a href="eta.html">Wanderer Astro ETA M54</a></td><td>Back focus and tilt</td><td>Shared COM server</td><td>Configurable focuser slot</td></tr>
 <tr><td><a href="ofp2.html">Deep Sky Dad OFP2</a></td><td>Via ASCOM or Alpaca</td><td>Shared COM server</td><td>Cover and flat panel</td></tr>
 </tbody>
@@ -134,7 +138,7 @@
 </div>
 <p>NINA and native ASCOM run on Windows x64. Rust workers and the Alpaca server build on Windows, Linux, and macOS. Linux/macOS USB hardware validation remains incomplete; successful simulator tests are not physical device validation.</p>
 <h2>One device, one owner</h2>
-<p>Disconnect other controllers before opening a device. OFP2, FocusCube3 and ETA each share one local server among ASCOM clients, but native NINA, ASCOM, Alpaca, and Pegasus Unity cannot all own the serial port at once. Use the ASCOM driver inside NINA when sharing with other ASCOM clients.</p>
+<p>Disconnect other controllers before opening a device. OFP2, FocusCube3, Falcon V2 and ETA share their device connection among ASCOM clients, but native NINA, ASCOM, Alpaca, and Pegasus Unity cannot all own the serial port at once. Use the ASCOM driver inside NINA when sharing with other ASCOM clients.</p>
 <h2>Open implementation</h2>
 <p>Code and regain artwork use Apache-2.0. Bundled third-party components retain their own licenses. PulsarFab regain is an independent project and is not affiliated with or supported by ZWO. Protocol notes and hardware evidence live in the <a href="https://github.com/pulsarfab/regain/tree/main/docs">source documentation</a>.</p>
 

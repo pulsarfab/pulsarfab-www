@@ -32,7 +32,7 @@
 </header>
 <!-- site-header:end -->
 <!-- release-note:start -->
-<div class="release-note">regain 0.5.0.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.0.0">Read the release notes</a></div>
+<div class="release-note">regain 0.5.11.0 · <a href="https://github.com/pulsarfab/regain/releases/tag/v0.5.11.0">Read the release notes</a></div>
 <!-- release-note:end -->
 <div class="docs-wrap">
 <!-- docs-nav:start -->
@@ -62,6 +62,7 @@
     <li><a href="cameras.html">Cameras &amp; recovery</a></li>
     <li><a href="accessories.html">CAA, EFW &amp; EAF</a></li>
     <li><a href="focuscube3.html">Pegasus FocusCube3</a></li>
+    <li><a href="falcon-v2.html">Pegasus Falcon V2</a></li>
     <li><a href="ofp2.html">Deep Sky Dad OFP2</a></li>
     <li><a href="eta.html">Wanderer ETA M54</a></li>
   </ul>
@@ -99,7 +100,7 @@
 <h2 id="setup">Install and connect</h2>
 <ol><li>Install the requirements listed in <a href="install.html#requirements">Install &amp; upgrade</a>.</li>
 <li>Download the regain ASCOM setup executable from the release page. Close device-control apps and running Alpaca servers, then run the installer as administrator.</li>
-<li>In your application’s ASCOM Chooser, select a regain camera, CAA rotator, EFW filter wheel, EAF focuser, Pegasus FocusCube3, or Deep Sky Dad OFP2.</li>
+<li>In your application’s ASCOM Chooser, select a regain camera, CAA or Falcon V2 rotator, EFW filter wheel, EAF or FocusCube3 focuser, Wanderer ETA M54, or Deep Sky Dad OFP2.</li>
 <li>Open <strong>Setup</strong>, refresh devices, select the physical device, and configure its settings. Close setup and connect from your application.</li>
 </ol>
 <p>The Start menu contains camera and accessory setup shortcuts. Four camera entries provide independent settings: <strong>Retryable Camera 1</strong> through <strong>4</strong>. Configure cameras 2–4 from their own Chooser entries.</p>
@@ -111,11 +112,11 @@
 <p>Camera setup groups device selection, recovery, cooler, and timeout settings. Accessory dialogs expose device selection, motion, and device settings in the same style. Standalone dialogs use a light theme; NINA-hosted controls inherit its theme.</p>
 <figure><a href="../../assets/native-efw-calibration.png"><img src="../../assets/native-efw-calibration.png" alt="Actual native EFW controls rendered with a simulated wheel. Motion includes Calibrate wheel and slot selection." loading="lazy"></a><figcaption>Actual native EFW controls rendered with a simulated wheel. Motion includes Calibrate wheel and slot selection. Select the image for full resolution.</figcaption></figure>
 <h2>OFP2 cover and flat panel</h2>
-<p>Regain 0.5.0.0 adds <strong>PulsarFab regain Deep Sky Dad OFP2</strong> to the CoverCalibrator chooser. It shares one serial connection across 32-bit and 64-bit ASCOM clients and provides the same style of setup dialog. NINA can select it as an ASCOM flat panel. See <a href="ofp2.html#ascom">OFP2 setup and sharing</a>.</p>
+<p>Select <strong>PulsarFab regain Deep Sky Dad OFP2</strong> in the CoverCalibrator chooser. It shares one serial connection across 32-bit and 64-bit ASCOM clients and provides the same style of setup dialog. NINA can select it as an ASCOM flat panel. See <a href="ofp2.html#ascom">OFP2 setup and sharing</a>.</p>
 <h2>ETA tilt and back focus</h2>
-<p>Regain 0.5.0.0 adds <strong>PulsarFab regain Wanderer Astro ETA M54</strong> to the focuser chooser, with the shared serial server and setup dialog used by other regain accessories. <a href="eta.html">Read the ETA guide</a> for movement limits and the absence of a hardware halt command. Physical movement validation is pending.</p>
-<h2>FocusCube3 sharing</h2>
-<p>FocusCube3 uses one out-of-process COM server across 32-bit and 64-bit applications. Each client has its own connection lease; disconnecting one leaves the others connected. This sharing does not extend to native NINA, Alpaca, or Unity. See <a href="focuscube3.html">FocusCube3 setup</a>.</p>
+<p>Select <strong>PulsarFab regain Wanderer Astro ETA M54</strong> in the focuser chooser. It uses a shared serial server and the same setup style as other regain accessories. <a href="eta.html">Read the ETA guide</a> for movement limits and the absence of a hardware halt command. Physical movement validation is pending.</p>
+<h2>Pegasus device sharing</h2>
+<p>FocusCube3 and Falcon V2 use <code>Regain.Pegasus.ASCOM.exe</code> across 32-bit and 64-bit applications. Clients of each device share its serial connection with independent leases; disconnecting one leaves siblings connected. Choose <strong>PulsarFab regain Pegasus Falcon V2</strong> in the Rotator chooser. Sharing does not extend to native NINA, Alpaca or Unity. See <a href="focuscube3.html">FocusCube3 setup</a> and <a href="falcon-v2.html">Falcon V2 setup</a>.</p>
 <h2 id="portable">Portable registration</h2>
 <p>Extract the complete ASCOM ZIP to a permanent folder. In an administrator PowerShell opened there:</p>
 <pre><code>$p = Start-Process .\Regain.ASCOM.Register.exe -ArgumentList /regserver -Wait -PassThru
